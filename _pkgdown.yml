@@ -2,3 +2,8 @@ url: https://nonprofit-open-data-collective.github.io/governance/
 template:
   bootstrap: 5
 
+destination: docs
+
+development:
+  mode: auto
+
