@@ -10,6 +10,15 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/news/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_features.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_scores.html</loc>
+  </url>
+  <url>
     <loc>/reference/hello.html</loc>
   </url>
   <url>
