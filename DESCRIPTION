@@ -5,7 +5,7 @@ Authors@R: c(
     person("Olivia", "Beck", , "obeck@urban.org", role = c("aut", "cre")),
     person("Jessy", "Lecy", , "jlecy@urban.org", role = c("aut")),
     person("Urban Inistitue National Center for Charitable Statistics", role = c("fnd")))
-Description: What the package does (one paragraph).
+Description: THIS IS A TEST TO SEE IF A PUSH WORKS
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
