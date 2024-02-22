@@ -1,0 +1,58 @@
+---
+title: "Governance Workflow"
+author: "Olivia Beck"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{governance-workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message = F}
+library(governance)
+library(dplyr)
+library(data.table)
+```
+
+# Governance Workflow
+
+## 1. Get Input data 
+
+We assume the user already has the relevant 990 Efile data downloaded. Instructions for downloading the need 990 efile data, see \code{vignette("download-data", package = "goveranance")}. 
+
+We will use a subset of a test set that was already created. See `data-raw/01-get-example-data.R` for details on how this data set was created. 
+
+```{r}
+data("dat_example", package = "governance")
+
+set.seed(57)
+keep_rows <- sample(1:nrow(dat_example), 200)
+dat_example <- dat_example[keep_rows, ]
+
+```
+
+
+## Step 2: Get Features Matrix 
+
+Use the `get_features` function to clean the data and transform it into a features matrix. 
+
+```{r}
+features_example <- get_features(dat_example)
+head(features_example)
+```
+
+
+## Step 3: Calculate the Scores 
+
+Use the `get_scores` function to get the governance scores. 
+
+```{r}
+scores_example <- get_scores(features_example)
+head(scores_example)
+hist(scores_example$total.score)
+```
