@@ -39,7 +39,7 @@ get_scores <- function(feature.matrix){
   # feature.matrix with appended 6 factor scores and total score
 
 
-  load("governance/pkg-funcs/factor-objects.Rdata")
+  data("factor-objects", envir=environment())
 
   ### Make sure data is formatted correctly -------------------------------------
   col.names.correct <- colnames(features2[, 1:12])
@@ -75,7 +75,7 @@ get_scores <- function(feature.matrix){
   ### Get New Factor Scores -------------------------
   scores <- psych::factor.scores(temp.dat, #new data
                           model2.6, #original fitted model of features2
-                          rho = poly.cor, #polychoric correlation of features2
+                          rho = rho2, #polychoric correlation of features2
                           method = "Thurstone") #using regression equation to "predict" new scores.
 
   ### Append scores to data object
