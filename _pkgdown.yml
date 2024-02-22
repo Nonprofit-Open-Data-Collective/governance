@@ -2,4 +2,20 @@ url: ~
 destination: docs
 template:
   bootstrap: 5
+  bootswatch: simplex
 
+articles:
+  - title: "Getting Started"
+    desc: >
+      These vignettes provide detailed information on governance score calculations.
+    contents:
+      - download-data
+      - governance-workflow
+      - making-gov-scores
+
+home:
+  links:
+  - text: NCCS Homepage
+    href: https://nccs.urban.org
+  - text: 990 Efile Data
+    href: https://nccs.urban.org/nccs/datasets/efile/
