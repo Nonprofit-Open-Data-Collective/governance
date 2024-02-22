@@ -17,21 +17,56 @@ A data.frame appended with features needed to run the \code{\link{get_scores}} f
 This function takes input from raw 990 Part IV, VI, and XII, then output a wrangled data frame with columns as features needed to calculate goverannce score.
 }
 \details{
-There are the variables from each Part/Schedule that is needed to run this function
+990 Efiler data can be downloaded from the NCCS website \href{https://nccs.urban.org/nccs/catalogs/catalog-efile.html}{here}.
+Documentation for the 990 Efiler data can be found \href{https://nccs.urban.org/nccs/datasets/efile/}{here}
+with the data dictionary found \href{https://nonprofit-open-data-collective.github.io/irs990efile/data-dictionary/data-dictionary.html}{here}.
 
-Variables from Part IV: "F9_04_AFS_IND_X", "F9_04_AFS_CONSOL_X", "F9_04_BIZ_TRANSAC_DTK_X",
-"F9_04_BIZ_TRANSAC_DTK_FAM_X", "F9_04_BIZ_TRANSAC_DTK_ENTITY_X", "F9_04_CONTR_NONCSH_MT_25K_X",
-"F9_04_CONTR_ART_HIST_X".
+These are the variables from each Part/Schedule that are needed as inputs to run this function:
 
-Variables from Part VI: "F9_06_GVRN_NUM_VOTING_MEMB", "F9_06_GVRN_NUM_VOTING_MEMB_IND",
-"F9_06_GVRN_DTK_FAMBIZ_RELATION_X", "F9_06_GVRN_DELEGATE_MGMT_DUTY_X", "F9_06_GVRN_DOC_GVRN_BODY_X",
-"F9_06_POLICY_FORM990_GVRN_BODY_X", "F9_06_POLICY_COI_X", "F9_06_POLICY_COI_DISCLOSURE_X",
-"F9_06_POLICY_COI_MONITOR_X", "F9_06_POLICY_WHSTLBLWR_X", "F9_06_POLICY_DOC_RETENTION_X",
-"F9_06_POLICY_COMP_PROCESS_CEO_X", "F9_06_DISCLOSURE_AVBL_OTH_X", "F9_06_DISCLOSURE_AVBL_OTH_WEB_X",
-"F9_06_DISCLOSURE_AVBL_REQUEST_X", "F9_06_DISCLOSURE_AVBL_OWN_WEB_X".
+Variables from Part IV:
 
-Variables from Part XII: "F9_12_FINSTAT_METHOD_ACC_OTH", "F9_12_FINSTAT_METHOD_ACC_ACCRU_X",
-"F9_12_FINSTAT_METHOD_ACC_CASH_X".
+\itemize{
+\item{F9_04_AFS_IND_X}
+\item{F9_04_AFS_CONSOL_X}
+\item{F9_04_BIZ_TRANSAC_DTK_X}
+\item{F9_04_BIZ_TRANSAC_DTK_FAM_X}
+\item{F9_04_BIZ_TRANSAC_DTK_ENTITY_X}
+\item{F9_04_CONTR_NONCSH_MT_25K_X}
+\item{F9_04_CONTR_ART_HIST_X}
+}
 
-Variables from Schedule M: "SM_01_REVIEW_PROCESS_UNUSUAL_X".
+Variables from Part VI:
+
+\itemize{
+\item{F9_06_GVRN_NUM_VOTING_MEMB}
+\item{F9_06_GVRN_NUM_VOTING_MEMB_IND}
+\item{F9_06_GVRN_DTK_FAMBIZ_RELATION_X}
+\item{F9_06_GVRN_DELEGATE_MGMT_DUTY_X}
+\item{F9_06_GVRN_DOC_GVRN_BODY_X}
+\item{F9_06_POLICY_FORM990_GVRN_BODY_X}
+\item{F9_06_POLICY_COI_X}
+\item{F9_06_POLICY_COI_DISCLOSURE_X}
+\item{F9_06_POLICY_COI_MONITOR_X}
+\item{F9_06_POLICY_WHSTLBLWR_X}
+\item{F9_06_POLICY_DOC_RETENTION_X}
+\item{F9_06_POLICY_COMP_PROCESS_CEO_X}
+\item{F9_06_DISCLOSURE_AVBL_OTH_X}
+\item{F9_06_DISCLOSURE_AVBL_OTH_WEB_X}
+\item{F9_06_DISCLOSURE_AVBL_REQUEST_X}
+\item{F9_06_DISCLOSURE_AVBL_OWN_WEB_X}
+}
+
+Variables from Part XII:
+
+\itemize{
+\item{F9_12_FINSTAT_METHOD_ACC_OTH}
+\item{F9_12_FINSTAT_METHOD_ACC_ACCRU_X}
+\item{F9_12_FINSTAT_METHOD_ACC_CASH_X}
+}
+
+Variables from Schedule M:
+
+\itemize{
+\item{SM_01_REVIEW_PROCESS_UNUSUAL_X}
+}
 }
