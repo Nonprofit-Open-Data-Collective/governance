@@ -20,4 +20,7 @@ Imports:
     magrittr
 Suggests: 
     knitr,
+    psych,
+    Matrix,
     rmarkdown
+VignetteBuilder: knitr
