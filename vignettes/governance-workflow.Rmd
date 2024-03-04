@@ -13,19 +13,24 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, message = F}
+```{r, message=FALSE, warning=FALSE}
+# Needed for Functionality
 library(governance)
 library(dplyr)
+# Needed for presentation
 library(data.table)
+library(ggplot2)
+# Needed for additional visualizations
+library(stringr)
 ```
 
 # Governance Workflow
 
-## 1. Get Input data 
+## Step 1: Get Input data 
 
-We assume the user already has the relevant 990 Efile data downloaded. Instructions for downloading the need 990 efile data, see \code{vignette("download-data", package = "goveranance")}. 
+We assume the user already has the relevant 990 Efile data downloaded. See `vignette("download-data")` for instructions on downloading the need 990 efile data.
 
-We will use a subset of a test set that was already created. See `data-raw/01-get-example-data.R` for details on how this data set was created. 
+We will use a subset of a test set that was already created. See `data-raw/01-get-example-data.R` [here](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/01-get-example-data.R) for details on how this data set was created. 
 
 ```{r}
 data("dat_example", package = "governance")
@@ -39,20 +44,71 @@ dat_example <- dat_example[keep_rows, ]
 
 ## Step 2: Get Features Matrix 
 
-Use the `get_features` function to clean the data and transform it into a features matrix. 
+Use the `get_features()` function to clean the data and transform it into a features matrix. 
 
 ```{r}
 features_example <- get_features(dat_example)
-head(features_example)
+head(features_example) %>% data.table()
 ```
 
 
 ## Step 3: Calculate the Scores 
 
-Use the `get_scores` function to get the governance scores. 
+Use the `get_scores()` function to get the governance scores. 
 
 ```{r}
 scores_example <- get_scores(features_example)
-head(scores_example)
-hist(scores_example$total.score)
+head(scores_example) %>% data.table()
 ```
+
+We can visualize the distribution of our governance scores.
+
+```{r}
+hist(scores_example$total.score,
+     main = "Histogram of Goverance Scores",
+     xlab = "Total Score")
+
+```
+
+## Additional Visualizations
+
+We can also join our data with the relevance Business Master File (BMF) data [here](https://nccs.urban.org/nccs/catalogs/catalog-bmf.html) to explore other aspects of the organizations relative to their scores. 
+
+### Loading in the BMF Data
+
+Since our test data set is from 2013, we first load in the 2013 BMF and only keep 
+data from the organizations that are in our test set. 
+
+```{r}
+# Read in BMF data
+link2013 <- "https://nccsdata.s3.us-east-1.amazonaws.com/legacy/bmf/BMF-2013-12-501CX-NONPROFIT-PX.csv"
+bmf.2013 <- read.csv(link2013)
+
+#format EIN's correctly 
+bmf.2013$EIN <- as.numeric(stringr::str_pad(bmf.2013$EIN, 9, pad = "0"))
+
+# Get needed EIN's 
+EIN.keep <- dat_example$ORG_EIN
+bmf.keep <- bmf.2013[ bmf.2013$EIN %in% EIN.keep, ]
+
+#join them 
+plot_example <- 
+  scores_example %>%
+  left_join(bmf.keep, by = join_by(ORG_EIN == EIN))
+
+
+```
+
+We can plot the distribution of scores by various characteristics of the organizations. 
+
+```{r}
+plot_example %>% 
+  select(total.score, ASSETS) %>% 
+  ggplot(aes(y = total.score, x = log(ASSETS))) +
+  geom_point() +
+  ggtitle("Governance Scores vs. Total Assests") +
+  xlab("Total Governance Score") +
+  ylab("log(Total Assests)")
+
+```
+
