@@ -40,6 +40,20 @@
 #' @seealso
 #' \code{\link{get_features}} for formatting `feature.matrix`.
 #'
+#'
+#' @examples
+#' # get data
+#' data("dat_example", package = "governance")
+#' set.seed(57)
+#' keep_rows <- sample(1:nrow(dat_example), 200)
+#' dat_example <- dat_example[keep_rows, ]
+#'
+#' # get features
+#' features_example <- get_features(dat_example)
+#'
+#' # get scores
+#' scores_example <- get_scores(features_example)
+#'
 #' @export
 
 
