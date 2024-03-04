@@ -117,6 +117,9 @@ get_features <- function(dat){
   ### Checking input data has the correct columns ----------------------------
   dat <- as.data.frame(dat)
 
+  # Save Original
+  dat_orig <- dat
+
   #checking part M
   has_col_M <- cols_partM$old %in% colnames(dat)
   if(!all(has_col_M)){
@@ -302,26 +305,12 @@ get_features <- function(dat){
                                 as.numeric))
 
 
-  dat_return <- dat %>%
+  dat_return <- dat_orig %>%
     cbind(dat_append[, -1])
 
   ### Return  ---------------------------------------------
-  return(dat_append)
+  return(dat_return)
 
 
 }
-
-
-## Testings - using 01-make-govern-data
-# dat1 <- as.data.frame(dat_all_M)
-# dat2 <- as.data.frame(dat_all_4)
-# dat3 <- as.data.frame(dat_all_6)
-# dat4 <- as.data.frame(dat_all_12)
-#
-# dat5 <- cbind(dat1, dat2, dat3, dat4)
-#
-# dat6 <- get_features(dat5)
-# dat6 <- na.omit(dat6)[1:200, ] #remove NA's and just pick a few to run the scores on
-#
-# dat7 <- get_scores(dat6)
 
