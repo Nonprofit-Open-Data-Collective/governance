@@ -36,13 +36,13 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+  <a class="nav-link" href="../articles/governance.html">Get started</a>
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../articles/index.html">Articles</a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -72,7 +72,7 @@
                         <h4 data-toc-skip class="author">Olivia
 Beck</h4>
             
-            <h4 data-toc-skip class="date">2024-02-22</h4>
+            <h4 data-toc-skip class="date">2024-03-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/HEAD/vignettes/governance-workflow.Rmd" class="external-link"><code>vignettes/governance-workflow.Rmd</code></a></small>
       <div class="d-none name"><code>governance-workflow.Rmd</code></div>
@@ -81,21 +81,26 @@ Beck</h4>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Nonprofit-Open-Data-Collective/governance" class="external-link">governance</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Needed for Functionality</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Nonprofit-Open-Data-Collective/governance" class="external-link">governance</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Needed for presentation</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="co"># Needed for additional visualizations</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="governance-workflow">Governance Workflow<a class="anchor" aria-label="anchor" href="#governance-workflow"></a>
 </h2>
 <div class="section level3">
-<h3 id="get-input-data">1. Get Input data<a class="anchor" aria-label="anchor" href="#get-input-data"></a>
+<h3 id="step-1-get-input-data">Step 1: Get Input data<a class="anchor" aria-label="anchor" href="#step-1-get-input-data"></a>
 </h3>
 <p>We assume the user already has the relevant 990 Efile data
-downloaded. Instructions for downloading the need 990 efile data, see
-.</p>
+downloaded. See <code><a href="../articles/download-data.html">vignette("download-data")</a></code> for instructions
+on downloading the need 990 efile data.</p>
 <p>We will use a subset of a test set that was already created. See
-<code>data-raw/01-get-example-data.R</code> for details on how this data
-set was created.</p>
+<code>data-raw/01-get-example-data.R</code> <a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/01-get-example-data.R" class="external-link">here</a>
+for details on how this data set was created.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dat_example"</span>, package <span class="op">=</span> <span class="st">"governance"</span><span class="op">)</span></span>
 <span></span>
@@ -106,74 +111,326 @@ set was created.</p>
 <div class="section level3">
 <h3 id="step-2-get-features-matrix">Step 2: Get Features Matrix<a class="anchor" aria-label="anchor" href="#step-2-get-features-matrix"></a>
 </h3>
-<p>Use the <code>get_features</code> function to clean the data and
+<p>Use the <code><a href="../reference/get_features.html">get_features()</a></code> function to clean the data and
 transform it into a features matrix.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">features_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat_example</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##     ORG_EIN P12_LINE_1 P4_LINE_12 P4_LINE_28 P4_LINE_29_30 P6_LINE_1</span></span>
-<span><span class="co">## 1 770489324          0          0          1             1         0</span></span>
-<span><span class="co">## 2 591829834          0          0          1             1         1</span></span>
-<span><span class="co">## 3 362852762          1          1          1             1         1</span></span>
-<span><span class="co">## 4 200345249          1          1          0             1         1</span></span>
-<span><span class="co">## 5 232550366          1          1          1             1         1</span></span>
-<span><span class="co">## 6 540788685          0          0          1             1         1</span></span>
-<span><span class="co">##   P6_LINE_11A P6_LINE_12_13_14 P6_LINE_15A P6_LINE_18 P6_LINE_2 P6_LINE_3</span></span>
-<span><span class="co">## 1           0                0           0          0         1         1</span></span>
-<span><span class="co">## 2           1                0           0          0         0         1</span></span>
-<span><span class="co">## 3           1                0           0          0         0         1</span></span>
-<span><span class="co">## 4           1                1           1          0         0         1</span></span>
-<span><span class="co">## 5           1                0           0          0         1         1</span></span>
-<span><span class="co">## 6           0                0           0          0         1         1</span></span>
-<span><span class="co">##   P6_LINE_8A</span></span>
-<span><span class="co">## 1          0</span></span>
-<span><span class="co">## 2          1</span></span>
-<span><span class="co">## 3          1</span></span>
-<span><span class="co">## 4          1</span></span>
-<span><span class="co">## 5          1</span></span>
-<span><span class="co">## 6          1</span></span></code></pre>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##         OBJECTID</span></span>
+<span><span class="co">## 1: 3.380285e-295</span></span>
+<span><span class="co">## 2: 3.367334e-295</span></span>
+<span><span class="co">## 3: 3.380176e-295</span></span>
+<span><span class="co">## 4: 3.418468e-295</span></span>
+<span><span class="co">## 5: 3.383922e-295</span></span>
+<span><span class="co">## 6: 3.418376e-295</span></span>
+<span><span class="co">##                                                                    URL</span></span>
+<span><span class="co">## 1: https://s3.amazonaws.com/irs-form-990/201432979349300843_public.xml</span></span>
+<span><span class="co">## 2: https://s3.amazonaws.com/irs-form-990/201403179349300430_public.xml</span></span>
+<span><span class="co">## 3: https://s3.amazonaws.com/irs-form-990/201432729349300543_public.xml</span></span>
+<span><span class="co">## 4: https://s3.amazonaws.com/irs-form-990/201520839349300612_public.xml</span></span>
+<span><span class="co">## 5: https://s3.amazonaws.com/irs-form-990/201441349349301624_public.xml</span></span>
+<span><span class="co">## 6: https://s3.amazonaws.com/irs-form-990/201520629349300707_public.xml</span></span>
+<span><span class="co">##    RETURN_VERSION   ORG_EIN year RETURN_TYPE F9_04_AFS_IND_X F9_04_AFS_CONSOL_X</span></span>
+<span><span class="co">## 1:       2013v3.1 770489324 2013         990           false              false</span></span>
+<span><span class="co">## 2:       2013v3.1 591829834 2013         990           false              false</span></span>
+<span><span class="co">## 3:       2013v3.0 362852762 2013         990               1                  0</span></span>
+<span><span class="co">## 4:       2013v4.0 200345249 2013         990               1                  0</span></span>
+<span><span class="co">## 5:       2013v3.1 232550366 2013         990            true              false</span></span>
+<span><span class="co">## 6:       2013v4.0 540788685 2013         990               0                  0</span></span>
+<span><span class="co">##    F9_04_BIZ_TRANSAC_DTK_X F9_04_BIZ_TRANSAC_DTK_FAM_X</span></span>
+<span><span class="co">## 1:                   false                       false</span></span>
+<span><span class="co">## 2:                   false                       false</span></span>
+<span><span class="co">## 3:                       0                           0</span></span>
+<span><span class="co">## 4:                       0                           1</span></span>
+<span><span class="co">## 5:                   false                       false</span></span>
+<span><span class="co">## 6:                       0                           0</span></span>
+<span><span class="co">##    F9_04_BIZ_TRANSAC_DTK_ENTITY_X F9_04_CONTR_NONCSH_MT_25K_X</span></span>
+<span><span class="co">## 1:                          false                       false</span></span>
+<span><span class="co">## 2:                          false                       false</span></span>
+<span><span class="co">## 3:                              0                           0</span></span>
+<span><span class="co">## 4:                              0                           0</span></span>
+<span><span class="co">## 5:                          false                       false</span></span>
+<span><span class="co">## 6:                              0                           0</span></span>
+<span><span class="co">##    F9_04_CONTR_ART_HIST_X F9_06_GVRN_NUM_VOTING_MEMB</span></span>
+<span><span class="co">## 1:                  false                          5</span></span>
+<span><span class="co">## 2:                  false                          7</span></span>
+<span><span class="co">## 3:                      0                         13</span></span>
+<span><span class="co">## 4:                      0                         10</span></span>
+<span><span class="co">## 5:                  false                          8</span></span>
+<span><span class="co">## 6:                      0                          9</span></span>
+<span><span class="co">##    F9_06_GVRN_NUM_VOTING_MEMB_IND F9_06_GVRN_DTK_FAMBIZ_RELATION_X</span></span>
+<span><span class="co">## 1:                              0                            false</span></span>
+<span><span class="co">## 2:                              7                             true</span></span>
+<span><span class="co">## 3:                             12                                1</span></span>
+<span><span class="co">## 4:                             10                                1</span></span>
+<span><span class="co">## 5:                              8                            false</span></span>
+<span><span class="co">## 6:                              9                                0</span></span>
+<span><span class="co">##    F9_06_GVRN_DELEGATE_MGMT_DUTY_X F9_06_GVRN_DOC_GVRN_BODY_X</span></span>
+<span><span class="co">## 1:                           false                      false</span></span>
+<span><span class="co">## 2:                           false                       true</span></span>
+<span><span class="co">## 3:                               0                          1</span></span>
+<span><span class="co">## 4:                               0                          1</span></span>
+<span><span class="co">## 5:                           false                       true</span></span>
+<span><span class="co">## 6:                               0                          1</span></span>
+<span><span class="co">##    F9_06_POLICY_FORM990_GVRN_BODY_X F9_06_POLICY_COI_X</span></span>
+<span><span class="co">## 1:                            false              false</span></span>
+<span><span class="co">## 2:                             true              false</span></span>
+<span><span class="co">## 3:                                1                  0</span></span>
+<span><span class="co">## 4:                                1                  1</span></span>
+<span><span class="co">## 5:                             true               true</span></span>
+<span><span class="co">## 6:                                0                  0</span></span>
+<span><span class="co">##    F9_06_POLICY_COI_DISCLOSURE_X F9_06_POLICY_COI_MONITOR_X</span></span>
+<span><span class="co">## 1:                         false                      false</span></span>
+<span><span class="co">## 2:                          &lt;NA&gt;                       &lt;NA&gt;</span></span>
+<span><span class="co">## 3:                          &lt;NA&gt;                       &lt;NA&gt;</span></span>
+<span><span class="co">## 4:                             1                          1</span></span>
+<span><span class="co">## 5:                          true                       true</span></span>
+<span><span class="co">## 6:                          &lt;NA&gt;                       &lt;NA&gt;</span></span>
+<span><span class="co">##    F9_06_POLICY_WHSTLBLWR_X F9_06_POLICY_DOC_RETENTION_X</span></span>
+<span><span class="co">## 1:                    false                        false</span></span>
+<span><span class="co">## 2:                    false                        false</span></span>
+<span><span class="co">## 3:                        0                            0</span></span>
+<span><span class="co">## 4:                        1                            1</span></span>
+<span><span class="co">## 5:                     true                        false</span></span>
+<span><span class="co">## 6:                        0                            0</span></span>
+<span><span class="co">##    F9_06_POLICY_COMP_PROCESS_CEO_X F9_06_DISCLOSURE_AVBL_OTH_X</span></span>
+<span><span class="co">## 1:                           false                        &lt;NA&gt;</span></span>
+<span><span class="co">## 2:                           false                        &lt;NA&gt;</span></span>
+<span><span class="co">## 3:                               0                        &lt;NA&gt;</span></span>
+<span><span class="co">## 4:                               1                        &lt;NA&gt;</span></span>
+<span><span class="co">## 5:                           false                        &lt;NA&gt;</span></span>
+<span><span class="co">## 6:                               0                        &lt;NA&gt;</span></span>
+<span><span class="co">##    F9_06_DISCLOSURE_AVBL_OTH_WEB_X F9_06_DISCLOSURE_AVBL_REQUEST_X</span></span>
+<span><span class="co">## 1:                            &lt;NA&gt;                            &lt;NA&gt;</span></span>
+<span><span class="co">## 2:                            &lt;NA&gt;                               X</span></span>
+<span><span class="co">## 3:                            &lt;NA&gt;                               X</span></span>
+<span><span class="co">## 4:                               X                               X</span></span>
+<span><span class="co">## 5:                               X                               X</span></span>
+<span><span class="co">## 6:                            &lt;NA&gt;                               X</span></span>
+<span><span class="co">##    F9_06_DISCLOSURE_AVBL_OWN_WEB_X F9_12_FINSTAT_METHOD_ACC_OTH</span></span>
+<span><span class="co">## 1:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">## 2:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">## 3:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">## 4:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">## 5:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">## 6:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">##    F9_12_FINSTAT_METHOD_ACC_ACCRU_X F9_12_FINSTAT_METHOD_ACC_CASH_X</span></span>
+<span><span class="co">## 1:                             &lt;NA&gt;                               X</span></span>
+<span><span class="co">## 2:                             &lt;NA&gt;                               X</span></span>
+<span><span class="co">## 3:                                X                            &lt;NA&gt;</span></span>
+<span><span class="co">## 4:                                X                            &lt;NA&gt;</span></span>
+<span><span class="co">## 5:                                X                            &lt;NA&gt;</span></span>
+<span><span class="co">## 6:                             &lt;NA&gt;                               X</span></span>
+<span><span class="co">##    SM_01_REVIEW_PROCESS_UNUSUAL_X P12_LINE_1 P4_LINE_12 P4_LINE_28</span></span>
+<span><span class="co">## 1:                           &lt;NA&gt;          0          0          1</span></span>
+<span><span class="co">## 2:                           &lt;NA&gt;          0          0          1</span></span>
+<span><span class="co">## 3:                           &lt;NA&gt;          1          1          1</span></span>
+<span><span class="co">## 4:                           &lt;NA&gt;          1          1          0</span></span>
+<span><span class="co">## 5:                           &lt;NA&gt;          1          1          1</span></span>
+<span><span class="co">## 6:                           &lt;NA&gt;          0          0          1</span></span>
+<span><span class="co">##    P4_LINE_29_30 P6_LINE_1 P6_LINE_11A P6_LINE_12_13_14 P6_LINE_15A P6_LINE_18</span></span>
+<span><span class="co">## 1:             1         0           0                0           0          0</span></span>
+<span><span class="co">## 2:             1         1           1                0           0          0</span></span>
+<span><span class="co">## 3:             1         1           1                0           0          0</span></span>
+<span><span class="co">## 4:             1         1           1                1           1          0</span></span>
+<span><span class="co">## 5:             1         1           1                0           0          0</span></span>
+<span><span class="co">## 6:             1         1           0                0           0          0</span></span>
+<span><span class="co">##    P6_LINE_2 P6_LINE_3 P6_LINE_8A</span></span>
+<span><span class="co">## 1:         1         1          0</span></span>
+<span><span class="co">## 2:         0         1          1</span></span>
+<span><span class="co">## 3:         0         1          1</span></span>
+<span><span class="co">## 4:         0         1          1</span></span>
+<span><span class="co">## 5:         1         1          1</span></span>
+<span><span class="co">## 6:         1         1          1</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="step-3-calculate-the-scores">Step 3: Calculate the Scores<a class="anchor" aria-label="anchor" href="#step-3-calculate-the-scores"></a>
 </h3>
-<p>Use the <code>get_scores</code> function to get the governance
+<p>Use the <code><a href="../reference/get_scores.html">get_scores()</a></code> function to get the governance
 scores.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Rows 11,27,48,57,110,125,132,150,152,159,167,188 have NA values in the features. They will not be included in the output.</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scores_example</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##         OBJECTID</span></span>
+<span><span class="co">## 1: 3.380285e-295</span></span>
+<span><span class="co">## 2: 3.367334e-295</span></span>
+<span><span class="co">## 3: 3.380176e-295</span></span>
+<span><span class="co">## 4: 3.418468e-295</span></span>
+<span><span class="co">## 5: 3.383922e-295</span></span>
+<span><span class="co">## 6: 3.418376e-295</span></span>
+<span><span class="co">##                                                                    URL</span></span>
+<span><span class="co">## 1: https://s3.amazonaws.com/irs-form-990/201432979349300843_public.xml</span></span>
+<span><span class="co">## 2: https://s3.amazonaws.com/irs-form-990/201403179349300430_public.xml</span></span>
+<span><span class="co">## 3: https://s3.amazonaws.com/irs-form-990/201432729349300543_public.xml</span></span>
+<span><span class="co">## 4: https://s3.amazonaws.com/irs-form-990/201520839349300612_public.xml</span></span>
+<span><span class="co">## 5: https://s3.amazonaws.com/irs-form-990/201441349349301624_public.xml</span></span>
+<span><span class="co">## 6: https://s3.amazonaws.com/irs-form-990/201520629349300707_public.xml</span></span>
+<span><span class="co">##    RETURN_VERSION   ORG_EIN year RETURN_TYPE F9_04_AFS_IND_X F9_04_AFS_CONSOL_X</span></span>
+<span><span class="co">## 1:       2013v3.1 770489324 2013         990           false              false</span></span>
+<span><span class="co">## 2:       2013v3.1 591829834 2013         990           false              false</span></span>
+<span><span class="co">## 3:       2013v3.0 362852762 2013         990               1                  0</span></span>
+<span><span class="co">## 4:       2013v4.0 200345249 2013         990               1                  0</span></span>
+<span><span class="co">## 5:       2013v3.1 232550366 2013         990            true              false</span></span>
+<span><span class="co">## 6:       2013v4.0 540788685 2013         990               0                  0</span></span>
+<span><span class="co">##    F9_04_BIZ_TRANSAC_DTK_X F9_04_BIZ_TRANSAC_DTK_FAM_X</span></span>
+<span><span class="co">## 1:                   false                       false</span></span>
+<span><span class="co">## 2:                   false                       false</span></span>
+<span><span class="co">## 3:                       0                           0</span></span>
+<span><span class="co">## 4:                       0                           1</span></span>
+<span><span class="co">## 5:                   false                       false</span></span>
+<span><span class="co">## 6:                       0                           0</span></span>
+<span><span class="co">##    F9_04_BIZ_TRANSAC_DTK_ENTITY_X F9_04_CONTR_NONCSH_MT_25K_X</span></span>
+<span><span class="co">## 1:                          false                       false</span></span>
+<span><span class="co">## 2:                          false                       false</span></span>
+<span><span class="co">## 3:                              0                           0</span></span>
+<span><span class="co">## 4:                              0                           0</span></span>
+<span><span class="co">## 5:                          false                       false</span></span>
+<span><span class="co">## 6:                              0                           0</span></span>
+<span><span class="co">##    F9_04_CONTR_ART_HIST_X F9_06_GVRN_NUM_VOTING_MEMB</span></span>
+<span><span class="co">## 1:                  false                          5</span></span>
+<span><span class="co">## 2:                  false                          7</span></span>
+<span><span class="co">## 3:                      0                         13</span></span>
+<span><span class="co">## 4:                      0                         10</span></span>
+<span><span class="co">## 5:                  false                          8</span></span>
+<span><span class="co">## 6:                      0                          9</span></span>
+<span><span class="co">##    F9_06_GVRN_NUM_VOTING_MEMB_IND F9_06_GVRN_DTK_FAMBIZ_RELATION_X</span></span>
+<span><span class="co">## 1:                              0                            false</span></span>
+<span><span class="co">## 2:                              7                             true</span></span>
+<span><span class="co">## 3:                             12                                1</span></span>
+<span><span class="co">## 4:                             10                                1</span></span>
+<span><span class="co">## 5:                              8                            false</span></span>
+<span><span class="co">## 6:                              9                                0</span></span>
+<span><span class="co">##    F9_06_GVRN_DELEGATE_MGMT_DUTY_X F9_06_GVRN_DOC_GVRN_BODY_X</span></span>
+<span><span class="co">## 1:                           false                      false</span></span>
+<span><span class="co">## 2:                           false                       true</span></span>
+<span><span class="co">## 3:                               0                          1</span></span>
+<span><span class="co">## 4:                               0                          1</span></span>
+<span><span class="co">## 5:                           false                       true</span></span>
+<span><span class="co">## 6:                               0                          1</span></span>
+<span><span class="co">##    F9_06_POLICY_FORM990_GVRN_BODY_X F9_06_POLICY_COI_X</span></span>
+<span><span class="co">## 1:                            false              false</span></span>
+<span><span class="co">## 2:                             true              false</span></span>
+<span><span class="co">## 3:                                1                  0</span></span>
+<span><span class="co">## 4:                                1                  1</span></span>
+<span><span class="co">## 5:                             true               true</span></span>
+<span><span class="co">## 6:                                0                  0</span></span>
+<span><span class="co">##    F9_06_POLICY_COI_DISCLOSURE_X F9_06_POLICY_COI_MONITOR_X</span></span>
+<span><span class="co">## 1:                         false                      false</span></span>
+<span><span class="co">## 2:                          &lt;NA&gt;                       &lt;NA&gt;</span></span>
+<span><span class="co">## 3:                          &lt;NA&gt;                       &lt;NA&gt;</span></span>
+<span><span class="co">## 4:                             1                          1</span></span>
+<span><span class="co">## 5:                          true                       true</span></span>
+<span><span class="co">## 6:                          &lt;NA&gt;                       &lt;NA&gt;</span></span>
+<span><span class="co">##    F9_06_POLICY_WHSTLBLWR_X F9_06_POLICY_DOC_RETENTION_X</span></span>
+<span><span class="co">## 1:                    false                        false</span></span>
+<span><span class="co">## 2:                    false                        false</span></span>
+<span><span class="co">## 3:                        0                            0</span></span>
+<span><span class="co">## 4:                        1                            1</span></span>
+<span><span class="co">## 5:                     true                        false</span></span>
+<span><span class="co">## 6:                        0                            0</span></span>
+<span><span class="co">##    F9_06_POLICY_COMP_PROCESS_CEO_X F9_06_DISCLOSURE_AVBL_OTH_X</span></span>
+<span><span class="co">## 1:                           false                        &lt;NA&gt;</span></span>
+<span><span class="co">## 2:                           false                        &lt;NA&gt;</span></span>
+<span><span class="co">## 3:                               0                        &lt;NA&gt;</span></span>
+<span><span class="co">## 4:                               1                        &lt;NA&gt;</span></span>
+<span><span class="co">## 5:                           false                        &lt;NA&gt;</span></span>
+<span><span class="co">## 6:                               0                        &lt;NA&gt;</span></span>
+<span><span class="co">##    F9_06_DISCLOSURE_AVBL_OTH_WEB_X F9_06_DISCLOSURE_AVBL_REQUEST_X</span></span>
+<span><span class="co">## 1:                            &lt;NA&gt;                            &lt;NA&gt;</span></span>
+<span><span class="co">## 2:                            &lt;NA&gt;                               X</span></span>
+<span><span class="co">## 3:                            &lt;NA&gt;                               X</span></span>
+<span><span class="co">## 4:                               X                               X</span></span>
+<span><span class="co">## 5:                               X                               X</span></span>
+<span><span class="co">## 6:                            &lt;NA&gt;                               X</span></span>
+<span><span class="co">##    F9_06_DISCLOSURE_AVBL_OWN_WEB_X F9_12_FINSTAT_METHOD_ACC_OTH</span></span>
+<span><span class="co">## 1:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">## 2:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">## 3:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">## 4:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">## 5:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">## 6:                            &lt;NA&gt;                         &lt;NA&gt;</span></span>
+<span><span class="co">##    F9_12_FINSTAT_METHOD_ACC_ACCRU_X F9_12_FINSTAT_METHOD_ACC_CASH_X</span></span>
+<span><span class="co">## 1:                             &lt;NA&gt;                               X</span></span>
+<span><span class="co">## 2:                             &lt;NA&gt;                               X</span></span>
+<span><span class="co">## 3:                                X                            &lt;NA&gt;</span></span>
+<span><span class="co">## 4:                                X                            &lt;NA&gt;</span></span>
+<span><span class="co">## 5:                                X                            &lt;NA&gt;</span></span>
+<span><span class="co">## 6:                             &lt;NA&gt;                               X</span></span>
+<span><span class="co">##    SM_01_REVIEW_PROCESS_UNUSUAL_X P12_LINE_1 P4_LINE_12 P4_LINE_28</span></span>
+<span><span class="co">## 1:                           &lt;NA&gt;          0          0          1</span></span>
+<span><span class="co">## 2:                           &lt;NA&gt;          0          0          1</span></span>
+<span><span class="co">## 3:                           &lt;NA&gt;          1          1          1</span></span>
+<span><span class="co">## 4:                           &lt;NA&gt;          1          1          0</span></span>
+<span><span class="co">## 5:                           &lt;NA&gt;          1          1          1</span></span>
+<span><span class="co">## 6:                           &lt;NA&gt;          0          0          1</span></span>
+<span><span class="co">##    P4_LINE_29_30 P6_LINE_1 P6_LINE_11A P6_LINE_12_13_14 P6_LINE_15A P6_LINE_18</span></span>
+<span><span class="co">## 1:             1         0           0                0           0          0</span></span>
+<span><span class="co">## 2:             1         1           1                0           0          0</span></span>
+<span><span class="co">## 3:             1         1           1                0           0          0</span></span>
+<span><span class="co">## 4:             1         1           1                1           1          0</span></span>
+<span><span class="co">## 5:             1         1           1                0           0          0</span></span>
+<span><span class="co">## 6:             1         1           0                0           0          0</span></span>
+<span><span class="co">##    P6_LINE_2 P6_LINE_3 P6_LINE_8A         V1         V2         V3         V4</span></span>
+<span><span class="co">## 1:         1         1          0  0.8325382 -2.9259074 -0.5902706 -0.4582607</span></span>
+<span><span class="co">## 2:         0         1          1 -0.6448697  0.7312625 -1.4034831 -0.3713453</span></span>
+<span><span class="co">## 3:         0         1          1  1.3598926  0.2140944 -1.7717910 -0.5622358</span></span>
+<span><span class="co">## 4:         0         1          1  1.0819772 -0.2759980  0.2945735 -0.5700580</span></span>
+<span><span class="co">## 5:         1         1          1  1.3425175  0.3457935 -1.4090468 -0.5709550</span></span>
+<span><span class="co">## 6:         1         1          1 -0.5686197  1.0435046 -0.7928681 -0.3724342</span></span>
+<span><span class="co">##            V5          V6 total.score</span></span>
+<span><span class="co">## 1: -0.6044349 -1.63897424 -5.38530968</span></span>
+<span><span class="co">## 2:  0.3947381  0.60617695 -0.68752060</span></span>
+<span><span class="co">## 3: -0.0817542  0.93277582  0.09098179</span></span>
+<span><span class="co">## 4:  0.2251638  0.89678327  1.65244176</span></span>
+<span><span class="co">## 5: -0.2402117 -0.06382375 -0.59572631</span></span>
+<span><span class="co">## 6: -1.2646891 -0.31298162 -2.26808810</span></span></code></pre>
+<p>We can visualize the distribution of our governance scores.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scores_example</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##     ORG_EIN P12_LINE_1 P4_LINE_12 P4_LINE_28 P4_LINE_29_30 P6_LINE_1</span></span>
-<span><span class="co">## 1 770489324          0          0          1             1         0</span></span>
-<span><span class="co">## 2 591829834          0          0          1             1         1</span></span>
-<span><span class="co">## 3 362852762          1          1          1             1         1</span></span>
-<span><span class="co">## 4 200345249          1          1          0             1         1</span></span>
-<span><span class="co">## 5 232550366          1          1          1             1         1</span></span>
-<span><span class="co">## 6 540788685          0          0          1             1         1</span></span>
-<span><span class="co">##   P6_LINE_11A P6_LINE_12_13_14 P6_LINE_15A P6_LINE_18 P6_LINE_2 P6_LINE_3</span></span>
-<span><span class="co">## 1           0                0           0          0         1         1</span></span>
-<span><span class="co">## 2           1                0           0          0         0         1</span></span>
-<span><span class="co">## 3           1                0           0          0         0         1</span></span>
-<span><span class="co">## 4           1                1           1          0         0         1</span></span>
-<span><span class="co">## 5           1                0           0          0         1         1</span></span>
-<span><span class="co">## 6           0                0           0          0         1         1</span></span>
-<span><span class="co">##   P6_LINE_8A        ML1        ML2        ML4        ML3         ML6        ML5</span></span>
-<span><span class="co">## 1          0  1.3150144 -4.0897713 -0.5712158 -0.4645426 -0.45730556 -1.4713741</span></span>
-<span><span class="co">## 2          1 -0.9834699  0.9442642 -1.4340618 -0.3710991  0.27909392  0.5775306</span></span>
-<span><span class="co">## 3          1  1.9897169  0.2668866 -1.8047175 -0.5576148 -0.06883326  0.8773298</span></span>
-<span><span class="co">## 4          1  1.5774569 -0.3725415  0.3048902 -0.5663688  0.14764842  0.8502803</span></span>
-<span><span class="co">## 5          1  1.9636345  0.4405332 -1.4312650 -0.5663371 -0.18596356 -0.0311122</span></span>
-<span><span class="co">## 6          1 -0.8691193  1.3557713 -0.8056218 -0.3721944 -0.94666685 -0.2603762</span></span>
-<span><span class="co">##   total.score</span></span>
-<span><span class="co">## 1  -5.7391949</span></span>
-<span><span class="co">## 2  -0.9877421</span></span>
-<span><span class="co">## 3   0.7027677</span></span>
-<span><span class="co">## 4   1.9413655</span></span>
-<span><span class="co">## 5   0.1894898</span></span>
-<span><span class="co">## 6  -1.8982071</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">scores_example</span><span class="op">$</span><span class="va">total.score</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Histogram of Goverance Scores"</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Total Score"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="governance-workflow_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="additional-visualizations">Additional Visualizations<a class="anchor" aria-label="anchor" href="#additional-visualizations"></a>
+</h3>
+<p>We can also join our data with the relevance Business Master File
+(BMF) data <a href="https://nccs.urban.org/nccs/catalogs/catalog-bmf.html" class="external-link">here</a> to
+explore other aspects of the organizations relative to their scores.</p>
+<div class="section level4">
+<h4 id="loading-in-the-bmf-data">Loading in the BMF Data<a class="anchor" aria-label="anchor" href="#loading-in-the-bmf-data"></a>
+</h4>
+<p>Since our test data set is from 2013, we first load in the 2013 BMF
+and only keep data from the organizations that are in our test set.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Read in BMF data</span></span>
+<span><span class="va">link2013</span> <span class="op">&lt;-</span> <span class="st">"https://nccsdata.s3.us-east-1.amazonaws.com/legacy/bmf/BMF-2013-12-501CX-NONPROFIT-PX.csv"</span></span>
+<span><span class="va">bmf.2013</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">link2013</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#format EIN's correctly </span></span>
+<span><span class="va">bmf.2013</span><span class="op">$</span><span class="va">EIN</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_pad.html" class="external-link">str_pad</a></span><span class="op">(</span><span class="va">bmf.2013</span><span class="op">$</span><span class="va">EIN</span>, <span class="fl">9</span>, pad <span class="op">=</span> <span class="st">"0"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Get needed EIN's </span></span>
+<span><span class="va">EIN.keep</span> <span class="op">&lt;-</span> <span class="va">dat_example</span><span class="op">$</span><span class="va">ORG_EIN</span></span>
+<span><span class="va">bmf.keep</span> <span class="op">&lt;-</span> <span class="va">bmf.2013</span><span class="op">[</span> <span class="va">bmf.2013</span><span class="op">$</span><span class="va">EIN</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">EIN.keep</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co">#join them </span></span>
+<span><span class="va">plot_example</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">scores_example</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">bmf.keep</span>, by <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">ORG_EIN</span> <span class="op">==</span> <span class="va">EIN</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>We can plot the distribution of scores by various characteristics of
+the organizations.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">scores_example</span><span class="op">$</span><span class="va">total.score</span><span class="op">)</span></span></code></pre></div>
-<p><img src="governance-workflow_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<code class="sourceCode R"><span><span class="va">plot_example</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">total.score</span>, <span class="va">ASSETS</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">total.score</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">ASSETS</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Governance Scores vs. Total Assests"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Total Governance Score"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"log(Total Assests)"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: Removed 7 rows containing missing values (`geom_point()`).</span></span></code></pre>
+<p><img src="governance-workflow_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

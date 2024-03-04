@@ -43,5 +43,6 @@ Every time you update the functions in the  package:
 - Update documentation with `devtools::document()` (and do any other devtools updates you need to do)
 - Check package 
 - Build package 
-- Update website with pkgdown::build_site()
+- Run `devtools::install()`
+- Update website with `pkgdown::build_site()`
 - Push - After you push to GitHub, there will be an action to update the website, it will take a few minutes. 

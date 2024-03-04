@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   download-data: download-data.html
   governance-workflow: governance-workflow.html
+  governance: governance.html
   making-gov-scores: making-gov-scores.html
-last_built: 2024-02-22T22:45Z
+last_built: 2024-03-04T19:16Z
 
