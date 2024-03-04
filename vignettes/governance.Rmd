@@ -14,14 +14,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE, warning=F}
 library(governance)
 library(dplyr)
 library(data.table)
 ```
 
 
-## 1. Get Input data 
+## 1. Get Input Data 
 
 We assume the user already has the relevant 990 Efile data downloaded. Instructions for downloading the need 990 efile data, see \code{vignette("download-data", package = "goveranance")}. 
 
@@ -43,7 +43,7 @@ Use the `get_features` function to clean the data and transform it into a featur
 
 ```{r}
 features_example <- get_features(dat_example)
-head(features_example)
+head(features_example) %>% data.table()
 ```
 
 
@@ -53,7 +53,7 @@ Use the `get_scores` function to get the governance scores.
 
 ```{r}
 scores_example <- get_scores(features_example)
-head(scores_example)
+head(scores_example) %>% data.table()
 ```
 
 We can explore our governance scores.
