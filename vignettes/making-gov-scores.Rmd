@@ -7,6 +7,9 @@ vignette: >
   %\VignetteIndexEntry{making-gov-scores}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r, include = FALSE}
@@ -16,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, message=F}
+```{r setup, message=FALSE, warning=FALSE}
 #Needed libraries for functionality 
 library(data.table)
 library(tidyverse)
@@ -92,23 +95,27 @@ Schedule O.
     5.Whether any significant diversion of assets (y/n)
 5.  Whether have members or stockholders (y/n)
 
-7a. Whether have any persons who had power to elect or appoint members
-(y/n) 7b. Whether decisions reserved to members other than governing
+7a. Whether have any persons who had power to elect or appoint members(y/n) 
+
+7b. Whether decisions reserved to members other than governing
 body (y/n)
 
-8a.Whether documented the meetings by the governing body (y/n) 8b.
-Whether documented the meetings by each committee (y/n)
+8a. Whether documented the meetings by the governing body (y/n) 
 
-10a. Whether have local chapters, branches, or affiliates (y/n) 10b. If
-yes, whether have a written policies governing the activities for local
-chapters, branches, or affiliates (y/n)
+8b.Whether documented the meetings by each committee (y/n)
 
-11a. Whether provided a copy of Form 990 to all members before filing
-the form (y/n)
+10a. Whether have local chapters, branches, or affiliates (y/n)
 
-12a. Whether have a written conflict of interest policy (y/n) 12b.
-Whether officers, directors, key employees required to disclose annually
-interests that could give rise to conflicts? (y/n) 12c. Whether
+10b. If yes to 10a, whether have a written policies governing the activities for local chapters, branches, or affiliates (y/n)
+
+11a. Whether provided a copy of Form 990 to all members before filing the form (y/n)
+
+12a. Whether have a written conflict of interest policy (y/n) 
+
+12b. Whether officers, directors, key employees required to disclose annually
+interests that could give rise to conflicts? (y/n) 
+
+12c. Whether
 regularly and consistently monitor and enforce compliance with the
 policy (y/n)
 
@@ -119,13 +126,16 @@ policy (y/n)
 15a. Whether have a process for determining compensation of the CEO,
 executive director, or top management officials include a review and
 approval by independent persons, comparability data, and deliberation
-decision (y/n) 15b. Whether have a process for determining compensation
+decision (y/n) 
+
+15b. Whether have a process for determining compensation
 of other officers or key employees include a review and approval by
 independent persons, comparability data, and deliberation decision (y/n)
 
 16a. Whether invest in, contribute assets to, or participate in a joint
-venture or similar arrangement (y/n) 16b. If yes, whether have a written
-policy or procedure to evaluate its participation in joint venture or
+venture or similar arrangement (y/n) 
+
+16b. If yes 10 16a, whether have a written policy or procedure to evaluate its participation in joint venture or
 similar arrangements (y/n)
 
 18. Whether make Forms 1023 (or 1024), 990, 990-T available for public
@@ -153,9 +163,9 @@ financial statements and selection of an independent accountant? (y/n)
 
 ### Schedule M
 
--   Line 31 - "Does the organization have a gift acceptance policy that
-    requires the review of any nonstandard contributions?" - only used
-    if Part IV Line 29 or 30 are checked . yes/no answer.
+31 - "Does the organization have a gift acceptance policy that
+requires the review of any nonstandard contributions?" - only used
+if Part IV Line 29 or 30 are checked (y/n)
 
 ## Step 1: Download the 990 Data
 
@@ -326,7 +336,7 @@ dat_all_M <-
 ```
 
 
-**DEVELOPER NOTE** We save this version of data in `data-raw/data-train-raw.rda`. 
+**DEVELOPER NOTE** We save this version of data in [`data-raw/data-train-raw.rda`](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-raw.rda). 
 
 ```{r, eval=FALSE}
 save(dat_all_4, dat_all_6, dat_all_12, dat_all_M,
@@ -375,7 +385,9 @@ dat_all_4 <-
 
 ```
 
-## Part VI
+
+### Part VI
+
 
 +-------------------+-------------------+-------------------+
 | Line Number       | Variable Name     | Levels            |
@@ -435,6 +447,7 @@ dat_all_4 <-
 |                   |                   |     from Part VI  |
 |                   |                   |     Line 1        |
 +-------------------+-------------------+-------------------+
+
 
 ```{r}
 #remove any unwanted years that may have accidentally appeared
@@ -926,7 +939,7 @@ design_mat <- design_mat[, -(1:5)]
 
 ```
 
-**DEVELOPER NOTE** We save this version of the data in `data-raw/dat-train-wrangled.rda`.
+**DEVELOPER NOTE** We save this version of the data in [`data-raw/dat-train-wrangled.rda`](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-wrangled.rda).
 
 ```{r, eval=FALSE}
 save(design_mat, 
@@ -941,7 +954,7 @@ Pearson correlations. This choice is made because all of our features are binary
 and polychoric correlations are tailored for ordinal
 variables. See
 [here](https://stats.oarc.ucla.edu/stata/faq/how-can-i-perform-a-factor-analysis-with-categorical-or-categorical-and-continuous-variables/)
-for more details on use of polychoric correlations in factor analysis.
+for more details on the use of polychoric correlations in factor analysis.
 
 ### Basic EDA
 
@@ -971,11 +984,11 @@ tab_summary%>%
 
 We can see from this table that there are quite a few features that have
 either all 0's, all 1's, or a very small percentage of 0's and 1's.
-Additionally, there are a few factors that are perfectly correlated with
-other factors (e.g. P12_LINE_2B and P12_LINE_2A are perfectly
+Additionally, there are a few features that are perfectly correlated with
+other features (e.g. P12_LINE_2B and P12_LINE_2A are perfectly
 correlated) These features probably will not be helpful in our analysis
 since they do not contain enough variation to tell us anything useful.
-Let's remove these factors from our analysis.
+Let's remove the features from our analysis that contain less that 2% in either the 0 or 1 class.
 
 ```{r}
 ### Remove factors where less than 2% in either class 
@@ -995,8 +1008,9 @@ vars_keep <-
   sort()
 ```
 
+
 Next we look at the general correlation structure. We can see from the
-plot below that we have multicollinearity among some of our features. Let's explore some of these more to decide which ones we keep in our analysis.
+plot below that we have extreme multicollinearity among some of our features. Let's explore some of these more to decide which ones we want to keep in our analysis.
 
 ```{r}
 # make as factor
@@ -1013,7 +1027,9 @@ ggcorrplot(corr_mat$correlations,
 
 ```
 
-### Exploring Highly Correlated Variables
+### Exploring Highly Correlated Features
+
+Let's look at which features have a correlation of over 0.90.
 
 ```{r}
 dat_cor <- as.data.frame(corr_mat$correlations)
@@ -1031,9 +1047,9 @@ dat_cor%>%
 #### P6_LINE_12A, 13, 14
 
 First, look at correlations of P6_line 12A, 13, 14. They are quite
-strong so let's make a new variable. P6_Line_12_13_14 = 1 if (P6_Line_13
-==a yes AND P6_Line_14 == yes AND P6_Line_12A == yes) and 0 otherwise.
-These all get a a similar sentiment: do you have documented policies?
+strong so let's make a new variable, P6_Line_12_13_14, where it is 1 if (P6_Line_13
+==a yes AND P6_Line_14 == yes AND P6_Line_12A == yes) and is 0 otherwise.
+P6_line 12A, 13, 14 all describe a very similar idea: do you have documented policies?
 
 -   P6_Line_13 = have whistleblower policy?
 
@@ -1057,22 +1073,22 @@ design_mat %>%
   mutate_all(as.factor) %>%
   hetcor(ML = TRUE)
 
-design_mat <- design_mat %>% 
+design_mat <- 
+  design_mat %>% 
   mutate(P6_LINE_12_13_14 = as.numeric(
     P6_LINE_12A == 1 & P6_LINE_13 == 1 & P6_LINE_14 == 1)) %>%
   select(-c(P6_LINE_12A, P6_LINE_13, P6_LINE_14)) 
 ```
 
-With this, we conclude we should just combine all of P6_LINE_12A, 13,
-and 14 into one factor.
+Even combining only 2 of the features still leads to high multicollinearity. With this, we conclude that P6_LINE_12A, 13, and 14 should be combined into one feature called P6_Line_12_13_14.
 
 #### P6_LINE_7A, 7B
 
-P6_7A, 7B are all about having members or stockholders. Let's make a new
-variable called P6_Line_7 that says: 1 if (P6_Line_7A == yes OR
-P6_Line_7B == no ) and 0 otherwise. We will also removed Line 6. I think
-this is reasonable because it may not matter IF you have stock holders,
-but rather if you do, can they make decisions.
+P6_7A, 7B are both about having members or stockholders. Let's make a new
+variable called P6_Line_7 that is 1 if (P6_Line_7A == yes OR
+P6_Line_7B == no ) and 0 otherwise. We will also removed Line 6. We think
+this is reasonable as it may not matter IF you have stock holders,
+but rather if you do, can they make decisions on behalf of the organization.
 
 -   P6_LINE_6 = Did the organization have members or stockholders?
 
@@ -1105,8 +1121,8 @@ the other factors, but we excluded for reasons pertaining to interpretation.
 
 #### P6_LINE_15A, 15B
 
-Let's just keep P6_Line_15A as it describes the main point
-that we care about in these line items. Additionally, most people aren't doing one or the other; most people do both or neither.
+We choose to keep P6_Line_15A as it describes the main idea
+that we care about in these line items. Additionally, through observation we know that most organizations are not doing one or the other; most do both or neither.
 
 -   P6_LINE_15A = compensation review and approval for CEO?
 
@@ -1131,8 +1147,9 @@ We may also want to remove P6_Line_8B. It is causing
 non-positive-definite issues and is very highly correlated with 8A.
 Similar to above, both items tell a similar sentiment.
 
-8a.Whether documented the meetings by the governing body (y/n) 
-8b.Whether documented the meetings by each committee (y/n)
+- 8a.Whether documented the meetings by the governing body (y/n) 
+
+- 8b.Whether documented the meetings by each committee (y/n)
 
 ```{r}
 design_mat %>% 
@@ -1182,7 +1199,7 @@ ggcorrplot(corr_mat2$correlations,
 This looks like a much more reasonable correlation structure to work
 with!
 
-**DEVELOPER NOTE** We save this version of the data as `data-raw/dat-train-final.rda`. 
+**DEVELOPER NOTE** We save this version of the data as (`data-raw/dat-train-final.rda`)[https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-final.rda]. 
 
 ```{r, eval=FALSE}
 save(design_mat2, 
@@ -1204,9 +1221,9 @@ All variables are coded as 1 (good governance practice) or 0 (bad
 governance practice)
 
 +---------+----------------------------------------------+
-| Vari    | Variable Meaning/Coding                      |
-| able    |                                              |
+| Feature | Feature Meaning/Coding                      |
 | Name    |                                              |
+|         |                                              |
 +=========+==============================================+
 | P4\_    | Did the org obtain separate, independent     |
 | LINE    | audited financial statements? 1 - yes, 0 -   |
@@ -1307,16 +1324,16 @@ governance practice)
 | NE_1    | accounting? 1 - yes, 0- no                   |
 +---------+----------------------------------------------+
 
-### Summary of Variables Not Used in Index
+### Summary of Features Not Used in Index
 
 +----------------------+---------------------------------------------+
-| Variable Name        | Reason why it is not used                   |
+| Feature Name         | Reason why it is not used                   |
 +======================+=============================================+
 | P4_LINE_12B          | Perfectly correlated with P4_Line_12A       |
 +----------------------+---------------------------------------------+
 | P6_LINE_4            | Removed, neither good nor bad               |
 +----------------------+---------------------------------------------+
-| P6_Line_5            | Less than 3% in 0 category                  |
+| P6_Line_5            | Less than 2% in 0 category                  |
 +----------------------+---------------------------------------------+
 | P6_Line_6            | Removed, neither good nor bad               |
 +----------------------+---------------------------------------------+
@@ -1330,10 +1347,10 @@ governance practice)
 +----------------------+---------------------------------------------+
 | P6_LINE_15A          | Perfectly correlated with P6_Line_15A       |
 +----------------------+---------------------------------------------+
-| P6_LINE_16A,         | Less than 3% in 0 category                  |
+| P6_LINE_16A,         | Less than 2% in 0 category                  |
 | P6_LINE_16B          |                                             |
 +----------------------+---------------------------------------------+
-| P12_LINE_2A,         | Less than 3% in 1 category                  |
+| P12_LINE_2A,         | Less than 2% in 1 category                  |
 | P12_LINE_2C          |                                             |
 +----------------------+---------------------------------------------+
 | P12_LINE_2B          | Perfectly correlated with P12_Line_2A       |
@@ -1355,8 +1372,7 @@ rho2 = poly_cor2$rho
 ## Step 6: Run the Factor Analysis
 
 We choose to use the "equamax" rotation in our factor analysis. We want independent factors, and equamax balances simplifying the factors (from varimax) and simplifying the variables (quartimax).
-See
-<https://www.ibm.com/docs/en/spss-statistics/25.0.0?topic=analysis-factor-rotation>
+See [here](https://www.ibm.com/docs/en/spss-statistics/25.0.0?topic=analysis-factor-rotation)
 for details on rotation types. 
 
 #### Pick the number of factors
@@ -1397,15 +1413,14 @@ a value we are comfortable with.
 
 ### Adding Factor Scores
 
-The original `fa` function will calculate factor scores, but since our factors are binary, the `fa$scores` output are not the factor scores we are interested in. Instead, we use the
+The original `fa` function from the [psych package](https://cran.r-project.org/web/packages/psych/index.html) will calculate factor scores, but since our factors are binary, the `fa$scores` output are not the factor scores we are interested in. The `fa` function defaults to using Pearson correlations in the score calculation even if it uses polychoric correlations in the factor loadings calculation. 
+
+Instead, we use the
 `factor.scores` function to specify the exact method we wish to use when
 calculating our factor scores.
 
 -   We need to specify the exact correlation (polychoric) structure we
-    are using to calculate our factor scores. (The `fa` function will
-    default to using the Pearson correlations in the score calculations
-    even if you explicitly tell it to use the polychoric ones when
-    finding the factors).
+    are using to calculate our factor scores. 
 
 -   We need to specify "Thurstone" method to use the "regression based
     weights" when calculating the scores.
@@ -1575,7 +1590,7 @@ In this Appendix, we show the "by-hand" calculations for how we do the
 "Thurstone" method of calculating factor scores given the factor
 loadings.
 
-There are 12 features, 6 factors, and n \$\\approx\$ 64k observations.
+There are 12 features, 6 factors, and n $\approx$ 64k observations.
 Let,
 
 -   $D$ = the Design matrix $\in \mathbb{R}^{n x 12}$
@@ -1583,11 +1598,11 @@ Let,
 -   $D_S$ = Design matrix with columns centered at 0 and scaled to have
     1 sd $\in \mathbb{R}^{n x 12}$
 
--   $C$ = observed correlation matrix $\in \mathbb{R}^{12 x 12}$\$ . In
+-   $C$ = observed correlation matrix $\in \mathbb{R}^{12 x 12}$ . In
     our example, this is the polychoric correlation.
 
 -   $L$ = factor loading matrix $\in \mathbb{R}^{12 x 6}$ . This is
-    calcultated from the `fa` function.
+    calculated from the `fa` function.
 
 -   $W = C^{-1}L$ = matrix of weights ($\beta$ 's in the regression
     model) $\in \mathbb{R}^{12 x 6}$
@@ -1599,27 +1614,27 @@ Let,
     of new scores. (The `factor.scores` function automatically scales
     the $D$ matrix in its calculation).
 
-    ```{r}
-    # from above: 
-    # scores <- factor.scores(features2, 
-    #                         model2.6, 
-    #                         rho = polychoric(features2)$rho,
-    #                         method = "Thurstone")
+```{r}
+# from above: 
+# scores <- factor.scores(features2, 
+#                         model2.6, 
+#                         rho = polychoric(features2)$rho,
+#                         method = "Thurstone")
 
-    data.scaled <- scale(features2)
-    D <- data.scaled
-    C <- model2.6$r  # =  polychoric(features2)$rho
-    W <- scores$weights
-    L <- model2.6$loadings #same as model2.6$Structure
-    S <- scores$scores
-    n <- nrow(features2)
+data.scaled <- scale(features2)
+D <- data.scaled
+C <- model2.6$r  # =  polychoric(features2)$rho
+W <- scores$weights
+L <- model2.6$loadings #same as model2.6$Structure
+S <- scores$scores
+n <- nrow(features2)
 
-    #S = DW so lets check DW - S ~=0
-    sum(abs((D %*% W) - S))
+#S = DW so lets check ||DW - S|| ~=0
+sum(abs((D %*% W) - S))
 
-    #W = C^(-1) L so lets check  C^(-1) L - W ~=0
-    sum(abs(solve(C) %*% L - W))
-    ```
+#W = C^(-1) L so lets check  ||C^(-1) L - W|| ~=0
+sum(abs(solve(C) %*% L - W))
+```
 
 If we were to get new data, this is how we would get the new scores. It
 is important to use the correlation matrix of the original data set so
@@ -1669,10 +1684,12 @@ C.poly <- rho2
 
 ## What we want 
 S.poly <- D %*% solve(C.poly) %*% L
+# show that ||S.polychoric - factor.scores output|| ~= 0
 sum(abs(scores$scores - S.poly)) #approx 0
 
 ## What the `fa` funciton gives us
 S.pearson <- D %*% solve(C.pearson) %*% L
+# show that ||S.default - fa output|| ~=0 
 sum(abs(S.defult - S.pearson)) #approx 0
 
 #But S.poly =/= S.pearson
