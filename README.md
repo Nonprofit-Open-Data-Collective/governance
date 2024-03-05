@@ -1,12 +1,13 @@
-# governance
+# governance [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10781067.svg)](https://doi.org/10.5281/zenodo.10781067)
 
-R package for creating a nonprofit governance index score using [990 efile data](https://nccs.urban.org/nccs/datasets/efile/). 
+R package for creating a nonprofit governance index score using 990 efile data. 
 
-```
-Beck, O., & Lecy, J. (2024). Nonprofit governance Package for R. Zenodo. https://doi.org/10.5281/zenodo.10781066
-```
 
-## Instalation
+> *Beck, O., & Lecy, J.* (2024). **Nonprofit governance Package for R**. Zenodo. https://doi.org/10.5281/zenodo.10781066
+
+
+
+## Installation
 
 ```r
 devtools::install_github( 'nonprofit-open-data-collective/governance' )
