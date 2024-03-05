@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-title: 'Nonprofit <b>governance</b> Package for R'
-abstract: <p>The <code>governance</code> R package creates a nonprofit governance score from IRS 990 efile data that can be used to benchmark the level of an organization's governance sophistication.</p>
+title: 'Nonprofit governance Package for R'
+abstract: "The <code>governance</code> R package generates nonprofit governance scores from policies and practices that are self-reported on the IRS Form 990 (obtained via the 990 efile dataset) in order to measure levels of governance sophistication across nonprofits for benchmarking purposes."
 authors:
 - affiliation: Penn State University
   family-names: Beck
