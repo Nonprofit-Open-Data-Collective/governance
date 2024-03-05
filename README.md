@@ -2,11 +2,6 @@
 
 R package for creating a nonprofit governance index score using 990 efile data. 
 
-
-> *Beck, O., & Lecy, J.* (2024). **Nonprofit governance Package for R**. Zenodo. https://doi.org/10.5281/zenodo.10781066
-
-
-
 ## Installation
 
 ```r
@@ -46,3 +41,11 @@ Use the `get_scores()` function to get the governance scores.
 ```r
 scores_example <- get_scores(features_example)
 ```
+
+## Citing the Package:  
+
+- Beck, O., & Lecy, J. (2024). Nonprofit governance Package for R. *Zenodo*. https://doi.org/10.5281/zenodo.10781066
+
+
+
+
