@@ -1,5 +1,8 @@
 # governance
-Package for creating a governance quality index for nonprofits using 990 efile data. 
+
+R package for creating a nonprofit governance index score using [990 efile data](https://nccs.urban.org/nccs/datasets/efile/). 
+
+> Beck, O., & Lecy, J. (2024). Nonprofit governance Package for R. Zenodo. https://doi.org/10.5281/zenodo.10781066
 
 
 ## Instalation
