@@ -2,12 +2,13 @@
 
 R package for creating a nonprofit governance index score using [990 efile data](https://nccs.urban.org/nccs/datasets/efile/). 
 
-> Beck, O., & Lecy, J. (2024). Nonprofit governance Package for R. Zenodo. https://doi.org/10.5281/zenodo.10781066
-
+```
+Beck, O., & Lecy, J. (2024). Nonprofit governance Package for R. Zenodo. https://doi.org/10.5281/zenodo.10781066
+```
 
 ## Instalation
 
-```
+```r
 devtools::install_github( 'nonprofit-open-data-collective/governance' )
 ```
 
@@ -19,7 +20,7 @@ We assume the user already has the relevant 990 Efile data downloaded. See [Down
 
 We will use a subset of a test set that was already created. See `data-raw/01-get-example-data.R`[here](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/01-get-example-data.R) for details on how this data set was created. 
 
-```
+```r
 data("dat_example", package = "governance")
 
 set.seed(57)
@@ -32,7 +33,7 @@ dat_example <- dat_example[keep_rows, ]
 
 Use the `get_features()` function to clean the data and transform it into a features matrix. 
 
-```
+```r
 features_example <- get_features(dat_example)
 ```
 
@@ -41,6 +42,6 @@ features_example <- get_features(dat_example)
 
 Use the `get_scores()` function to get the governance scores. 
 
-```
+```r
 scores_example <- get_scores(features_example)
 ```
