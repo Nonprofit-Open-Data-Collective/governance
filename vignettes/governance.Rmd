@@ -21,7 +21,7 @@ library(data.table)
 ```
 
 
-## 1. Get Input Data 
+## Step 1: Get Input Data 
 
 We assume the user already has the relevant 990 Efile data downloaded. Instructions for downloading the need 990 efile data, see \code{vignette("download-data", package = "goveranance")}. 
 
