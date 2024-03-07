@@ -4,26 +4,64 @@
 \alias{get_scores}
 \title{Calculate Governance Scores}
 \usage{
-get_scores(feature.matrix)
+get_scores(
+  feature.matrix,
+  missing = TRUE,
+  impute = "median",
+  scores.by.hand = FALSE
+)
 }
 \arguments{
 \item{feature.matrix}{A matrix containing responses to questions for organizations.
 Output from \code{get_features} function.
-Rows represent each organization, and columns represent responses to the following questions:
+Rows represent each organization, and must contain columns that represent responses
+to the following questions:
 "P12_LINE_1", "P4_LINE_12", "P4_LINE_28", "P4_LINE_29_30", "P6_LINE_1", "P6_LINE_11A",
 "P6_LINE_15A", "P6_LINE_18", "P6_LINE_2", "P6_LINE_3", "P6_LINE_8A", "P6_LINE_12_13_14".
-feature.matrix if a row has an NA value, the entire row will be removed in the output.}
+See \code{vignette("making-gov-scores", package = "governance")} for details on these features.}
+
+\item{missing}{From psych::factor.scores. If missing is TRUE, missing items
+are imputed using either the median or mean. If missing is FALSE, the default,
+scores are found based upon the mean of the available items for each subject.
+If missing is FALSE, input rows with NA values will not be included in the output.}
+
+\item{scores.by.hand}{If FALSE, psych::factor.scores is used to calculate features scores.
+If TRUE, manual calculations are used to calculate the factors scores. This option
+should only be used if \code{features.matrix} has no missing values AND is not of full rank
+(i.e. at least one column is all 0's or 1's).
+See Appendix of See \code{vignette("making-gov-scores", package = "governance")} for
+details on this calculation.}
+
+\item{imput}{From psych::factor.scores. If missing == TRUE, then missing data
+can be imputed using "median" or "mean". The number of missing by subject is
+reported. If impute = "none", missing data are not scored.
+Median is the default for our usage because all of our feature values are binary.}
 }
 \value{
-A data frame with the original input data and appended 6 factor scores along with a total score.
+A data frame with the original \code{features.matrix} input data and
+appended 6 factor scores along with a total score.
 }
 \description{
 This function takes a data.frame of features appends 6 factor scores
 along with a total score.
 }
 \details{
-This function generates factor scores for observations in the input \code{feature.matrix} from pre-loaded
-factor model ( in \code{factor-objects.Rdata})
+This function generates factor scores for observations in the input
+\code{feature.matrix} from pre-loaded factor model ( in \code{data/factor-objects.Rdata})
+}
+\examples{
+# get data
+data("dat_example", package = "governance")
+set.seed(57)
+keep_rows <- sample(1:nrow(dat_example), 200)
+dat_example <- dat_example[keep_rows, ]
+
+# get features
+features_example <- get_features(dat_example)
+
+# get scores
+scores_example <- get_scores(features_example)
+
 }
 \references{
 Factor objects are loaded from "governance/pkg-funcs/factor-objects.Rdata".

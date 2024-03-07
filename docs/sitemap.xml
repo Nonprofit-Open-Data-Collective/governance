@@ -28,6 +28,12 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/dat_example.html</loc>
+  </url>
+  <url>
+    <loc>/reference/features2.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_features.html</loc>
   </url>
   <url>
@@ -38,5 +44,20 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/model2.6.html</loc>
+  </url>
+  <url>
+    <loc>/reference/model6.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rho2.html</loc>
+  </url>
+  <url>
+    <loc>/reference/scores.html</loc>
   </url>
 </urlset>

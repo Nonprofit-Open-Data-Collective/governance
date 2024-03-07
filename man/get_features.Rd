@@ -7,14 +7,15 @@
 get_features(dat)
 }
 \arguments{
-\item{dat}{A data.frame with columns ORG_EIN and correct inputs from 990 Part IV, VI, and XII. See details below.
-ORG_EIN must be a character string of 9 digits.}
+\item{dat}{A data.frame containing columns ORG_EIN and correct inputs from 990 Part IV, VI, and XII. See details below.
+ORG_EIN must be a character string of 9 digits. (This data.frame can contain other columns).
+See details below for which variable from the 990 efile data must be included to run this function.}
 }
 \value{
 A data.frame appended with features needed to run the \code{\link{get_scores}} function.
 }
 \description{
-This function takes input from raw 990 Part IV, VI, and XII, then output a wrangled data frame with columns as features needed to calculate goverannce score.
+This function takes input from raw 990 Part IV, VI, and XII, then output a original data frame appended with columns as features needed to calculate governance score.
 }
 \details{
 990 Efiler data can be downloaded from the NCCS website \href{https://nccs.urban.org/nccs/catalogs/catalog-efile.html}{here}.
@@ -69,4 +70,15 @@ Variables from Schedule M:
 \itemize{
 \item{SM_01_REVIEW_PROCESS_UNUSUAL_X}
 }
+}
+\examples{
+# get data
+data("dat_example", package = "governance")
+set.seed(57)
+keep_rows <- sample(1:nrow(dat_example), 200)
+dat_example <- dat_example[keep_rows, ]
+
+# get features
+features_example <- get_features(dat_example)
+
 }
