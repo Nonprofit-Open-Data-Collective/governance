@@ -22,6 +22,7 @@ library(data.table)
 library(ggplot2)
 # Needed for additional visualizations
 library(stringr)
+library(readr)
 ```
 
 # Governance Workflow
@@ -82,7 +83,7 @@ data from the organizations that are in our test set.
 ```{r}
 # Read in BMF data
 link2013 <- "https://nccsdata.s3.us-east-1.amazonaws.com/legacy/bmf/BMF-2013-12-501CX-NONPROFIT-PX.csv"
-bmf.2013 <- read.csv(link2013)
+bmf.2013 <- readr::read_csv(link2013)
 
 #format EIN's correctly 
 bmf.2013$EIN <- as.numeric(stringr::str_pad(bmf.2013$EIN, 9, pad = "0"))
