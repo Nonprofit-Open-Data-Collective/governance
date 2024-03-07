@@ -172,7 +172,7 @@ get_features <- function(dat){
 
   dat_M <-
     dat_M %>%
-    dplyr::mutate(PM_LINE_31 = case_when(
+    dplyr::mutate(PM_LINE_31 = dplyr::case_when(
       PM_LINE_31 %in% c("true", "1") ~ "yes",
       PM_LINE_31 %in% c("false", "0") ~ "no",
       TRUE ~ NA
@@ -191,7 +191,7 @@ get_features <- function(dat){
     dat_4  %>%
     #make everything yes/no
     dplyr::mutate(dplyr::across(dplyr::starts_with("P4"),
-                  ~ case_when(
+                  ~ dplyr::case_when(
                     . %in% c("true", "1") ~ "yes",
                     . %in% c("false", "0") ~ "no",
                     TRUE ~ .
@@ -206,7 +206,7 @@ get_features <- function(dat){
         P4_LINE_28C == "yes" , 0, 1)) %>%
     dplyr::select(-c(P4_LINE_28A, P4_LINE_28B, P4_LINE_28C)) %>%
     #P4 line 29 and 30, Schedule M
-    dplyr::mutate(P4_LINE_29_30 = case_when(
+    dplyr::mutate(P4_LINE_29_30 = dplyr::case_when(
       P4_LINE_29 == "yes" & PM_LINE_31 == "no" ~ 0,
       P4_LINE_30 == "yes" & PM_LINE_31 == "no" ~ 0,
       TRUE ~ 1)) %>%
@@ -246,7 +246,7 @@ get_features <- function(dat){
     # P6_LINE_8A, 11A, 12A, 13, 14, yes is good, no is bad
     dplyr::mutate_at(dplyr::vars( paste0("P6_LINE_", c("8A","11A", "12A", "13", "14", "15A"))),
               ~  ifelse(. == "yes", 1, 0)) %>%
-    rowwise() %>%
+    dplyr::rowwise() %>%
     #P6_LINE_12B #P6_LINE_12A == "yes" & P6_LINE_12B == "no" is the bad case, every other case is good
     dplyr::mutate(P6_LINE_12B = ifelse(P6_LINE_12A == "yes" & P6_LINE_12B == "no", 0, 1)) %>%
     # dplyr::mutate(P6_LINE_12B = dplyr::case_when(
