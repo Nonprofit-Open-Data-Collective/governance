@@ -1021,7 +1021,7 @@ corr_mat <- hetcor(design_mat_keep, ML = TRUE) #uses maximum likelihood estimate
 
 ggcorrplot(corr_mat$correlations,
            hc.order = TRUE ) +
-  #ggtitle("Correlation Matrix") +
+  ggtitle("Correlation Matrix") +
   labs(subtitle = "Variables with More than 2% is either class")
 
 
@@ -1402,9 +1402,9 @@ model.
 
 ```{r}
 set.seed(98435)
-model2.6 = fa(features2, nfactor=6, cor="poly", fm="mle", rotate = "equamax")
-model2.6$loadings
-fa.diagram(model2.6)
+model6 = fa(features2, nfactor=6, cor="poly", fm="mle", rotate = "equamax")
+model6$loadings
+fa.diagram(model6)
 ```
 
 Cumulatively, we explain \~65% of the variance in our data set, which is
@@ -1431,7 +1431,7 @@ calculating our factor scores.
 
 ```{r}
 scores <- factor.scores(features2, #data to caluculate scores on 
-                        model2.6,  #model object 
+                        model6,  #model object 
                         rho = polychoric(features2)$rho, #polychoric correlation
                         method = "Thurstone") #method of calculating scores
 
@@ -1450,7 +1450,7 @@ hist(all.dat$total.score,
 ```{r, eval=FALSE}
 save(features2,
      scores,
-     model2.6,
+     model6,
      rho2,
      file = "data/factor-objects.rda")
 
@@ -1577,7 +1577,7 @@ interpretable.
 
 ```{r}
 new.scores<- factor.scores(new.data,  #new data 
-                        model2.6, #model object 
+                        model6, #model object 
                         rho = rho2, #polychoric corrlations of original data
                         method = "Thurstone") #method of calculating scores
 ```
@@ -1617,15 +1617,15 @@ Let,
 ```{r}
 # from above: 
 # scores <- factor.scores(features2, 
-#                         model2.6, 
+#                         model6, 
 #                         rho = polychoric(features2)$rho,
 #                         method = "Thurstone")
 
 data.scaled <- scale(features2)
 D <- data.scaled
-C <- model2.6$r  # =  polychoric(features2)$rho
+C <- model6$r  # =  polychoric(features2)$rho
 W <- scores$weights
-L <- model2.6$loadings #same as model2.6$Structure
+L <- model6$loadings #same as model6$Structure
 S <- scores$scores
 n <- nrow(features2)
 
@@ -1652,7 +1652,7 @@ for(i in 1:ncol(features2)){
 }
 
 new.scores<- factor.scores(new.data, 
-                        model2.6, 
+                        model6, 
                         rho = polychoric(features2)$rho,
                         method = "Thurstone")
 
@@ -1674,7 +1674,7 @@ matrix is used.
 
 ```{r}
 ## Default scores 
-S.defult <- model2.6$scores
+S.defult <- model6$scores
 
 ## Pearson Corelation
 C.pearson <- cor(features2)
