@@ -109,7 +109,7 @@ get_scores <- function(feature.matrix, missing = TRUE, impute = "median", scores
   if(scores.by.hand == FALSE){
     #if data is full rank, we can directly use the factor.scores function
     scores <- psych::factor.scores(temp.dat, #new data
-                                   model2.6, #original fitted model of features2
+                                   model6, #original fitted model of features2
                                    rho = rho2, #polychoric correlation of features2
                                    method = "Thurstone", #using regression equation to "predict" new scores.
                                    missing = missing,
@@ -127,7 +127,7 @@ get_scores <- function(feature.matrix, missing = TRUE, impute = "median", scores
     #set up matrix multiplication
     D <- as.matrix(temp.dat)
     C <- rho2
-    L <- model2.6$loadings
+    L <- model6$loadings
 
     W <- solve(C) %*% L
     S <- D %*% W
