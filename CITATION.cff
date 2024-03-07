@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: 'Nonprofit governance Package for R'
+abstract: "The <code>governance</code> R package generates nonprofit governance scores from policies and practices that are self-reported on the IRS Form 990 (obtained via the 990 efile dataset) in order to measure levels of governance sophistication across nonprofits for benchmarking purposes."
+authors:
+- affiliation: Penn State University
+  family-names: Beck
+  given-names: Olivia
+- affiliation: Arizona State University
+  family-names: Lecy
+  given-names: Jesse
+  orcid: https://orcid.org/0000-0003-4974-0782
+date-released: '2024-03-05'
+doi: 10.5281/zenodo.10781066
+license:
+- cc-by-4.0
+repository-code: https://github.com/Nonprofit-Open-Data-Collective/governance
+type: software
+version: v1.0.0-beta
+
+
