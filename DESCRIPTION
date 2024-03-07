@@ -9,6 +9,7 @@ Description: Calculates governance scores for nonprofits using factor analysis.
 License: GPL (>= 3)
 URL: https://github.com/Nonprofit-Open-Data-Collective/governance, https://nonprofit-open-data-collective.github.io/governance/
 BugReports: https://nonprofit-open-data-collective.github.io/governance/issues
+DOI: https://doi.org/10.5281/zenodo.10781066
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
