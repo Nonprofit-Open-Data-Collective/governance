@@ -64,13 +64,15 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="governance">governance<a class="anchor" aria-label="anchor" href="#governance"></a>
+<div class="page-header"><h1 id="governance-doi">governance <a href="https://doi.org/10.5281/zenodo.10781067" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.10781067.svg" alt="DOI"></a>
+<a class="anchor" aria-label="anchor" href="#governance-doi"></a>
 </h1></div>
-<p>Package for creating a governance quality index for nonprofits using 990 efile data.</p>
+<p>R package for creating a nonprofit governance index score using 990 efile data.</p>
 <div class="section level2">
-<h2 id="instalation">Instalation<a class="anchor" aria-label="anchor" href="#instalation"></a>
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<pre><code><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span> <span class="st">'nonprofit-open-data-collective/governance'</span> <span class="op">)</span></span></code></pre>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span> <span class="st">'nonprofit-open-data-collective/governance'</span> <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -78,26 +80,37 @@
 <div class="section level3">
 <h3 id="step-1-get-input-data">Step 1: Get Input data<a class="anchor" aria-label="anchor" href="#step-1-get-input-data"></a>
 </h3>
-<p>We assume the user already has the relevant 990 Efile data downloaded. See Downlaoding Data Vignette for instructions on downloading the need 990 efile data.</p>
+<p>We assume the user already has the relevant 990 Efile data downloaded. See <a href="https://nonprofit-open-data-collective.github.io/governance/articles/download-data.html" class="external-link">Downlaoding Data Vignette</a> for instructions on downloading the need 990 efile data.</p>
 <p>We will use a subset of a test set that was already created. See <code>data-raw/01-get-example-data.R</code><a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/01-get-example-data.R" class="external-link">here</a> for details on how this data set was created.</p>
-<pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dat_example"</span>, package <span class="op">=</span> <span class="st">"governance"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dat_example"</span>, package <span class="op">=</span> <span class="st">"governance"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">57</span><span class="op">)</span></span>
 <span><span class="va">keep_rows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat_example</span><span class="op">)</span>, <span class="fl">200</span><span class="op">)</span></span>
-<span><span class="va">dat_example</span> <span class="op">&lt;-</span> <span class="va">dat_example</span><span class="op">[</span><span class="va">keep_rows</span>, <span class="op">]</span></span></code></pre>
+<span><span class="va">dat_example</span> <span class="op">&lt;-</span> <span class="va">dat_example</span><span class="op">[</span><span class="va">keep_rows</span>, <span class="op">]</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="step-2-get-features-matrix">Step 2: Get Features Matrix<a class="anchor" aria-label="anchor" href="#step-2-get-features-matrix"></a>
 </h2>
 <p>Use the <code><a href="reference/get_features.html">get_features()</a></code> function to clean the data and transform it into a features matrix.</p>
-<pre><code><span><span class="va">features_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat_example</span><span class="op">)</span></span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">features_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat_example</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="step-3-calculate-the-scores">Step 3: Calculate the Scores<a class="anchor" aria-label="anchor" href="#step-3-calculate-the-scores"></a>
 </h2>
 <p>Use the <code><a href="reference/get_scores.html">get_scores()</a></code> function to get the governance scores.</p>
-<pre><code><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span></code></pre>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="citing-the-package">Citing the Package:<a class="anchor" aria-label="anchor" href="#citing-the-package"></a>
+</h2>
+<ul>
+<li>Beck, O., &amp; Lecy, J. (2024). Nonprofit governance Package for R. <em>Zenodo</em>. <a href="https://doi.org/10.5281/zenodo.10781066" class="external-link uri">https://doi.org/10.5281/zenodo.10781066</a>
+</li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
