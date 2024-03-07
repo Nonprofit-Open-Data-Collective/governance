@@ -12,7 +12,7 @@ devtools::install_github( 'nonprofit-open-data-collective/governance' )
 
 ### Step 1: Get Input data 
 
-We assume the user already has the relevant 990 Efile data downloaded. See [Downlaoding Data Vignette](doc/articles/download-data.html) for instructions on downloading the need 990 efile data.
+We assume the user already has the relevant 990 Efile data downloaded. See Downlaoding Data Vignette for instructions on downloading the need 990 efile data.
 
 We will use a subset of a test set that was already created. See `data-raw/01-get-example-data.R`[here](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/01-get-example-data.R) for details on how this data set was created. 
 
