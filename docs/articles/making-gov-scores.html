@@ -72,7 +72,7 @@
                         <h4 data-toc-skip class="author">Olivia
 Beck</h4>
             
-            <h4 data-toc-skip class="date">2024-03-07</h4>
+            <h4 data-toc-skip class="date">2024-03-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/HEAD/vignettes/making-gov-scores.Rmd" class="external-link"><code>vignettes/making-gov-scores.Rmd</code></a></small>
       <div class="d-none name"><code>making-gov-scores.Rmd</code></div>
@@ -1888,22 +1888,25 @@ analysis.</p>
 </h3>
 <p>All variables are coded as 1 (good governance practice) or 0 (bad
 governance practice)</p>
-<table style="width:79%;" class="table">
+<table style="width:82%;" class="table">
 <colgroup>
 <col width="13%">
 <col width="65%">
+<col width="2%">
 </colgroup>
-<thead><tr class="header">
-<th>Feature Name</th>
-<th>Feature Meaning/Coding |</th>
-</tr></thead>
 <tbody>
 <tr class="odd">
-<td>P4_ LINE _12A</td>
-<td>Did the org obtain separate, independent audited financial
-statements? 1 - yes, 0 - no</td>
+<td rowspan="2">
+<p>Feature Name</p>
+<p>========= P4_ LINE _12A</p>
+</td>
+<td colspan="2" rowspan="2">Feature Meaning/Coding | | |
+==============================================+ Did the org obtain
+separate, independent | audited financial statements? 1 - yes, 0 - | no
+|</td>
 </tr>
-<tr class="even">
+<tr class="even"></tr>
+<tr class="odd">
 <td>P4 _LIN E_28</td>
 <td>
 <p>1- Answered “no” to questions P4_LINE_28A, P4_LINE_28B,
@@ -1912,22 +1915,20 @@ statements? 1 - yes, 0 - no</td>
 <p>Essentially 1 if no business was done with a family member and 0
 otherwise.</p>
 </td>
-</tr>
-<tr class="odd">
-<td>P 4_LI NE_2 9_30</td>
-<td>
-<p>1- (Answered no to P4_LINE_29 ANDP4_Line_29) or (Answered yes to
-(P4_LINE_29 ORP4_Line_29) AND answered yes to Schedule M question 31
-)</p>
-<p>0 - Answered yes to (P4_LINE_29 ORP4_Line_29) AND answered no to
-Schedule M question 31</p>
-<p>i.e. 1 if either (the org did not have more than $25K in cash
-contribution AND did not have receive any art/historical treasures/etc.)
-OR (they do have those things AND they do have a written policy about
-how to handle them)</p>
-</td>
+<td></td>
 </tr>
 <tr class="even">
+<td>P 4_LI NE_2 9_30</td>
+<td colspan="2">1- (Answered no to P4_LINE_29 ANDP4_Line_30) | or
+(Answered yes to (P4_LINE_29 | OR P4_Line_30) AND answered yes to
+Schedule | M question 31 ) | 0 - Answered yes to (P4_LINE_29 | OR
+P4_Line_30) AND answered no to Schedule | M Line 31 | | i.e. 1 if either
+(the org did not have more | than $25K in cash contribution AND did not
+| have receive any art/historical | treasures/etc.) OR (they do have
+those | things AND they do have a written policy | about how to handle
+them) |</td>
+</tr>
+<tr class="odd">
 <td>P 6_LI NE_1</td>
 <td>
 <p>1 - The proportion of independent members on the board is at
@@ -1935,8 +1936,9 @@ least 50%</p>
 <p>0 - The proportion of independent members on the board is less than
 50%</p>
 </td>
+<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>P 6_LI NE_2</td>
 <td>
 <p>1- <strong>No</strong> officer, director, trustee, or key
@@ -1946,8 +1948,9 @@ other officer, director, trustee, or key employee</p>
 had a family relationship or a business relationship with any other
 officer, director, trustee, or key employee</p>
 </td>
+<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>P 6_LI NE_3</td>
 <td>
 <p>1- The org <strong>did not</strong> use a management company or
@@ -1955,8 +1958,9 @@ other person to perform any management duties</p>
 <p>0 - The org <strong>did</strong> use a management company or other
 person to perform any management duties</p>
 </td>
+<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>P6 _LIN E_8A</td>
 <td>
 <p>1 - The meetings by the governing body <strong>are</strong>
@@ -1964,8 +1968,9 @@ documented</p>
 <p>0 - The meetings by the governing body <strong>are</strong>
 <strong>not</strong> documented</p>
 </td>
+<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>P6_L INE_ 12_1 3_14</td>
 <td>
 <p>1- The answers to P6_Line_12, 13, and 14 are all yes</p>
@@ -1978,16 +1983,18 @@ correlation. And all of these questions get at the same type of
 governance - do you have written policies for when things go
 bad?</p>
 </td>
+<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>P6_ LINE _11A</td>
 <td>
 <p>1- A copy of Form 990 is provided to all members before filing
 the form</p>
 <p>0 - otherwise</p>
 </td>
+<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>P6_ LINE _15A</td>
 <td>
 <p>1- The org has a process for determining compensation of the CEO,
@@ -1996,8 +2003,9 @@ approval by independent persons, comparability data, and deliberation
 decision</p>
 <p>0 - otherwise</p>
 </td>
+<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>P6 _LIN E_18</td>
 <td>
 <p>1 - Forms 1023 (or 1024), 990, 990-T available for public
@@ -2005,10 +2013,12 @@ inspection on own website</p>
 <p>0 - These forms were listed on another’s website, available upon
 request, or “other”</p>
 </td>
+<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>P1 2_LI NE_1</td>
 <td>Did the org use accrual method for accounting? 1 - yes, 0- no</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -2100,7 +2110,7 @@ the number of factors we want to consider.</p>
 the interpretability of our results.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.parallel.html" class="external-link">fa.parallel</a></span><span class="op">(</span><span class="va">rho2</span>, </span>
-<span>            fm<span class="op">=</span><span class="st">"pa"</span>, </span>
+<span>            fm<span class="op">=</span><span class="st">"mle"</span>, </span>
 <span>            fa<span class="op">=</span><span class="st">"fa"</span>, </span>
 <span>            main <span class="op">=</span> <span class="st">"Scree Plot"</span>,</span>
 <span>            cor <span class="op">=</span> <span class="st">"poly"</span>,</span>
@@ -2182,7 +2192,9 @@ score.</p></li>
 <p><strong>DEVELOPER NOTE</strong> We save the features matrix and
 factor analysis object in <code>data/factor-objects.rda</code>.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">features2</span>,</span>
+<code class="sourceCode R"><span><span class="va">dat.2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">design_mat_ID</span>, <span class="va">all.dat</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">dat.2018</span>,</span>
+<span>     <span class="va">features2</span>,</span>
 <span>     <span class="va">scores</span>,</span>
 <span>     <span class="va">model6</span>,</span>
 <span>     <span class="va">rho2</span>,</span>
@@ -2315,7 +2327,7 @@ policy about how to handle them)</p></li>
 </ul>
 <p>business with family or having large/</p>
 <p>expensive</p>
-<p>assests</p>
+<p>assets</p>
 </td>
 </tr>
 </tbody>
@@ -2470,7 +2482,7 @@ control over which correlation matrix is used.</p>
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Olivia Beck, Jessy Lecy, Urban Inistitue National Center for Charitable Statistics.</p>
+<p>Developed by Olivia Beck, Jesse Lecy, Urban Inistitue National Center for Charitable Statistics.</p>
 </div>
 
 <div class="pkgdown-footer-right">

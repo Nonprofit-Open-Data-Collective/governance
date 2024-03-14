@@ -49,3 +49,9 @@ Every time you update the functions in the  package:
 - Push - After you push to GitHub, there will be an action to update the website, it will take a few minutes. 
 
 See section 4.1. of <https://fanwangecon.github.io/R4Econ/support/development/fs_packaging.pdf> for details.
+
+To add the correct citation to the pkgdown site, 
+- Run `usethis::use_citation()`. This will create a new file inst/CITATION.
+- Fill in the blanks with appropriate information. See `utils::bibentry` for details.
+- If CITATION.cff is in the main directory to be used as the package citation in the R documentation, you can just add the inst/ directory to the .Rbuildingnore.
+- Once you run `pkgdown::build_site()` from above, it should add the correct citation on the citation page of the website. 
