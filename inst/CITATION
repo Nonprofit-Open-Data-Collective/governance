@@ -1,0 +1,9 @@
+bibentry(
+  bibtype  = "Misc",
+  title    = "Nonprofit governance Package for R",
+  author   = c(person("Olivia", "Beck"), person("Jesse", "Lecy")),
+  year     = "2024",
+  doi      = "10.5281/zenodo.10781066",
+  url      = "https://github.com/Nonprofit-Open-Data-Collective/governance",
+  version  = "v1.0.0-beta",
+)
