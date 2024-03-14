@@ -3,7 +3,7 @@ Title: Goveranace Scores for Nonprofits
 Version: 0.0.0.9000
 Authors@R: c(
     person("Olivia", "Beck", , "obeck@urban.org", role = c("aut", "cre")),
-    person("Jessy", "Lecy", , "jlecy@urban.org", role = c("aut")),
+    person("Jesse", "Lecy", , "jlecy@urban.org", role = c("aut")),
     person("Urban Inistitue National Center for Charitable Statistics", role = c("fnd")))
 Description: Calculates governance scores for nonprofits using factor analysis.
 License: GPL (>= 3)
