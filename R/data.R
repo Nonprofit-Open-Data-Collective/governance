@@ -50,3 +50,9 @@
 #' Data is from NCCS 990 data download website [here](https://nccs.urban.org/nccs/catalogs/catalog-efile.html).
 #'
 "dat_example"
+
+#' 2018 990 Data
+#'
+#' All data used to generate \code{\link{model6}}.
+#' Contains raw 990 data, features, and factor scores.
+"dat.2018"
