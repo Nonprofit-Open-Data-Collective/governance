@@ -1237,14 +1237,14 @@ governance practice)
 |         | Essentially 1 if no business was done with a |
 |         | family member and 0 otherwise.               |
 +---------+----------------------------------------------+
-| P 4_LI  | 1- (Answered no to P4_LINE_29 ANDP4_Line_29) |
+| P 4_LI  | 1- (Answered no to P4_LINE_29 ANDP4_Line_30) |
 | NE_2    | or (Answered yes to (P4_LINE_29              |
-| 9_30    | ORP4_Line_29) AND answered yes to Schedule M |
-|         | question 31 )                                |
+| 9_30    | OR P4_Line_30) AND answered yes to Schedule  |
+|         | M question 31 )                                |
 |         |                                              |
 |         | 0 - Answered yes to (P4_LINE_29              |
-|         | ORP4_Line_29) AND answered no to Schedule M  |
-|         | question 31                                  |
+|         | OR P4_Line_30) AND answered no to Schedule   |
+|         | M Line 31                                   |
 |         |                                              |
 |         | i.e. 1 if either (the org did not have more  |
 |         | than \$25K in cash contribution AND did not  |
@@ -1385,7 +1385,7 @@ interpretability of our results.
 
 ```{r}
 fa.parallel(rho2, 
-            fm="pa", 
+            fm="mle", 
             fa="fa", 
             main = "Scree Plot",
             cor = "poly",
@@ -1448,7 +1448,9 @@ hist(all.dat$total.score,
 **DEVELOPER NOTE** We save the features matrix and factor analysis object in `data/factor-objects.rda`. 
 
 ```{r, eval=FALSE}
-save(features2,
+dat.2018 <- cbind(design_mat_ID, all.dat)
+save(dat.2018,
+     features2,
      scores,
      model6,
      rho2,
@@ -1538,7 +1540,7 @@ save(features2,
 |     officer, director, trustee, or key  |              |
 |     employee had a family relationship  | expensive    |
 |     or a business relationship with any |              |
-|     other officer, director, trustee,   | assests      |
+|     other officer, director, trustee,   | assets       |
 |     or key employee?                    |              |
 |                                         |              |
 | -   (Negative) P4_Line_29: Either (the  |              |
