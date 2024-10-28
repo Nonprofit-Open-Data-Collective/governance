@@ -19,6 +19,19 @@ usethis::use_pkgdown()
 pkgdown::build_site()
 ```
 
+
+
+2.1 Some small checks 
+
+- Make sure "^docs$" is **IN** the .Rbuildignore
+
+- Make sure "docs/" is **NOT IN** .gitignore
+
+- Add "destination: docs" to line 2 of _pkgdown.yml in main directory. 
+
+
+
+
 Do not use `usethis::use_pkgdown_github_pages()`. We do not want their defaults so we will do it manually. 
 
 
