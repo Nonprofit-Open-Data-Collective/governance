@@ -95,6 +95,17 @@ get_scores <- function(feature.matrix, missing = TRUE, impute = "median", scores
     stop("data object must only have 0 or 1 entries for all factors")
   }
 
+  # Guard against a broken upstream normalization: a feature that is entirely NA
+  # cannot be scored or imputed and usually signals a field that failed to parse
+  # (e.g. a format change in the raw 990 data). Fail loudly rather than return
+  # silently garbage scores.
+  all.na.cols <- col.names.correct[colSums(!is.na(temp.dat)) == 0]
+  if(length(all.na.cols) > 0){
+    stop(paste0("These feature columns are entirely NA and cannot be scored: ",
+                paste(all.na.cols, collapse = ", "),
+                ". Check the normalization step (get_features)."))
+  }
+
   # removing NA rows
   has.na <- apply(temp.dat, 1, function(row) any(is.na(row)))
   if(any(has.na) & missing == FALSE){

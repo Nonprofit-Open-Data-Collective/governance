@@ -1,3 +1,13 @@
+# Internal: normalize an EIN to a 9-digit zero-padded character string.
+# Accepts integer/numeric EINs (which may have dropped leading zeros) and
+# formatted strings such as "EIN-43-2031361"; returns NA for blanks/non-EINs.
+.pad_ein <- function(x) {
+  digits <- gsub("\\D", "", as.character(x))
+  digits[digits == ""] <- NA_character_
+  ifelse(is.na(digits), NA_character_, sprintf("%09d", as.integer(digits)))
+}
+
+
 #' Function to calculate features matrix
 #'
 #' This function takes input from raw 990 Part IV, VI, and XII, then output a original data frame appended with columns as features needed to calculate governance score.
@@ -17,7 +27,6 @@
 #'
 #' \itemize{
 #'  \item{F9_04_AFS_IND_X}
-#'  \item{F9_04_AFS_CONSOL_X}
 #'  \item{F9_04_BIZ_TRANSAC_DTK_X}
 #'  \item{F9_04_BIZ_TRANSAC_DTK_FAM_X}
 #'  \item{F9_04_BIZ_TRANSAC_DTK_ENTITY_X}
@@ -60,6 +69,16 @@
 #' \itemize{
 #'  \item{SM_01_REVIEW_PROCESS_UNUSUAL_X}
 #' }
+#'
+#' Input values may be encoded as \code{"true"}/\code{"false"}, \code{"1"}/\code{"0"},
+#' \code{"X"} flags, or blanks; blanks may arrive as \code{NA} or \code{""}
+#' depending on how the tables were read. Blank or missing yes/no responses are
+#' treated as \code{0} (the governance property is absent), and the result does
+#' not depend on the blank encoding. Two derived features can still be \code{NA}
+#' when their inputs are genuinely unavailable: \code{P6_LINE_1} (share of
+#' independent voting members, undefined when the voting-member count is 0 or
+#' missing) and \code{P12_LINE_1} (accounting method, when none is reported);
+#' \code{\link{get_scores}} imputes these.
 #'
 #' @return
 #' A data.frame appended with features needed to run the \code{\link{get_scores}} function.
@@ -144,7 +163,7 @@ get_features <- function(dat){
   #Checking part 4
   has_col_4 <- cols_part4$old %in% colnames(dat)
   if(!all(has_col_4)){
-    which_missing_4 <- cols_partM$old[!has_col_4 ]
+    which_missing_4 <- cols_part4$old[!has_col_4 ]
     stop(paste("input data frame is missing column", which_missing_4,
                ". See documentation for details."))
   }
@@ -152,7 +171,7 @@ get_features <- function(dat){
   #Checking part 6
   has_col_6 <- cols_part6$old %in% colnames(dat)
   if(!all(has_col_6)){
-    which_missing_6 <- cols_partM$old[!has_col_6 ]
+    which_missing_6 <- cols_part6$old[!has_col_6 ]
     stop(paste("input data frame is missing column", which_missing_6,
                ". See documentation for details."))
   }
@@ -160,7 +179,7 @@ get_features <- function(dat){
   #Checking part 12
   has_col_12 <- keep_cols_part12 %in% colnames(dat)
   if(!all(has_col_12)){
-    which_missing_12 <- cols_partM$old[!has_col_12 ]
+    which_missing_12 <- keep_cols_part12[!has_col_12 ]
     stop(paste("input data frame is missing column", which_missing_12,
                ". See documentation for details."))
   }
@@ -190,11 +209,13 @@ get_features <- function(dat){
   dat_4 <-
     dat_4  %>%
     #make everything yes/no
+    # Map to yes/no. Blank/missing (NA or "" depending on how the data were
+    # read) falls to "no" so the result does not depend on the read method.
     dplyr::mutate(dplyr::across(dplyr::starts_with("P4"),
                   ~ dplyr::case_when(
                     . %in% c("true", "1") ~ "yes",
                     . %in% c("false", "0") ~ "no",
-                    TRUE ~ .
+                    TRUE ~ "no"
                   )))  %>%
     #P4 Line 12A
     dplyr::mutate(P4_LINE_12A = ifelse(P4_LINE_12A == "yes" , 1, 0)) %>%
@@ -225,6 +246,10 @@ get_features <- function(dat){
   #P6_LINE_1
   dat_6 <-
     dat_6 %>%
+    # member counts arrive as character when read via data.table::fread; coerce
+    # so the ratio below is numeric rather than erroring on strings
+    dplyr::mutate(P6_LINE_1A = as.numeric(P6_LINE_1A),
+                  P6_LINE_1B = as.numeric(P6_LINE_1B)) %>%
     # remove divide by 0 errors
     # only mutate cases where we have more members than independent members
     dplyr::mutate(divide.by.0 = P6_LINE_1A == 0 | P6_LINE_1A < P6_LINE_1B)  %>%
@@ -238,8 +263,10 @@ get_features <- function(dat){
     dplyr::select(-c(P6_LINE_1B , P6_LINE_1A, divide.by.0 )) %>%
     #need to be transformed from (1/0) and (true/false) to yes/no
     # P6_LINE_2, P6_LINE_3, P6_LINE_8A, P6_LINE_11A, P6_LINE_12A, P6_LINE_12B, P6_LINE_12C, P6_LINE_13, P6_LINE_14, P6_LINE_15A
+    # Blank/missing (NA or "") maps to "no" so results do not depend on whether
+    # the data were read with NA or "" for empty cells.
     dplyr::mutate_at(dplyr::vars( paste0("P6_LINE_", c("2", "3", "8A","11A", "12A", "12B", "12C", "13", "14", "15A"))),
-                     ~  ifelse(. == "true" | . == "1", "yes", "no")) %>%
+                     ~  ifelse(!is.na(.) & (. == "true" | . == "1"), "yes", "no")) %>%
     #P6_LINE_2, 3, have no as good and yes as bad
     dplyr::mutate_at(dplyr::vars("P6_LINE_2", "P6_LINE_3" ) ,
               ~ ifelse(. == "no", 1, 0))%>%
@@ -289,15 +316,24 @@ get_features <- function(dat){
   dat_12 <- dat[, keep_cols_part12 ]
 
 
+  # Accounting method (Part XII, line 1) is a single choice: cash / accrual /
+  # other. The "other" case is signalled by a free-text description. That field
+  # is blank ("") when unused if the data were read with data.table::fread, but
+  # NA if read another way -- so detect "other" as a non-blank, non-NA value,
+  # NOT via is.na() (which treats "" as present and mislabels everyone "other").
+  # P12_LINE_1 = 1 when the method is accrual, 0 for cash/other, NA when none is
+  # reported.
   dat_12 <-
     dat_12 %>%
+    dplyr::mutate(.method_other =
+                    !is.na(F9_12_FINSTAT_METHOD_ACC_OTH) &
+                    F9_12_FINSTAT_METHOD_ACC_OTH != "") %>%
     dplyr::mutate(P12_LINE_1 = dplyr::case_when(
-      !is.na(F9_12_FINSTAT_METHOD_ACC_OTH) ~ "other",
-      F9_12_FINSTAT_METHOD_ACC_ACCRU_X == "X" ~ "accrual",
-      F9_12_FINSTAT_METHOD_ACC_CASH_X == "X" ~ "cash"
+      F9_12_FINSTAT_METHOD_ACC_ACCRU_X == "X" ~ 1,
+      F9_12_FINSTAT_METHOD_ACC_CASH_X  == "X" ~ 0,
+      .method_other                           ~ 0,
+      TRUE ~ NA_real_
     )) %>%
-    # P12_LINE_1
-    dplyr::mutate(P12_LINE_1 = ifelse(P12_LINE_1 == "accrual", 1, 0))  %>%
     dplyr::select(ORG_EIN, P12_LINE_1)
 
 
@@ -313,13 +349,17 @@ get_features <- function(dat){
   ### Final Formatting
   dat_append <-
     dat_append %>%
-    dplyr::mutate(ORG_EIN = sprintf("%0*d", 9, as.numeric(ORG_EIN))) %>%
     dplyr::mutate(dplyr::across(!ORG_EIN,
                                 as.numeric))
 
 
   dat_return <- dat_orig %>%
     cbind(dat_append[, -1])
+
+  # Normalize the identifier on the returned data so downstream joins get a
+  # consistent 9-digit EIN regardless of how it arrived (integer with dropped
+  # leading zeros, or a formatted "EIN-.." string).
+  dat_return$ORG_EIN <- .pad_ein(dat_return$ORG_EIN)
 
   ### Return  ---------------------------------------------
   return(dat_return)

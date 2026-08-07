@@ -1,10 +1,10 @@
 Package: governance
-Title: Goveranace Scores for Nonprofits
+Title: Governance Scores for Nonprofits
 Version: 0.0.0.9000
 Authors@R: c(
     person("Olivia", "Beck", , "obeck@urban.org", role = c("aut", "cre")),
     person("Jesse", "Lecy", , "jlecy@urban.org", role = c("aut")),
-    person("Urban Inistitue National Center for Charitable Statistics", role = c("fnd")))
+    person("Urban Institute National Center for Charitable Statistics", role = c("fnd")))
 Description: Calculates governance scores for nonprofits using factor analysis.
 License: GPL (>= 3)
 URL: https://github.com/Nonprofit-Open-Data-Collective/governance, https://nonprofit-open-data-collective.github.io/governance/
@@ -12,16 +12,18 @@ BugReports: https://nonprofit-open-data-collective.github.io/governance/issues
 DOI: https://doi.org/10.5281/zenodo.10781066
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
-Depends: 
-    R (>= 2.10)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 3.5)
 LazyData: true
-Imports: 
+Imports:
     dplyr,
-    magrittr
-Suggests: 
+    magrittr,
+    psych
+Suggests:
     knitr,
-    psych,
     Matrix,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 VignetteBuilder: knitr
