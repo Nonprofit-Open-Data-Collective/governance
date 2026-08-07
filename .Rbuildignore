@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 ^_pkgdown\.yml$
 ^docs$
-^PLAN\.md$
+^dev$
 ^data-raw$
 ^pkgdown$
 ^blog$
