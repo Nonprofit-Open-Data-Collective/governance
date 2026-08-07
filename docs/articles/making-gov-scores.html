@@ -5,61 +5,43 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="governance">
 <title>Making Governance Scores • governance</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Making Governance Scores">
-<meta property="og:description" content="governance">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Making Governance Scores">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../articles/governance.html">Get started</a>
-</li>
-<li class="active nav-item">
-  <a class="nav-link" href="../articles/index.html">Articles</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../articles/governance.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/Nonprofit-Open-Data-Collective/governance/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/Nonprofit-Open-Data-Collective/governance/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -68,11 +50,11 @@
 <script src="making-gov-scores_files/kePrint-0.0.1/kePrint.js"></script><link href="making-gov-scores_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Making Governance Scores</h1>
-                        <h4 data-toc-skip class="author">Olivia
-Beck</h4>
+
+      <h1>Making Governance Scores</h1>
+                        <h4 data-toc-skip class="author">Olivia Beck</h4>
             
-            <h4 data-toc-skip class="date">2024-03-14</h4>
+            <h4 data-toc-skip class="date">2026-08-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/HEAD/vignettes/making-gov-scores.Rmd" class="external-link"><code>vignettes/making-gov-scores.Rmd</code></a></small>
       <div class="d-none name"><code>making-gov-scores.Rmd</code></div>
@@ -84,158 +66,102 @@ Beck</h4>
 <code class="sourceCode R"><span><span class="co">#Needed libraries for functionality </span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/polycor/" class="external-link">polycor</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dmurdoch/polycor" class="external-link">polycor</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/" class="external-link">psych</a></span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="co">## Libraries for Presentation</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://Matrix.R-forge.R-project.org" class="external-link">Matrix</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.sthda.com/english/wiki/ggcorrplot-visualization-of-a-correlation-matrix-using-ggplot2" class="external-link">ggcorrplot</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/ggcorrplot/" class="external-link">ggcorrplot</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="how-to-make-a-governance-score">How to make a governance score<a class="anchor" aria-label="anchor" href="#how-to-make-a-governance-score"></a>
 </h2>
-<p>Here we outline the procedure employed to generate governance scores
-through factor analysis. Initially, we identify the relevant segments
-within the 990 efile data containing governance-related information. We
-then standardize the data into a set of binary variables and conduct a
-factor analysis. Finally, we calculate governance scores utilizing the
-loading and weights we derived from the factor model.</p>
-<p>We use the 2018 990 efile data as our training data for this
-model.</p>
+<p>Here we outline the procedure employed to generate governance scores through factor analysis. Initially, we identify the relevant segments within the 990 efile data containing governance-related information. We then standardize the data into a set of binary variables and conduct a factor analysis. Finally, we calculate governance scores utilizing the loading and weights we derived from the factor model.</p>
+<p>We use the 2018 990 efile data as our training data for this model.</p>
 </div>
 <div class="section level2">
 <h2 id="step-0-identify-relevant-990-questions">Step 0: Identify relevant 990 questions<a class="anchor" aria-label="anchor" href="#step-0-identify-relevant-990-questions"></a>
 </h2>
-<p>We first list all questions in the 990 series that we feel indicate
-governance practices. The questions here have been organized by
-Part/Schedule of the 990 they are found in.</p>
+<p>We first list all questions in the 990 series that we feel indicate governance practices. The questions here have been organized by Part/Schedule of the 990 they are found in.</p>
 <div class="section level3">
 <h3 id="part-iv">Part IV<a class="anchor" aria-label="anchor" href="#part-iv"></a>
 </h3>
-<p>12a. Whether obtained separate, independent audited financial
-statements (y/n)</p>
-<p>12b. Whether organization included in consolidated, independent
-audited financial statements (y/n)</p>
-<p>28a. Whether the organization a party to a business transaction with
-a current or former officer, director, trustee, or key employee
-(y/n)</p>
-<p>28b. Whether the organization a party to a business transaction to
-with a family member of a current or former officer, director, trustee,
-or key employee (y/n)</p>
-<p>28c. Whether the organization a party to a business transaction to
-with an entity of which a current or former officer, director, trustee,
-or key employee was an officer, director, trustee, or direct or indirect
-owner (y/n)</p>
+<p>12a. Whether obtained separate, independent audited financial statements (y/n)</p>
+<p>12b. Whether organization included in consolidated, independent audited financial statements (y/n)</p>
+<p>28a. Whether the organization a party to a business transaction with a current or former officer, director, trustee, or key employee (y/n)</p>
+<p>28b. Whether the organization a party to a business transaction to with a family member of a current or former officer, director, trustee, or key employee (y/n)</p>
+<p>28c. Whether the organization a party to a business transaction to with an entity of which a current or former officer, director, trustee, or key employee was an officer, director, trustee, or direct or indirect owner (y/n)</p>
 <ol start="29" style="list-style-type: decimal">
-<li><p>Did the organization receive more than 25,000 in non-cash
-contributions? If yes, complete schedule M. (y/n)</p></li>
-<li><p>Did the organization receive contributions of art, historical
-treasures, or other similar assets or qualified conservation
-contributions? If yes, complete schedule M. (y/n)</p></li>
+<li><p>Did the organization receive more than 25,000 in non-cash contributions? If yes, complete schedule M. (y/n)</p></li>
+<li><p>Did the organization receive contributions of art, historical treasures, or other similar assets or qualified conservation contributions? If yes, complete schedule M. (y/n)</p></li>
 </ol>
-<p>*Note that if any “yes” to 29 or 30, org is required to indicate
-whether it has a “gift acceptance policy” in Schedule M, item 31
-(y/n)</p>
+<p>*Note that if any “yes” to 29 or 30, org is required to indicate whether it has a “gift acceptance policy” in Schedule M, item 31 (y/n)</p>
 </div>
 <div class="section level3">
 <h3 id="part-vi">Part VI<a class="anchor" aria-label="anchor" href="#part-vi"></a>
 </h3>
 <p>1a. Number of Voting Members</p>
 <p>1b. Number of independent voting members</p>
-<p>1.schedule-O. If there are material differences in voting rights
-among members of the governing body, or if the governing body delegated
-broad authority to an executive committee or similar committee, explain
-on Schedule O.</p>
+<p>1.schedule-O. If there are material differences in voting rights among members of the governing body, or if the governing body delegated broad authority to an executive committee or similar committee, explain on Schedule O.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Family relationship or business relationship (y/n)</li>
-<li>Whether used a management company or other person to perform any
-management duties (y/n)</li>
-<li>Whether made any significant changes to governing documents (y/n)
-5.Whether any significant diversion of assets (y/n)</li>
+<li>Whether used a management company or other person to perform any management duties (y/n)</li>
+<li>Whether made any significant changes to governing documents (y/n) 5.Whether any significant diversion of assets (y/n)</li>
 <li>Whether have members or stockholders (y/n)</li>
 </ol>
-<p>7a. Whether have any persons who had power to elect or appoint
-members(y/n)</p>
-<p>7b. Whether decisions reserved to members other than governing body
-(y/n)</p>
+<p>7a. Whether have any persons who had power to elect or appoint members(y/n)</p>
+<p>7b. Whether decisions reserved to members other than governing body (y/n)</p>
 <p>8a. Whether documented the meetings by the governing body (y/n)</p>
 <p>8b.Whether documented the meetings by each committee (y/n)</p>
 <p>10a. Whether have local chapters, branches, or affiliates (y/n)</p>
-<p>10b. If yes to 10a, whether have a written policies governing the
-activities for local chapters, branches, or affiliates (y/n)</p>
-<p>11a. Whether provided a copy of Form 990 to all members before filing
-the form (y/n)</p>
+<p>10b. If yes to 10a, whether have a written policies governing the activities for local chapters, branches, or affiliates (y/n)</p>
+<p>11a. Whether provided a copy of Form 990 to all members before filing the form (y/n)</p>
 <p>12a. Whether have a written conflict of interest policy (y/n)</p>
-<p>12b. Whether officers, directors, key employees required to disclose
-annually interests that could give rise to conflicts? (y/n)</p>
-<p>12c. Whether regularly and consistently monitor and enforce
-compliance with the policy (y/n)</p>
+<p>12b. Whether officers, directors, key employees required to disclose annually interests that could give rise to conflicts? (y/n)</p>
+<p>12c. Whether regularly and consistently monitor and enforce compliance with the policy (y/n)</p>
 <ol start="13" style="list-style-type: decimal">
 <li>Whether have a written whistleblower policy (y/n)</li>
-<li>Whether have a written document retention and destruction policy
-(y/n)</li>
+<li>Whether have a written document retention and destruction policy (y/n)</li>
 </ol>
-<p>15a. Whether have a process for determining compensation of the CEO,
-executive director, or top management officials include a review and
-approval by independent persons, comparability data, and deliberation
-decision (y/n)</p>
-<p>15b. Whether have a process for determining compensation of other
-officers or key employees include a review and approval by independent
-persons, comparability data, and deliberation decision (y/n)</p>
-<p>16a. Whether invest in, contribute assets to, or participate in a
-joint venture or similar arrangement (y/n)</p>
-<p>16b. If yes 10 16a, whether have a written policy or procedure to
-evaluate its participation in joint venture or similar arrangements
-(y/n)</p>
+<p>15a. Whether have a process for determining compensation of the CEO, executive director, or top management officials include a review and approval by independent persons, comparability data, and deliberation decision (y/n)</p>
+<p>15b. Whether have a process for determining compensation of other officers or key employees include a review and approval by independent persons, comparability data, and deliberation decision (y/n)</p>
+<p>16a. Whether invest in, contribute assets to, or participate in a joint venture or similar arrangement (y/n)</p>
+<p>16b. If yes 10 16a, whether have a written policy or procedure to evaluate its participation in joint venture or similar arrangements (y/n)</p>
 <ol start="18" style="list-style-type: decimal">
-<li>Whether make Forms 1023 (or 1024), 990, 990-T available for public
-inspection in any of the following forms: Own website, another’s
-website, upon request, other</li>
+<li>Whether make Forms 1023 (or 1024), 990, 990-T available for public inspection in any of the following forms: Own website, another’s website, upon request, other</li>
 </ol>
 </div>
 <div class="section level3">
 <h3 id="part-xii">Part XII<a class="anchor" aria-label="anchor" href="#part-xii"></a>
 </h3>
 <ol style="list-style-type: decimal">
-<li>Accounting method used to prepare the Form 990 in any of the
-following forms: cash, accrual, other</li>
+<li>Accounting method used to prepare the Form 990 in any of the following forms: cash, accrual, other</li>
 </ol>
-<p>2a. Were the financial statements compiled or reviewed by an
-independent accountant* (y/n)</p>
-<p>2b. Were the financial statements audited by an independent
-accountant* (y/n)</p>
-<p>2c. If yes to 2a or 2b, whether have a committee that assumes
-responsibility for oversight of the audit, review, or compilation of its
-financial statements and selection of an independent accountant?
-(y/n)</p>
+<p>2a. Were the financial statements compiled or reviewed by an independent accountant* (y/n)</p>
+<p>2b. Were the financial statements audited by an independent accountant* (y/n)</p>
+<p>2c. If yes to 2a or 2b, whether have a committee that assumes responsibility for oversight of the audit, review, or compilation of its financial statements and selection of an independent accountant? (y/n)</p>
 <p>3a. Was required to undergo an audit or audits (y/n)</p>
 <p>3b. If yes, did undergo the required audit or audits (y/n)</p>
 </div>
 <div class="section level3">
 <h3 id="schedule-m">Schedule M<a class="anchor" aria-label="anchor" href="#schedule-m"></a>
 </h3>
-<p>31 - “Does the organization have a gift acceptance policy that
-requires the review of any nonstandard contributions?” - only used if
-Part IV Line 29 or 30 are checked (y/n)</p>
+<p>31 - “Does the organization have a gift acceptance policy that requires the review of any nonstandard contributions?” - only used if Part IV Line 29 or 30 are checked (y/n)</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="step-1-download-the-990-data">Step 1: Download the 990 Data<a class="anchor" aria-label="anchor" href="#step-1-download-the-990-data"></a>
 </h2>
-<p>We read in the raw 990 efile data from each Part/Schedule for the
-years we are interested in using as the “base-line” for a governance
-index. In our case, we use the 2018 data.</p>
+<p>We read in the raw 990 efile data from each Part/Schedule for the years we are interested in using as the “base-line” for a governance index. In our case, we use the 2018 data.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">years</span> <span class="op">=</span> <span class="fl">2018</span></span></code></pre></div>
-<p>We only pull in the columns pertaining to the questions listed in the
-previous step. See the <a href="https://nonprofit-open-data-collective.github.io/irs990efile/data-dictionary/data-dictionary.html" class="external-link">NCCS
-Website</a> for a comprehensive data dictionary.</p>
+<p>We only pull in the columns pertaining to the questions listed in the previous step. See the <a href="https://nonprofit-open-data-collective.github.io/irs990efile/data-dictionary/data-dictionary.html" class="external-link">NCCS Website</a> for a comprehensive data dictionary.</p>
 <div class="section level3">
 <h3 id="part-iv-1">Part IV<a class="anchor" aria-label="anchor" href="#part-iv-1"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">### Part IV </span></span>
+<code class="sourceCode R"><span><span class="co">### Part IV</span></span>
 <span></span>
 <span><span class="co">#initialize data</span></span>
 <span><span class="va">dat_4</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"list"</span>, length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">years</span><span class="op">)</span><span class="op">)</span></span>
@@ -248,7 +174,7 @@ Website</a> for a comprehensive data dictionary.</p>
 <span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">years</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">link</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://nccs-efile.s3.us-east-1.amazonaws.com/parsed/F9-P04-T00-REQUIRED-SCHEDULES-"</span>, <span class="va">years</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">".csv"</span><span class="op">)</span></span>
-<span>  <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="va">link</span>, select <span class="op">=</span> <span class="va">keep_cols_part4</span><span class="op">)</span> </span>
+<span>  <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="va">link</span>, select <span class="op">=</span> <span class="va">keep_cols_part4</span><span class="op">)</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OBJECTID"</span>, <span class="st">"URL"</span>, <span class="st">"RETURN_VERSION"</span>, <span class="st">"ORG_EIN"</span>,</span>
 <span>                     <span class="st">"P4_LINE_12A"</span>, <span class="st">"P4_LINE_12B"</span>,</span>
 <span>                     <span class="st">"P4_LINE_28A"</span>, <span class="st">"P4_LINE_28B"</span>, <span class="st">"P4_LINE_28C"</span>,</span>
@@ -259,7 +185,7 @@ Website</a> for a comprehensive data dictionary.</p>
 <span></span>
 <span><span class="co">#clean up data</span></span>
 <span><span class="va">dat_all_4</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">dat_4</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">dat_4</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span> year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">RETURN_VERSION</span>, <span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -304,7 +230,7 @@ Website</a> for a comprehensive data dictionary.</p>
 <span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">years</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">link</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://nccs-efile.s3.us-east-1.amazonaws.com/parsed/F9-P06-T00-GOVERNANCE-"</span>, <span class="va">years</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">".csv"</span><span class="op">)</span></span>
-<span>  <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="va">link</span>, select <span class="op">=</span> <span class="va">keep_cols_part6</span><span class="op">)</span> </span>
+<span>  <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="va">link</span>, select <span class="op">=</span> <span class="va">keep_cols_part6</span><span class="op">)</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OBJECTID"</span>, <span class="st">"URL"</span>, <span class="st">"RETURN_VERSION"</span>, <span class="st">"ORG_EIN"</span>,</span>
 <span>                     <span class="st">"P6_SCHEDULE_O"</span>, </span>
 <span>                     <span class="st">"P6_LINE_1A"</span>,</span>
@@ -336,7 +262,7 @@ Website</a> for a comprehensive data dictionary.</p>
 <span></span>
 <span><span class="co">#clean up data</span></span>
 <span><span class="va">dat_all_6</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">dat_6</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">dat_6</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span> year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">RETURN_VERSION</span>, <span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -352,13 +278,13 @@ Website</a> for a comprehensive data dictionary.</p>
 <span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">years</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">link</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://nccs-efile.s3.us-east-1.amazonaws.com/parsed/F9-P12-T00-FINANCIAL-REPORTING-"</span>, <span class="va">years</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">".csv"</span><span class="op">)</span></span>
-<span>  <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="va">link</span><span class="op">)</span> </span>
+<span>  <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="va">link</span><span class="op">)</span> </span>
 <span>  <span class="va">dat_12</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">temp</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co">#clean up data</span></span>
 <span><span class="va">dat_all_12</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">dat_12</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">dat_12</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span> year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">RETURN_VERSION</span>, <span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -373,7 +299,7 @@ Website</a> for a comprehensive data dictionary.</p>
 <span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">years</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">link</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://nccs-efile.s3.us-east-1.amazonaws.com/parsed/SM-P01-T00-NONCASH-CONTRIBUTIONS-"</span>, <span class="va">years</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">".csv"</span><span class="op">)</span></span>
-<span>  <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="va">link</span>, select <span class="op">=</span> <span class="va">keep_cols_partM</span><span class="op">)</span> </span>
+<span>  <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="va">link</span>, select <span class="op">=</span> <span class="va">keep_cols_partM</span><span class="op">)</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OBJECTID"</span>, <span class="st">"URL"</span>, <span class="st">"RETURN_VERSION"</span>, <span class="st">"ORG_EIN"</span>,</span>
 <span>                     <span class="st">"PM_LINE_31"</span><span class="op">)</span></span>
 <span>  <span class="va">dat_M</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">temp</span></span>
@@ -383,20 +309,23 @@ Website</a> for a comprehensive data dictionary.</p>
 <span></span>
 <span><span class="co">#clean up data</span></span>
 <span><span class="va">dat_all_M</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">dat_M</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">dat_M</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span> year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">RETURN_VERSION</span>, <span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><strong>DEVELOPER NOTE</strong> We save this version of data in <a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-raw.rda" class="external-link"><code>data-raw/data-train-raw.rda</code></a>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">dat_all_4</span>, <span class="va">dat_all_6</span>, <span class="va">dat_all_12</span>, <span class="va">dat_all_M</span>,</span>
 <span>     file <span class="op">=</span> <span class="st">"data-raw/dat-train-raw.rda"</span><span class="op">)</span></span></code></pre></div>
+<p>The four download chunks above are shown for provenance and are <strong>not run</strong> when this article is built — they pulled the 2018 training tables from a legacy NCCS endpoint. For current retrieval (the efile v2.1 archive and the forthcoming <code>panel990</code> package) see <code><a href="../articles/download-data.html">vignette("download-data")</a></code>. To keep this article reproducible offline, we load that saved copy of the raw 2018 data:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">train_file</span> <span class="op">&lt;-</span> <span class="st">"../data-raw/dat-train-raw.rda"</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">train_file</span><span class="op">)</span><span class="op">)</span> <span class="va">train_file</span> <span class="op">&lt;-</span> <span class="st">"data-raw/dat-train-raw.rda"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">train_file</span><span class="op">)</span>   <span class="co"># dat_all_4, dat_all_6, dat_all_12, dat_all_M</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="step-2-wrangle-the-990-data">Step 2: Wrangle the 990 Data<a class="anchor" aria-label="anchor" href="#step-2-wrangle-the-990-data"></a>
 </h2>
-<p>We wrangle the 990 data from 0/1, X, t/f, or any other raw coding to
-a communal “yes/no” response (or other if appropriate) according to the
-“code book” table the respective subsections presented below.</p>
+<p>We wrangle the 990 data from 0/1, X, t/f, or any other raw coding to a communal “yes/no” response (or other if appropriate) according to the “code book” table the respective subsections presented below.</p>
 <div class="section level4">
 <h4 id="part-iv-2">Part IV<a class="anchor" aria-label="anchor" href="#part-iv-2"></a>
 </h4>
@@ -420,7 +349,7 @@ a communal “yes/no” response (or other if appropriate) according to the
 </ul></td>
 </tr></tbody>
 </table>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#remove any unwanted years that may have accidentally appeared</span></span>
 <span><span class="va">dat_all_4</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">dat_all_4</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -430,7 +359,7 @@ a communal “yes/no” response (or other if appropriate) according to the
 <span><span class="va">dat_all_4</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">dat_all_4</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"P4"</span><span class="op">)</span>, </span>
-<span>                <span class="op">~</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>                <span class="op">~</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>                  <span class="va">.</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"true"</span>, <span class="st">"1"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"yes"</span>,</span>
 <span>                  <span class="va">.</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"false"</span>, <span class="st">"0"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"no"</span>, </span>
 <span>                  <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">.</span></span>
@@ -457,8 +386,7 @@ a communal “yes/no” response (or other if appropriate) according to the
 <td>integer value</td>
 </tr>
 <tr class="even">
-<td>Line 2, 3, 4, 5, 6, 7A, 7B, 8A, 8B, 10A, 10B, 11A, 12A, 12B, 12C,
-13, 14, 15A, 15B, 16A, 16B</td>
+<td>Line 2, 3, 4, 5, 6, 7A, 7B, 8A, 8B, 10A, 10B, 11A, 12A, 12B, 12C, 13, 14, 15A, 15B, 16A, 16B</td>
 <td>P6_LINE_2, …. , P6_LINE_16B</td>
 <td><ul>
 <li><p>“yes” - the answer to this line is yes</p></li>
@@ -469,12 +397,9 @@ a communal “yes/no” response (or other if appropriate) according to the
 <td>Line 18</td>
 <td>P6_LINE_18</td>
 <td><ul>
-<li><p>“own_website” - the own website box on line 18 is
-checked</p></li>
-<li><p>” others_website” - the another’s website box on line 18 is
-checked</p></li>
-<li><p>“request” - the upon request website box on line 18 is
-checked</p></li>
+<li><p>“own_website” - the own website box on line 18 is checked</p></li>
+<li><p>” others_website” - the another’s website box on line 18 is checked</p></li>
+<li><p>“request” - the upon request website box on line 18 is checked</p></li>
 <li><p>“other” - the other box on line 18 is checked</p></li>
 </ul></td>
 </tr>
@@ -482,15 +407,13 @@ checked</p></li>
 <td>Line 1 Schedule O</td>
 <td>P6_SCHEDULE_O</td>
 <td><ul>
-<li><p>“X” - there is a Schedule O attached to this return with notes
-from Part VI Line 1</p></li>
-<li><p>NA - there is no Schedule O attached to this return with notes
-from Part VI Line 1</p></li>
+<li><p>“X” - there is a Schedule O attached to this return with notes from Part VI Line 1</p></li>
+<li><p>NA - there is no Schedule O attached to this return with notes from Part VI Line 1</p></li>
 </ul></td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#remove any unwanted years that may have accidentally appeared</span></span>
 <span><span class="va">dat_all_6</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">dat_all_6</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -501,13 +424,13 @@ from Part VI Line 1</p></li>
 <span>  <span class="va">dat_all_6</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co">#standardize yes/no answers</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"P6_LINE_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, <span class="st">"7A"</span>, <span class="st">"7B"</span>, <span class="st">"8A"</span>, <span class="st">"8B"</span>, <span class="st">"10A"</span>, <span class="st">"10B"</span>, <span class="st">"11A"</span>, <span class="st">"12A"</span>, <span class="st">"12B"</span>, <span class="st">"12C"</span>, <span class="fl">13</span>, <span class="fl">14</span>, <span class="st">"15A"</span>, <span class="st">"15B"</span>, <span class="st">"16A"</span>, <span class="st">"16B"</span><span class="op">)</span><span class="op">)</span> , </span>
-<span>                <span class="op">~</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>                <span class="op">~</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>                  <span class="va">.</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"true"</span>, <span class="st">"1"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"yes"</span>,</span>
 <span>                  <span class="va">.</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"false"</span>, <span class="st">"0"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"no"</span>, </span>
 <span>                  <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">.</span></span>
 <span>                <span class="op">)</span><span class="op">)</span> <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span> <span class="co"># Line 18</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_18 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_18 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">P6_LINE_18_own_web</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"own_website"</span>, </span>
 <span>    <span class="va">P6_LINE_18_other_web</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"others_website"</span>,</span>
 <span>    <span class="va">P6_LINE_18_req</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"request"</span>,</span>
@@ -542,8 +465,7 @@ from Part VI Line 1</p></li>
 <tr class="even">
 <td>Line 1</td>
 <td>P12_L I N E _1_OTHER_EXPLAIN</td>
-<td>If P12_LINE_1 is “other”, then this is what is written for
-other</td>
+<td>If P12_LINE_1 is “other”, then this is what is written for other</td>
 </tr>
 <tr class="odd">
 <td>Line 2a</td>
@@ -551,37 +473,30 @@ other</td>
 <td>
 <ul>
 <li><p>“no” - answer to question 2a is no</p></li>
-<li><p>“separate” - answer to question 2a is yes and the box for
-“separate basis” is checked</p></li>
+<li><p>“separate” - answer to question 2a is yes and the box for “separate basis” is checked</p></li>
 <li><p>“colsol” - answer to question 2a is yes and the box for</p></li>
 </ul>
 <p>“consolidated basis” is checked</p>
 <ul>
-<li>“both” - answer to question 2a is yes and the box for “both
-consolidated and separate basis” is checked</li>
+<li>“both” - answer to question 2a is yes and the box for “both consolidated and separate basis” is checked</li>
 </ul>
 </td>
 </tr>
 <tr class="even">
 <td>
 <p>Line 2b</p>
-<p>Notes: Something is wrong about this coding. There are many F 9 _ 1 2
-_FINSTAT_AUDIT_X == FALSE, But F9_12_FIN S T A T _AUDIT_CONSOL_X, F9_12_
-F I N S TAT_AUDIT_SEP_X, or F9_12_ F I N S TAT_AUDIT_BOTH_X is
-checked</p>
+<p>Notes: Something is wrong about this coding. There are many F 9 _ 1 2 _FINSTAT_AUDIT_X == FALSE, But F9_12_FIN S T A T _AUDIT_CONSOL_X, F9_12_ F I N S TAT_AUDIT_SEP_X, or F9_12_ F I N S TAT_AUDIT_BOTH_X is checked</p>
 </td>
 <td>P12_LINE_2B</td>
 <td>
 <ul>
 <li><p>“no” - answer to question 2a is no</p></li>
-<li><p>“separate” - answer to question 2b is yes and the box for
-“separate basis” is checked</p></li>
+<li><p>“separate” - answer to question 2b is yes and the box for “separate basis” is checked</p></li>
 <li><p>“colsol” - answer to question 2b is yes and the box for</p></li>
 </ul>
 <p>“consolidated basis” is checked</p>
 <ul>
-<li>“both” - answer to question 2b is yes and the box for “both
-consolidated and separate basis” is checked</li>
+<li>“both” - answer to question 2b is yes and the box for “both consolidated and separate basis” is checked</li>
 </ul>
 </td>
 </tr>
@@ -611,7 +526,7 @@ consolidated and separate basis” is checked</li>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#remove any unwanted years that may have accidentally appeared</span></span>
 <span><span class="va">dat_all_12</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">dat_all_12</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -621,7 +536,7 @@ consolidated and separate basis” is checked</li>
 <span><span class="va">dat_all_12</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">dat_all_12</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co">## Line 1</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">F9_12_FINSTAT_METHOD_ACC_OTH</span><span class="op">)</span> <span class="op">~</span> <span class="st">"other"</span>,</span>
 <span>    <span class="va">F9_12_FINSTAT_METHOD_ACC_ACCRU_X</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"accrual"</span>,</span>
 <span>    <span class="va">F9_12_FINSTAT_METHOD_ACC_CASH_X</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"cash"</span></span>
@@ -631,39 +546,39 @@ consolidated and separate basis” is checked</li>
 <span>                  <span class="va">F9_12_FINSTAT_METHOD_ACC_OTH</span>,</span>
 <span>                  <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co">### Line 2a</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>temp_2a <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>temp_2a <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">F9_12_FINSTAT_COMPILE_X</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"true"</span>, <span class="st">"1"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"1"</span>,</span>
 <span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"0"</span>,</span>
 <span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_2A <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_2A <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">temp_2a</span> <span class="op">==</span> <span class="st">"0"</span> <span class="op">~</span> <span class="st">"no"</span>,</span>
 <span>    <span class="va">F9_12_FINSTAT_COMPILE_SEP_X</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"separate"</span>,</span>
 <span>    <span class="va">F9_12_FINSTAT_COMPILE_CONSOL_X</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"consol"</span>,</span>
 <span>    <span class="va">F9_12_FINSTAT_COMPILE_BOTH_X</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"both"</span></span>
 <span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co">### Line 2b</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>temp_2b <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>temp_2b <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">F9_12_FINSTAT_AUDIT_X</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"true"</span>, <span class="st">"1"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"1"</span>,</span>
 <span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"0"</span>,</span>
 <span>  <span class="op">)</span><span class="op">)</span>  <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_2B <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_2B <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">temp_2a</span> <span class="op">==</span> <span class="st">"0"</span> <span class="op">~</span> <span class="st">"no"</span>,</span>
 <span>    <span class="va">F9_12_FINSTAT_AUDIT_SEP_X</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"separate"</span>,</span>
 <span>    <span class="va">F9_12_FINSTAT_AUDIT_CONSOL_X</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"consol"</span>,</span>
 <span>    <span class="va">F9_12_FINSTAT_AUDIT_BOTH_X</span> <span class="op">==</span> <span class="st">"X"</span> <span class="op">~</span> <span class="st">"both"</span></span>
 <span>  <span class="op">)</span><span class="op">)</span><span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="co">### Line 2c</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_2C <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_2C <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">F9_12_FINSTAT_AUDIT_COMMITTEE_X</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"true"</span>, <span class="st">"1"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"yes"</span>,</span>
 <span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"no"</span>,</span>
 <span>  <span class="op">)</span><span class="op">)</span>  <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  </span>
 <span> <span class="co">### Line 3a</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_3A <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_3A <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">F9_12_FINSTAT_FED_AUDIT_REQ_X</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"true"</span>, <span class="st">"1"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"yes"</span>,</span>
 <span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"no"</span>,</span>
 <span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="co">### Line 3b</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_3B <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_3B <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">F9_12_FINSTAT_FED_AUDIT_PERF_X</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"true"</span>, <span class="st">"1"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"yes"</span>,</span>
 <span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"no"</span>,</span>
 <span>  <span class="op">)</span><span class="op">)</span>  <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -698,7 +613,7 @@ consolidated and separate basis” is checked</li>
 </ul></td>
 </tr></tbody>
 </table>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#remove any unwanted years that may have accidentally appeared</span></span>
 <span><span class="va">dat_all_M</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">dat_all_M</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -707,7 +622,7 @@ consolidated and separate basis” is checked</li>
 <span><span class="co">#standardize yes/no answers</span></span>
 <span><span class="va">dat_all_M</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">dat_all_M</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>PM_LINE_31 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>PM_LINE_31 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>                  <span class="va">PM_LINE_31</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"true"</span>, <span class="st">"1"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"yes"</span>,</span>
 <span>                  <span class="va">PM_LINE_31</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"false"</span>, <span class="st">"0"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"no"</span>, </span>
 <span>                  <span class="cn">TRUE</span> <span class="op">~</span> <span class="cn">NA</span></span>
@@ -716,11 +631,8 @@ consolidated and separate basis” is checked</li>
 <div class="section level3">
 <h3 id="merge-all-parts-into-one-data-set">Merge all parts into one data set<a class="anchor" aria-label="anchor" href="#merge-all-parts-into-one-data-set"></a>
 </h3>
-<p>We exclude all EZ filers from our analysis, as the majority of them
-typically lack the complete data required for the item responses under
-consideration. Complete responses are required for training our factor
-model.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p>We exclude all EZ filers from our analysis, as the majority of them typically lack the complete data required for the item responses under consideration. Complete responses are required for training our factor model.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">#merge </span></span>
 <span><span class="co">#filter out all EZ's</span></span>
@@ -736,10 +648,7 @@ model.</p>
 <div class="section level2">
 <h2 id="step-3-transform-990-data-into-features-matrix">Step 3: Transform 990 Data into features matrix<a class="anchor" aria-label="anchor" href="#step-3-transform-990-data-into-features-matrix"></a>
 </h2>
-<p>The first thing we have to do in order to make a features matrix is
-assign all of our yes/no values to 1 for what we believe are positive
-governance practices or 0 for what we believe are negative governance
-practices. i.e.</p>
+<p>The first thing we have to do in order to make a features matrix is assign all of our yes/no values to 1 for what we believe are positive governance practices or 0 for what we believe are negative governance practices. i.e.</p>
 <ul>
 <li><p>1 is positive direction (i.e. good governance practices)</p></li>
 <li><p>0 is negative direction (i.e. bad governance practices)</p></li>
@@ -794,8 +703,7 @@ practices. i.e.</p>
 <p>yes/no/na</p>
 </td>
 <td>
-<p>1 - (29 no) or (30 no) or (29 yes and PM 31 yes) or (30 yes and
-PM 31 yes)</p>
+<p>1 - (29 no) or (30 no) or (29 yes and PM 31 yes) or (30 yes and PM 31 yes)</p>
 <p>0 - (29 yes and PM 31 no) or (30 yes and PM 31 no)</p>
 </td>
 </tr>
@@ -804,8 +712,7 @@ PM 31 yes)</p>
 <td>numeric</td>
 <td>
 <p>is P6_LINE_1B / P6_LINE_1A &gt;= 0.5 |</p>
-<p>i.e. is the proportion of independent members at least 0.5?
-|</p>
+<p>i.e. is the proportion of independent members at least 0.5? |</p>
 </td>
 </tr>
 <tr class="odd">
@@ -831,8 +738,7 @@ PM 31 yes)</p>
 <tr class="odd">
 <td>P6_Line_6</td>
 <td>yes/no</td>
-<td>removed. neither is good or bad. only answers to P6_Line_7A/B
-matter</td>
+<td>removed. neither is good or bad. only answers to P6_Line_7A/B matter</td>
 </tr>
 <tr class="even">
 <td>P6_LINE_7A</td>
@@ -929,8 +835,7 @@ matter</td>
 <td>P12_LINE_2C</td>
 <td>yes/no/NA</td>
 <td>
-<p>1 -( 2B yes + 2C yes ) or (2A yes + 2C yes) or (2a no ) or (2b
-no)</p>
+<p>1 -( 2B yes + 2C yes ) or (2A yes + 2C yes) or (2a no ) or (2b no)</p>
 <p>0- (2a yes and 2c no) or (2b yes and 2c no)</p>
 </td>
 </tr>
@@ -950,7 +855,7 @@ no)</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#For P6_LINE_1B / P6_LINE_1A &gt;= 0.625</span></span>
 <span><span class="va">indep_members_threshold</span> <span class="op">&lt;-</span> <span class="fl">0.5</span> <span class="co">#this is ~ the median value for this data set</span></span>
 <span></span>
@@ -972,7 +877,7 @@ no)</p>
 <span>      <span class="va">P4_LINE_28C</span> <span class="op">==</span> <span class="st">"yes"</span> , <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">P4_LINE_28A</span>, <span class="va">P4_LINE_28B</span>, <span class="va">P4_LINE_28C</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co">#P4 line 29 and 30, Schedule M</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P4_LINE_29_30 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P4_LINE_29_30 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">P4_LINE_29</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">PM_LINE_31</span> <span class="op">==</span> <span class="st">"no"</span> <span class="op">~</span> <span class="fl">0</span>,</span>
 <span>    <span class="va">P4_LINE_30</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">PM_LINE_31</span> <span class="op">==</span> <span class="st">"no"</span> <span class="op">~</span> <span class="fl">0</span>,</span>
 <span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -986,33 +891,33 @@ no)</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_at</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="st">"P6_LINE_2"</span>, <span class="st">"P6_LINE_3"</span>, <span class="st">"P6_LINE_5"</span>, <span class="st">"P6_LINE_7A"</span>, <span class="st">"P6_LINE_7B"</span><span class="op">)</span> ,</span>
 <span>            <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">.</span> <span class="op">==</span> <span class="st">"no"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="co">#P6_Line_10</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_10 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_10 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">P6_LINE_10A</span> <span class="op">==</span> <span class="st">"no"</span>  <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P6_LINE_10A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P6_LINE_10B</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P6_LINE_10A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P6_LINE_10B</span> <span class="op">==</span> <span class="st">"no"</span>  <span class="op">~</span> <span class="fl">0</span></span>
 <span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">P6_LINE_10A</span>, <span class="va">P6_LINE_10B</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co">#P6_LINE_12B</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_12B <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_12B <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">P6_LINE_12A</span> <span class="op">==</span> <span class="st">"no"</span>  <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P6_LINE_12A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P6_LINE_12B</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P6_LINE_12A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P6_LINE_12B</span> <span class="op">==</span> <span class="st">"no"</span>  <span class="op">~</span> <span class="fl">0</span></span>
 <span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co">#P6_LINE_12C</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_12C <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_12C <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">P6_LINE_12A</span> <span class="op">==</span> <span class="st">"no"</span>  <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P6_LINE_12A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P6_LINE_12C</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P6_LINE_12A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P6_LINE_12C</span> <span class="op">==</span> <span class="st">"no"</span>  <span class="op">~</span> <span class="fl">0</span></span>
 <span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co">#P6_LINE_16</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_16 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_16 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">P6_LINE_16A</span> <span class="op">==</span> <span class="st">"no"</span>  <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P6_LINE_16A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P6_LINE_16B</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P6_LINE_16A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P6_LINE_16B</span> <span class="op">==</span> <span class="st">"no"</span>  <span class="op">~</span> <span class="fl">0</span></span>
 <span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">P6_LINE_16A</span>, <span class="va">P6_LINE_16B</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co"># P6_LINE_18 </span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_18 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_18 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">P6_LINE_18</span> <span class="op">==</span> <span class="st">"own_website"</span> <span class="op">~</span> <span class="fl">1</span> , </span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">P6_LINE_18</span><span class="op">)</span> <span class="op">~</span> <span class="fl">0</span>,</span>
 <span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="fl">0</span></span>
@@ -1027,7 +932,7 @@ no)</p>
 <span>  <span class="co"># P12_Line_2B</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_2B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">P12_LINE_2B</span> <span class="op">==</span> <span class="st">"no"</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="co">#P12_Line_2C</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_2C <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_2C <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">P12_LINE_2A</span> <span class="op">==</span> <span class="st">"no"</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P12_LINE_2B</span> <span class="op">==</span> <span class="st">"no"</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P12_LINE_2A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P12_LINE_2C</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">~</span> <span class="fl">1</span>,</span>
@@ -1037,7 +942,7 @@ no)</p>
 <span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="fl">0</span></span>
 <span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="co">#P12_Line_3</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_3 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P12_LINE_3 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">P12_LINE_3A</span> <span class="op">==</span> <span class="st">"no"</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P12_LINE_3A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P12_LINE_3B</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">P12_LINE_3A</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span> <span class="va">P12_LINE_3B</span> <span class="op">==</span> <span class="st">"no"</span> <span class="op">~</span> <span class="fl">0</span>,</span>
@@ -1060,9 +965,8 @@ no)</p>
 <span><span class="co">#store ID's to remove from data set for analysis</span></span>
 <span><span class="va">design_mat_ID</span> <span class="op">&lt;-</span> <span class="va">design_mat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
 <span><span class="va">design_mat</span> <span class="op">&lt;-</span> <span class="va">design_mat</span><span class="op">[</span>, <span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
-<p><strong>DEVELOPER NOTE</strong> We save this version of the data in
-<a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-wrangled.rda" class="external-link"><code>data-raw/dat-train-wrangled.rda</code></a>.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<p><strong>DEVELOPER NOTE</strong> We save this version of the data in <a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-wrangled.rda" class="external-link"><code>data-raw/dat-train-wrangled.rda</code></a>.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">design_mat</span>, </span>
 <span>     <span class="va">design_mat_ID</span>,</span>
 <span>     file <span class="op">=</span> <span class="st">"data-raw/dat-train-wrangled.rda"</span><span class="op">)</span></span></code></pre></div>
@@ -1070,23 +974,17 @@ no)</p>
 <div class="section level2">
 <h2 id="step-4-exploring-correlation-structures">Step 4: Exploring correlation structures<a class="anchor" aria-label="anchor" href="#step-4-exploring-correlation-structures"></a>
 </h2>
-<p>Throughout this section we use the polychoric correlations and not
-the Pearson correlations. This choice is made because all of our
-features are binary, and polychoric correlations are tailored for
-ordinal variables. See <a href="https://stats.oarc.ucla.edu/stata/faq/how-can-i-perform-a-factor-analysis-with-categorical-or-categorical-and-continuous-variables/" class="external-link">here</a>
-for more details on the use of polychoric correlations in factor
-analysis.</p>
+<p>Throughout this section we use the polychoric correlations and not the Pearson correlations. This choice is made because all of our features are binary, and polychoric correlations are tailored for ordinal variables. See <a href="https://stats.oarc.ucla.edu/stata/faq/how-can-i-perform-a-factor-analysis-with-categorical-or-categorical-and-continuous-variables/" class="external-link">here</a> for more details on the use of polychoric correlations in factor analysis.</p>
 <div class="section level3">
 <h3 id="basic-eda">Basic EDA<a class="anchor" aria-label="anchor" href="#basic-eda"></a>
 </h3>
-<p>We first start with some basic exploratory data analysis to see the
-general structure of our features.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<p>We first start with some basic exploratory data analysis to see the general structure of our features.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tab_list</span> <span class="op">&lt;-</span> <span class="va">design_mat</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tab_summary</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">tab_list</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">tab_list</span>,</span>
 <span>          idcol <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          fill <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -1579,15 +1477,8 @@ P6_LINE_8B
 </tr>
 </tbody>
 </table>
-<p>We can see from this table that there are quite a few features that
-have either all 0’s, all 1’s, or a very small percentage of 0’s and 1’s.
-Additionally, there are a few features that are perfectly correlated
-with other features (e.g. P12_LINE_2B and P12_LINE_2A are perfectly
-correlated) These features probably will not be helpful in our analysis
-since they do not contain enough variation to tell us anything useful.
-Let’s remove the features from our analysis that contain less that 2% in
-either the 0 or 1 class.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p>We can see from this table that there are quite a few features that have either all 0’s, all 1’s, or a very small percentage of 0’s and 1’s. Additionally, there are a few features that are perfectly correlated with other features (e.g. P12_LINE_2B and P12_LINE_2A are perfectly correlated) These features probably will not be helpful in our analysis since they do not contain enough variation to tell us anything useful. Let’s remove the features from our analysis that contain less that 2% in either the 0 or 1 class.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Remove factors where less than 2% in either class </span></span>
 <span><span class="co">### This was as small as we could make it in this data set without the correlation matrix being singular</span></span>
 <span><span class="co">### Remove P12_Line_2B because it is perfectly correlated with 2A</span></span>
@@ -1603,11 +1494,8 @@ either the 0 or 1 class.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.id</span> <span class="op">!=</span> <span class="st">"P6_LINE_12C"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">.id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Next we look at the general correlation structure. We can see from
-the plot below that we have extreme multicollinearity among some of our
-features. Let’s explore some of these more to decide which ones we want
-to keep in our analysis.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p>Next we look at the general correlation structure. We can see from the plot below that we have extreme multicollinearity among some of our features. Let’s explore some of these more to decide which ones we want to keep in our analysis.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># make as factor</span></span>
 <span><span class="va">design_mat_keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">design_mat</span><span class="op">[</span>, <span class="va">..vars_keep</span><span class="op">]</span>, <span class="va">as.factor</span><span class="op">)</span> <span class="co">#note the ..vars_keep. the ".." is deliberalty needed in datatable package updates </span></span>
 <span></span>
@@ -1618,17 +1506,17 @@ to keep in our analysis.</p>
 <span><span class="co">#&gt; Warning in hetcor.data.frame(dframe, ML = ML, std.err = std.err, use = use, :</span></span>
 <span><span class="co">#&gt; the correlation matrix has been adjusted to make it positive-definite</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/ggcorrplot/man/ggcorrplot.html" class="external-link">ggcorrplot</a></span><span class="op">(</span><span class="va">corr_mat</span><span class="op">$</span><span class="va">correlations</span>,</span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggcorrplot/reference/ggcorrplot.html" class="external-link">ggcorrplot</a></span><span class="op">(</span><span class="va">corr_mat</span><span class="op">$</span><span class="va">correlations</span>,</span>
 <span>           hc.order <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Correlation Matrix"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Variables with More than 2% is either class"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="making-gov-scores_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="making-gov-scores_files/figure-html/unnamed-chunk-12-1.png" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="exploring-highly-correlated-features">Exploring Highly Correlated Features<a class="anchor" aria-label="anchor" href="#exploring-highly-correlated-features"></a>
 </h3>
 <p>Let’s look at which features have a correlation of over 0.90.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_cor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">corr_mat</span><span class="op">$</span><span class="va">correlations</span><span class="op">)</span></span>
 <span><span class="va">dat_cor</span><span class="op">$</span><span class="va">var1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dat_cor</span><span class="op">)</span> </span>
 <span></span>
@@ -1651,19 +1539,13 @@ to keep in our analysis.</p>
 <div class="section level4">
 <h4 id="p6_line_12a-13-14">P6_LINE_12A, 13, 14<a class="anchor" aria-label="anchor" href="#p6_line_12a-13-14"></a>
 </h4>
-<p>First, look at correlations of P6_line 12A, 13, 14. They are quite
-strong so let’s make a new variable, P6_Line_12_13_14, where it is 1 if
-(P6_Line_13 ==a yes AND P6_Line_14 == yes AND P6_Line_12A == yes) and is
-0 otherwise. P6_line 12A, 13, 14 all describe a very similar idea: do
-you have documented policies?</p>
+<p>First, look at correlations of P6_line 12A, 13, 14. They are quite strong so let’s make a new variable, P6_Line_12_13_14, where it is 1 if (P6_Line_13 ==a yes AND P6_Line_14 == yes AND P6_Line_12A == yes) and is 0 otherwise. P6_line 12A, 13, 14 all describe a very similar idea: do you have documented policies?</p>
 <ul>
 <li><p>P6_Line_13 = have whistleblower policy?</p></li>
-<li><p>P6_Line_14 = have document retention and destruction
-policy?</p></li>
-<li><p>P6_Line_12A = Whether obtained separate, independent audited
-financial statements (y/n)</p></li>
+<li><p>P6_Line_14 = have document retention and destruction policy?</p></li>
+<li><p>P6_Line_12A = Whether obtained separate, independent audited financial statements (y/n)</p></li>
 </ul>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## All 3 are very correlated</span></span>
 <span><span class="va">design_mat</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">P6_LINE_13</span>, <span class="va">P6_LINE_14</span>, <span class="va">P6_LINE_12A</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -1711,30 +1593,18 @@ financial statements (y/n)</p></li>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_12_13_14 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span></span>
 <span>    <span class="va">P6_LINE_12A</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">P6_LINE_13</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">P6_LINE_14</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">P6_LINE_12A</span>, <span class="va">P6_LINE_13</span>, <span class="va">P6_LINE_14</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p>Even combining only 2 of the features still leads to high
-multicollinearity. With this, we conclude that P6_LINE_12A, 13, and 14
-should be combined into one feature called P6_Line_12_13_14.</p>
+<p>Even combining only 2 of the features still leads to high multicollinearity. With this, we conclude that P6_LINE_12A, 13, and 14 should be combined into one feature called P6_Line_12_13_14.</p>
 </div>
 <div class="section level4">
 <h4 id="p6_line_7a-7b">P6_LINE_7A, 7B<a class="anchor" aria-label="anchor" href="#p6_line_7a-7b"></a>
 </h4>
-<p>P6_7A, 7B are both about having members or stockholders. Let’s make a
-new variable called P6_Line_7 that is 1 if (P6_Line_7A == yes OR
-P6_Line_7B == no ) and 0 otherwise. We will also removed Line 6. We
-think this is reasonable as it may not matter IF you have stock holders,
-but rather if you do, can they make decisions on behalf of the
-organization.</p>
+<p>P6_7A, 7B are both about having members or stockholders. Let’s make a new variable called P6_Line_7 that is 1 if (P6_Line_7A == yes OR P6_Line_7B == no ) and 0 otherwise. We will also removed Line 6. We think this is reasonable as it may not matter IF you have stock holders, but rather if you do, can they make decisions on behalf of the organization.</p>
 <ul>
-<li><p>P6_LINE_6 = Did the organization have members or
-stockholders?</p></li>
-<li><p>P6_Line_7A = Did the organization have members, stockholders, or
-other persons who had the power to elect one or more members of the
-governing body?</p></li>
-<li><p>P6_Line_7B = Are any governance decisions of the organization
-reserved to (or subject to approval by) members, stockholders, or
-persons other than the governing body?</p></li>
+<li><p>P6_LINE_6 = Did the organization have members or stockholders?</p></li>
+<li><p>P6_Line_7A = Did the organization have members, stockholders, or other persons who had the power to elect one or more members of the governing body?</p></li>
+<li><p>P6_Line_7B = Are any governance decisions of the organization reserved to (or subject to approval by) members, stockholders, or persons other than the governing body?</p></li>
 </ul>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design_mat</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">P6_LINE_7A</span>, <span class="va">P6_LINE_7B</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_all</a></span><span class="op">(</span><span class="va">as.factor</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -1756,26 +1626,17 @@ persons other than the governing body?</p></li>
 <span>  <span class="va">design_mat</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_7 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">P6_LINE_7A</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">P6_LINE_7B</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">P6_LINE_7B</span>, <span class="va">P6_LINE_7A</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Ultimately, we choose to remove P6_Line_7 all together because we did
-not feel addressing questions regarding stakeholders was helpful in the
-type of governance we wanted to measure. Mathematically, P6_LINE_7 can
-be included in the factor analysis as it is not highly correlated with
-any of the other factors, but we excluded for reasons pertaining to
-interpretation.</p>
+<p>Ultimately, we choose to remove P6_Line_7 all together because we did not feel addressing questions regarding stakeholders was helpful in the type of governance we wanted to measure. Mathematically, P6_LINE_7 can be included in the factor analysis as it is not highly correlated with any of the other factors, but we excluded for reasons pertaining to interpretation.</p>
 </div>
 <div class="section level4">
 <h4 id="p6_line_15a-15b">P6_LINE_15A, 15B<a class="anchor" aria-label="anchor" href="#p6_line_15a-15b"></a>
 </h4>
-<p>We choose to keep P6_Line_15A as it describes the main idea that we
-care about in these line items. Additionally, through observation we
-know that most organizations are not doing one or the other; most do
-both or neither.</p>
+<p>We choose to keep P6_Line_15A as it describes the main idea that we care about in these line items. Additionally, through observation we know that most organizations are not doing one or the other; most do both or neither.</p>
 <ul>
 <li><p>P6_LINE_15A = compensation review and approval for CEO?</p></li>
-<li><p>P6_LINE_15B = compensation review and approval for other officers
-and key employees?</p></li>
+<li><p>P6_LINE_15B = compensation review and approval for other officers and key employees?</p></li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design_mat</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">P6_LINE_15A</span>, <span class="va">P6_LINE_15B</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_15A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">P6_LINE_15A</span><span class="op">)</span>,</span>
@@ -1801,16 +1662,12 @@ and key employees?</p></li>
 <div class="section level4">
 <h4 id="p6_line_8b">P6_LINE_8B<a class="anchor" aria-label="anchor" href="#p6_line_8b"></a>
 </h4>
-<p>We may also want to remove P6_Line_8B. It is causing
-non-positive-definite issues and is very highly correlated with 8A.
-Similar to above, both items tell a similar sentiment.</p>
+<p>We may also want to remove P6_Line_8B. It is causing non-positive-definite issues and is very highly correlated with 8A. Similar to above, both items tell a similar sentiment.</p>
 <ul>
-<li><p>8a.Whether documented the meetings by the governing body
-(y/n)</p></li>
-<li><p>8b.Whether documented the meetings by each committee
-(y/n)</p></li>
+<li><p>8a.Whether documented the meetings by the governing body (y/n)</p></li>
+<li><p>8b.Whether documented the meetings by each committee (y/n)</p></li>
 </ul>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design_mat</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">P6_LINE_8A</span>, <span class="va">P6_LINE_8B</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>P6_LINE_8A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">P6_LINE_8A</span><span class="op">)</span>,</span>
@@ -1838,7 +1695,7 @@ Similar to above, both items tell a similar sentiment.</p>
 <h3 id="looking-at-the-correlations-again">Looking at the correlations again<a class="anchor" aria-label="anchor" href="#looking-at-the-correlations-again"></a>
 </h3>
 <p>Let’s look at our new correlation structure.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#### Trying the Correlations Again without the problematic variables</span></span>
 <span></span>
 <span><span class="co">#updated the variables to keep</span></span>
@@ -1861,16 +1718,14 @@ Similar to above, both items tell a similar sentiment.</p>
 <span><span class="co">#&gt; data contain one or more character variables</span></span>
 <span><span class="co">#&gt; the values of which are ordered alphabetically</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/ggcorrplot/man/ggcorrplot.html" class="external-link">ggcorrplot</a></span><span class="op">(</span><span class="va">corr_mat2</span><span class="op">$</span><span class="va">correlations</span>,</span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggcorrplot/reference/ggcorrplot.html" class="external-link">ggcorrplot</a></span><span class="op">(</span><span class="va">corr_mat2</span><span class="op">$</span><span class="va">correlations</span>,</span>
 <span>           hc.order <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Correlation Matrix"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Variables with More than 3% is either class"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="making-gov-scores_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
-<p>This looks like a much more reasonable correlation structure to work
-with!</p>
-<p><strong>DEVELOPER NOTE</strong> We save this version of the data as
-(<code>data-raw/dat-train-final.rda</code>)[<a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-final.rda" class="external-link uri">https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-final.rda</a>].</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<p><img src="making-gov-scores_files/figure-html/unnamed-chunk-18-1.png" alt="" width="700"></p>
+<p>This looks like a much more reasonable correlation structure to work with!</p>
+<p><strong>DEVELOPER NOTE</strong> We save this version of the data as (<code>data-raw/dat-train-final.rda</code>)[<a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-final.rda" class="external-link uri">https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-final.rda</a>].</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">design_mat2</span>, </span>
 <span>     <span class="va">design_mat_ID</span>,</span>
 <span>     file <span class="op">=</span> <span class="st">"data-raw/dat-train-final.rda"</span><span class="op">)</span></span></code></pre></div>
@@ -1879,146 +1734,102 @@ with!</p>
 <div class="section level2">
 <h2 id="step-5-pick-final-fetures-to-go-into-factor-analysis">Step 5: Pick final fetures to go into factor analysis<a class="anchor" aria-label="anchor" href="#step-5-pick-final-fetures-to-go-into-factor-analysis"></a>
 </h2>
-<p>We choose to use P12_LINE_1, P4_LINE_12, P4_LINE_28, P4_Line_29_30,
-P6_Line_1, P6_Line_2, P6_Line_3, P6_Line_8A, P6_Line_11A,
-P6_Line_12_13_14, P6_Line_15A, and P6_Line_18 as our factors for the
-analysis.</p>
+<p>We choose to use P12_LINE_1, P4_LINE_12, P4_LINE_28, P4_Line_29_30, P6_Line_1, P6_Line_2, P6_Line_3, P6_Line_8A, P6_Line_11A, P6_Line_12_13_14, P6_Line_15A, and P6_Line_18 as our factors for the analysis.</p>
 <div class="section level3">
 <h3 id="summary-of-variables-used-in-index">Summary of Variables Used in Index<a class="anchor" aria-label="anchor" href="#summary-of-variables-used-in-index"></a>
 </h3>
-<p>All variables are coded as 1 (good governance practice) or 0 (bad
-governance practice)</p>
-<table style="width:82%;" class="table">
+<p>All variables are coded as 1 (good governance practice) or 0 (bad governance practice)</p>
+<table style="width:79%;" class="table">
 <colgroup>
 <col width="13%">
 <col width="65%">
-<col width="2%">
 </colgroup>
+<thead><tr class="header">
+<th>Feature Name</th>
+<th>Feature Meaning/Coding</th>
+</tr></thead>
 <tbody>
 <tr class="odd">
-<td rowspan="2">
-<p>Feature Name</p>
-<p>========= P4_ LINE _12A</p>
-</td>
-<td colspan="2" rowspan="2">Feature Meaning/Coding | | |
-==============================================+ Did the org obtain
-separate, independent | audited financial statements? 1 - yes, 0 - | no
-|</td>
+<td>P4_ LINE _12A</td>
+<td>Did the org obtain separate, independent audited financial statements? 1 - yes, 0 - no</td>
 </tr>
-<tr class="even"></tr>
-<tr class="odd">
+<tr class="even">
 <td>P4 _LIN E_28</td>
 <td>
-<p>1- Answered “no” to questions P4_LINE_28A, P4_LINE_28B,
-<strong>AND</strong> P4_LINE_28</p>
+<p>1- Answered “no” to questions P4_LINE_28A, P4_LINE_28B, <strong>AND</strong> P4_LINE_28</p>
 <p>0 - Answered yes to any of these questions</p>
-<p>Essentially 1 if no business was done with a family member and 0
-otherwise.</p>
+<p>Essentially 1 if no business was done with a family member and 0 otherwise.</p>
 </td>
-<td></td>
-</tr>
-<tr class="even">
-<td>P 4_LI NE_2 9_30</td>
-<td colspan="2">1- (Answered no to P4_LINE_29 ANDP4_Line_30) | or
-(Answered yes to (P4_LINE_29 | OR P4_Line_30) AND answered yes to
-Schedule | M question 31 ) | 0 - Answered yes to (P4_LINE_29 | OR
-P4_Line_30) AND answered no to Schedule | M Line 31 | | i.e. 1 if either
-(the org did not have more | than $25K in cash contribution AND did not
-| have receive any art/historical | treasures/etc.) OR (they do have
-those | things AND they do have a written policy | about how to handle
-them) |</td>
 </tr>
 <tr class="odd">
+<td>P 4_LI NE_2 9_30</td>
+<td>
+<p>1- (Answered no to P4_LINE_29 ANDP4_Line_30) or (Answered yes to (P4_LINE_29 OR P4_Line_30) AND answered yes to Schedule M question 31 )</p>
+<p>0 - Answered yes to (P4_LINE_29 OR P4_Line_30) AND answered no to Schedule M Line 31</p>
+<p>i.e. 1 if either (the org did not have more than $25K in cash contribution AND did not have receive any art/historical treasures/etc.) OR (they do have those things AND they do have a written policy about how to handle them)</p>
+</td>
+</tr>
+<tr class="even">
 <td>P 6_LI NE_1</td>
 <td>
-<p>1 - The proportion of independent members on the board is at
-least 50%</p>
-<p>0 - The proportion of independent members on the board is less than
-50%</p>
+<p>1 - The proportion of independent members on the board is at least 50%</p>
+<p>0 - The proportion of independent members on the board is less than 50%</p>
 </td>
-<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>P 6_LI NE_2</td>
 <td>
-<p>1- <strong>No</strong> officer, director, trustee, or key
-employee had a family relationship or a business relationship with any
-other officer, director, trustee, or key employee</p>
-<p>0- <strong>An</strong> officer, director, trustee, or key employee
-had a family relationship or a business relationship with any other
-officer, director, trustee, or key employee</p>
+<p>1- <strong>No</strong> officer, director, trustee, or key employee had a family relationship or a business relationship with any other officer, director, trustee, or key employee</p>
+<p>0- <strong>An</strong> officer, director, trustee, or key employee had a family relationship or a business relationship with any other officer, director, trustee, or key employee</p>
 </td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>P 6_LI NE_3</td>
-<td>
-<p>1- The org <strong>did not</strong> use a management company or
-other person to perform any management duties</p>
-<p>0 - The org <strong>did</strong> use a management company or other
-person to perform any management duties</p>
-</td>
-<td></td>
 </tr>
 <tr class="even">
-<td>P6 _LIN E_8A</td>
+<td>P 6_LI NE_3</td>
 <td>
-<p>1 - The meetings by the governing body <strong>are</strong>
-documented</p>
-<p>0 - The meetings by the governing body <strong>are</strong>
-<strong>not</strong> documented</p>
+<p>1- The org <strong>did not</strong> use a management company or other person to perform any management duties</p>
+<p>0 - The org <strong>did</strong> use a management company or other person to perform any management duties</p>
 </td>
-<td></td>
 </tr>
 <tr class="odd">
+<td>P6 _LIN E_8A</td>
+<td>
+<p>1 - The meetings by the governing body <strong>are</strong> documented</p>
+<p>0 - The meetings by the governing body <strong>are</strong> <strong>not</strong> documented</p>
+</td>
+</tr>
+<tr class="even">
 <td>P6_L INE_ 12_1 3_14</td>
 <td>
 <p>1- The answers to P6_Line_12, 13, and 14 are all yes</p>
 <p>0- otherwise</p>
-<p>i.e. 1 if the organization has a written conflict of interest policy,
-<strong>AND</strong> a written whistleblower policy,
-<strong>AND</strong> a written retention and destruction policy.</p>
-<p>These 3 are combined because seperated they have &gt;0.90
-correlation. And all of these questions get at the same type of
-governance - do you have written policies for when things go
-bad?</p>
+<p>i.e. 1 if the organization has a written conflict of interest policy, <strong>AND</strong> a written whistleblower policy, <strong>AND</strong> a written retention and destruction policy.</p>
+<p>These 3 are combined because seperated they have &gt;0.90 correlation. And all of these questions get at the same type of governance - do you have written policies for when things go bad?</p>
 </td>
-<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>P6_ LINE _11A</td>
 <td>
-<p>1- A copy of Form 990 is provided to all members before filing
-the form</p>
+<p>1- A copy of Form 990 is provided to all members before filing the form</p>
 <p>0 - otherwise</p>
 </td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>P6_ LINE _15A</td>
-<td>
-<p>1- The org has a process for determining compensation of the CEO,
-executive director, or top management officials including a review and
-approval by independent persons, comparability data, and deliberation
-decision</p>
-<p>0 - otherwise</p>
-</td>
-<td></td>
 </tr>
 <tr class="even">
-<td>P6 _LIN E_18</td>
+<td>P6_ LINE _15A</td>
 <td>
-<p>1 - Forms 1023 (or 1024), 990, 990-T available for public
-inspection on own website</p>
-<p>0 - These forms were listed on another’s website, available upon
-request, or “other”</p>
+<p>1- The org has a process for determining compensation of the CEO, executive director, or top management officials including a review and approval by independent persons, comparability data, and deliberation decision</p>
+<p>0 - otherwise</p>
 </td>
-<td></td>
 </tr>
 <tr class="odd">
+<td>P6 _LIN E_18</td>
+<td>
+<p>1 - Forms 1023 (or 1024), 990, 990-T available for public inspection on own website</p>
+<p>0 - These forms were listed on another’s website, available upon request, or “other”</p>
+</td>
+</tr>
+<tr class="even">
 <td>P1 2_LI NE_1</td>
 <td>Did the org use accrual method for accounting? 1 - yes, 0- no</td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -2082,7 +1893,7 @@ request, or “other”</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#make the features matrix</span></span>
 <span><span class="va">features2</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">design_mat2</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">design_mat2</span><span class="op">)</span><span class="op">)</span> </span>
@@ -2097,18 +1908,13 @@ request, or “other”</p>
 <div class="section level2">
 <h2 id="step-6-run-the-factor-analysis">Step 6: Run the Factor Analysis<a class="anchor" aria-label="anchor" href="#step-6-run-the-factor-analysis"></a>
 </h2>
-<p>We choose to use the “equamax” rotation in our factor analysis. We
-want independent factors, and equamax balances simplifying the factors
-(from varimax) and simplifying the variables (quartimax). See <a href="https://www.ibm.com/docs/en/spss-statistics/25.0.0?topic=analysis-factor-rotation" class="external-link">here</a>
-for details on rotation types.</p>
+<p>We choose to use the “equamax” rotation in our factor analysis. We want independent factors, and equamax balances simplifying the factors (from varimax) and simplifying the variables (quartimax). See <a href="https://www.ibm.com/docs/en/spss-statistics/25.0.0?topic=analysis-factor-rotation" class="external-link">here</a> for details on rotation types.</p>
 <div class="section level4">
 <h4 id="pick-the-number-of-factors">Pick the number of factors<a class="anchor" aria-label="anchor" href="#pick-the-number-of-factors"></a>
 </h4>
-<p>Before we can run a factor analysis, we use the scree plot to pick
-the number of factors we want to consider.</p>
-<p>We choose to use 6 factors based on the plot below and after testing
-the interpretability of our results.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<p>Before we can run a factor analysis, we use the scree plot to pick the number of factors we want to consider.</p>
+<p>We choose to use 6 factors based on the plot below and after testing the interpretability of our results.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.parallel.html" class="external-link">fa.parallel</a></span><span class="op">(</span><span class="va">rho2</span>, </span>
 <span>            fm<span class="op">=</span><span class="st">"mle"</span>, </span>
 <span>            fa<span class="op">=</span><span class="st">"fa"</span>, </span>
@@ -2116,15 +1922,14 @@ the interpretability of our results.</p>
 <span>            cor <span class="op">=</span> <span class="st">"poly"</span>,</span>
 <span>            nfactors <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>            n.obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">design_mat_keep</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="making-gov-scores_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p><img src="making-gov-scores_files/figure-html/unnamed-chunk-21-1.png" alt="" width="700"></p>
 <pre><code><span><span class="co">#&gt; Parallel analysis suggests that the number of factors =  5  and the number of components =  NA</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="run-the-factor-analysis">Run the factor analysis:<a class="anchor" aria-label="anchor" href="#run-the-factor-analysis"></a>
 </h3>
-<p>Once we have decided we will use 6 factors, we run the factor
-analysis model.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<p>Once we have decided we will use 6 factors, we run the factor analysis model.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">98435</span><span class="op">)</span></span>
 <span><span class="va">model6</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html" class="external-link">fa</a></span><span class="op">(</span><span class="va">features2</span>, nfactor<span class="op">=</span><span class="fl">6</span>, cor<span class="op">=</span><span class="st">"poly"</span>, fm<span class="op">=</span><span class="st">"mle"</span>, rotate <span class="op">=</span> <span class="st">"equamax"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required namespace: GPArotation</span></span>
@@ -2150,31 +1955,20 @@ analysis model.</p>
 <span><span class="co">#&gt; Proportion Var 0.143 0.121 0.115 0.102 0.087 0.083</span></span>
 <span><span class="co">#&gt; Cumulative Var 0.143 0.263 0.378 0.480 0.567 0.651</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.diagram.html" class="external-link">fa.diagram</a></span><span class="op">(</span><span class="va">model6</span><span class="op">)</span></span></code></pre></div>
-<p><img src="making-gov-scores_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
-<p>Cumulatively, we explain ~65% of the variance in our data set, which
-is a value we are comfortable with.</p>
+<p><img src="making-gov-scores_files/figure-html/unnamed-chunk-22-1.png" alt="" width="700"></p>
+<p>Cumulatively, we explain ~65% of the variance in our data set, which is a value we are comfortable with.</p>
 </div>
 <div class="section level3">
 <h3 id="adding-factor-scores">Adding Factor Scores<a class="anchor" aria-label="anchor" href="#adding-factor-scores"></a>
 </h3>
-<p>The original <code>fa</code> function from the <a href="https://cran.r-project.org/web/packages/psych/index.html" class="external-link">psych
-package</a> will calculate factor scores, but since our factors are
-binary, the <code>fa$scores</code> output are not the factor scores we
-are interested in. The <code>fa</code> function defaults to using
-Pearson correlations in the score calculation even if it uses polychoric
-correlations in the factor loadings calculation.</p>
-<p>Instead, we use the <code>factor.scores</code> function to specify
-the exact method we wish to use when calculating our factor scores.</p>
+<p>The original <code>fa</code> function from the <a href="https://cran.r-project.org/web/packages/psych/index.html" class="external-link">psych package</a> will calculate factor scores, but since our factors are binary, the <code>fa$scores</code> output are not the factor scores we are interested in. The <code>fa</code> function defaults to using Pearson correlations in the score calculation even if it uses polychoric correlations in the factor loadings calculation.</p>
+<p>Instead, we use the <code>factor.scores</code> function to specify the exact method we wish to use when calculating our factor scores.</p>
 <ul>
-<li><p>We need to specify the exact correlation (polychoric) structure
-we are using to calculate our factor scores.</p></li>
-<li><p>We need to specify “Thurstone” method to use the “regression
-based weights” when calculating the scores.</p></li>
-<li><p>For each organization, we first find the score loaded onto each
-factor, then use the sum of those 6 factor scores as the total
-score.</p></li>
+<li><p>We need to specify the exact correlation (polychoric) structure we are using to calculate our factor scores.</p></li>
+<li><p>We need to specify “Thurstone” method to use the “regression based weights” when calculating the scores.</p></li>
+<li><p>For each organization, we first find the score loaded onto each factor, then use the sum of those 6 factor scores as the total score.</p></li>
 </ul>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/factor.scores.html" class="external-link">factor.scores</a></span><span class="op">(</span><span class="va">features2</span>, <span class="co">#data to caluculate scores on </span></span>
 <span>                        <span class="va">model6</span>,  <span class="co">#model object </span></span>
 <span>                        rho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/tetrachor.html" class="external-link">polychoric</a></span><span class="op">(</span><span class="va">features2</span><span class="op">)</span><span class="op">$</span><span class="va">rho</span>, <span class="co">#polychoric correlation</span></span>
@@ -2184,14 +1978,13 @@ score.</p></li>
 <span><span class="va">all.dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">features2</span>, <span class="va">scores</span><span class="op">$</span><span class="va">scores</span><span class="op">)</span></span>
 <span><span class="va">all.dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">all.dat</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">all.dat</span><span class="op">$</span><span class="va">total.score</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">scores</span><span class="op">$</span><span class="va">scores</span><span class="op">)</span></span>
+<span><span class="va">all.dat</span><span class="op">$</span><span class="va">total.score</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums-methods.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">scores</span><span class="op">$</span><span class="va">scores</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">all.dat</span><span class="op">$</span><span class="va">total.score</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Histogram of Total Scores in Original Data"</span>,</span>
 <span>     xlab <span class="op">=</span> <span class="st">"total score"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="making-gov-scores_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
-<p><strong>DEVELOPER NOTE</strong> We save the features matrix and
-factor analysis object in <code>data/factor-objects.rda</code>.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<p><img src="making-gov-scores_files/figure-html/unnamed-chunk-23-1.png" alt="" width="700"></p>
+<p><strong>DEVELOPER NOTE</strong> We save the features matrix and factor analysis object in <code>data/factor-objects.rda</code>.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat.2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">design_mat_ID</span>, <span class="va">all.dat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">dat.2018</span>,</span>
 <span>     <span class="va">features2</span>,</span>
@@ -2216,13 +2009,9 @@ factor analysis object in <code>data/factor-objects.rda</code>.</p>
 </tr>
 <tr class="even">
 <td><ul>
-<li><p>P12_Line_1: Accounting method is accural (bad is anything
-else)</p></li>
-<li><p>P4_Line_12: The organization obtains separate, independent
-audited financial statements</p></li>
-<li><p>P6_Line_12_13_14: The organization has a written conflict of
-interest policy, a written whistleblower policy, and a written retention
-and destruction policy</p></li>
+<li><p>P12_Line_1: Accounting method is accural (bad is anything else)</p></li>
+<li><p>P4_Line_12: The organization obtains separate, independent audited financial statements</p></li>
+<li><p>P6_Line_12_13_14: The organization has a written conflict of interest policy, a written whistleblower policy, and a written retention and destruction policy</p></li>
 </ul></td>
 <td>
 <ul>
@@ -2257,31 +2046,22 @@ and destruction policy</p></li>
 <tr class="even">
 <td><ul>
 <li>
-<p>P6_LINE_15A: The org has a process for determining compensation
-of the CEO, executive director, or top management officials including a
-review and approval by independent persons, comparability data, and
-deliberation decision</p>
+<p>P6_LINE_15A: The org has a process for determining compensation of the CEO, executive director, or top management officials including a review and approval by independent persons, comparability data, and deliberation decision</p>
 <ul>
-<li>Correlated with Line 15b. The org has a process for determining
-compensation of other officers or key employees includin a review and
-approval by independent persons, comparability data, and deliberation
-decision</li>
+<li>Correlated with Line 15b. The org has a process for determining compensation of other officers or key employees includin a review and approval by independent persons, comparability data, and deliberation decision</li>
 </ul>
 </li>
-<li><p>P6_Line_1: The percent of independent members on the voting board
-is &gt;50%</p></li>
+<li><p>P6_Line_1: The percent of independent members on the voting board is &gt;50%</p></li>
 </ul></td>
 <td>
 <ul>
 <li>Good</li>
 </ul>
-<p>policies for making the board and for paying them</p>
-</td>
+policies for making the board and for paying them</td>
 </tr>
 <tr class="odd">
 <td><ul>
-<li>(Negative) P6_LINE_3: The org did not use a management company or
-other person to perform any management duties</li>
+<li>(Negative) P6_LINE_3: The org did not use a management company or other person to perform any management duties</li>
 </ul></td>
 <td>
 <ul>
@@ -2293,10 +2073,8 @@ other person to perform any management duties</li>
 </tr>
 <tr class="even">
 <td><ul>
-<li><p>P6_Line_11A: A copy of Form 990 is provided to all members before
-filing the form</p></li>
-<li><p>P6_Line_18: Forms 1023 (or 1024), 990, 990-T available for public
-inspection on own website</p></li>
+<li><p>P6_Line_11A: A copy of Form 990 is provided to all members before filing the form</p></li>
+<li><p>P6_Line_18: Forms 1023 (or 1024), 990, 990-T available for public inspection on own website</p></li>
 </ul></td>
 <td>
 <ul>
@@ -2308,18 +2086,9 @@ inspection on own website</p></li>
 </tr>
 <tr class="odd">
 <td><ul>
-<li><p>(Negative) P4_Line_28: The org was <strong>not</strong> a party
-to a business transaction to with an entity of which a current or former
-officer, director, trustee, or key employee was an officer, director,
-trustee, or direct or indirect owner</p></li>
-<li><p>(Negative) P6_Line_2: <strong>No</strong> officer, director,
-trustee, or key employee had a family relationship or a business
-relationship with any other officer, director, trustee, or key
-employee?</p></li>
-<li><p>(Negative) P4_Line_29: Either (the org did not have more than
-$25K in cash contribution AND did not have receive any art/historical
-treasures/etc.) OR (they do have those things AND they do have a written
-policy about how to handle them)</p></li>
+<li><p>(Negative) P4_Line_28: The org was <strong>not</strong> a party to a business transaction to with an entity of which a current or former officer, director, trustee, or key employee was an officer, director, trustee, or direct or indirect owner</p></li>
+<li><p>(Negative) P6_Line_2: <strong>No</strong> officer, director, trustee, or key employee had a family relationship or a business relationship with any other officer, director, trustee, or key employee?</p></li>
+<li><p>(Negative) P4_Line_29: Either (the org did not have more than $25K in cash contribution AND did not have receive any art/historical treasures/etc.) OR (they do have those things AND they do have a written policy about how to handle them)</p></li>
 </ul></td>
 <td>
 <ul>
@@ -2336,10 +2105,9 @@ policy about how to handle them)</p></li>
 <div class="section level2">
 <h2 id="step-8-calculate-scores-for-new-data">Step 8: Calculate scores for new data<a class="anchor" aria-label="anchor" href="#step-8-calculate-scores-for-new-data"></a>
 </h2>
-<p>We demonstrate how factor scores can be caluculated for a new data
-set.</p>
+<p>We demonstrate how factor scores can be caluculated for a new data set.</p>
 <p>First, we generate new data.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#make new data that "somewhat" resembles the original data</span></span>
 <span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
 <span><span class="va">new.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, ncol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">features2</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">N</span><span class="op">)</span></span>
@@ -2347,13 +2115,8 @@ set.</p>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">features2</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">new.data</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">features2</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>Then we calculate new scores using the <code>factor.scores</code>
-function from the <code>psych</code> package. Note the options we use
-are exactly the same as calculating scores for the original data, we
-just now use our new data. It is important to use the correlation
-structure of the original data, <code>rho2</code>, when doing this
-correlation, otherwise, the results will not be interpretable.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<p>Then we calculate new scores using the <code>factor.scores</code> function from the <code>psych</code> package. Note the options we use are exactly the same as calculating scores for the original data, we just now use our new data. It is important to use the correlation structure of the original data, <code>rho2</code>, when doing this correlation, otherwise, the results will not be interpretable.</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">new.scores</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/factor.scores.html" class="external-link">factor.scores</a></span><span class="op">(</span><span class="va">new.data</span>,  <span class="co">#new data </span></span>
 <span>                        <span class="va">model6</span>, <span class="co">#model object </span></span>
 <span>                        rho <span class="op">=</span> <span class="va">rho2</span>, <span class="co">#polychoric corrlations of original data</span></span>
@@ -2365,35 +2128,20 @@ correlation, otherwise, the results will not be interpretable.</p>
 <div class="section level3">
 <h3 id="a1-calculating-factor-scores">A1: Calculating Factor Scores<a class="anchor" aria-label="anchor" href="#a1-calculating-factor-scores"></a>
 </h3>
-<p>In this Appendix, we show the “by-hand” calculations for how we do
-the “Thurstone” method of calculating factor scores given the factor
-loadings.</p>
-<p>There are 12 features, 6 factors, and n <span class="math inline">\(\approx\)</span> 64k observations. Let,</p>
+<p>In this Appendix, we show the “by-hand” calculations for how we do the “Thurstone” method of calculating factor scores given the factor loadings.</p>
+<p>There are 12 features, 6 factors, and n <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≈</mo><annotation encoding="application/x-tex">\approx</annotation></semantics></math> 64k observations. Let,</p>
 <ul>
-<li><p><span class="math inline">\(D\)</span> = the Design matrix <span class="math inline">\(\in \mathbb{R}^{n x 12}\)</span></p></li>
-<li><p><span class="math inline">\(D_S\)</span> = Design matrix with
-columns centered at 0 and scaled to have 1 sd <span class="math inline">\(\in \mathbb{R}^{n x 12}\)</span></p></li>
-<li><p><span class="math inline">\(C\)</span> = observed correlation
-matrix <span class="math inline">\(\in \mathbb{R}^{12 x 12}\)</span> .
-In our example, this is the polychoric correlation.</p></li>
-<li><p><span class="math inline">\(L\)</span> = factor loading matrix
-<span class="math inline">\(\in \mathbb{R}^{12 x 6}\)</span> . This is
-calculated from the <code>fa</code> function.</p></li>
-<li><p><span class="math inline">\(W = C^{-1}L\)</span> = matrix of
-weights (<span class="math inline">\(\beta\)</span> ’s in the regression
-model) <span class="math inline">\(\in \mathbb{R}^{12 x
-6}\)</span></p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math> = the Design matrix <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mstyle mathvariant="double-struck"><mi>ℝ</mi></mstyle><mrow><mi>n</mi><mi>x</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{n x 12}</annotation></semantics></math></p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>D</mi><mi>S</mi></msub><annotation encoding="application/x-tex">D_S</annotation></semantics></math> = Design matrix with columns centered at 0 and scaled to have 1 sd <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mstyle mathvariant="double-struck"><mi>ℝ</mi></mstyle><mrow><mi>n</mi><mi>x</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{n x 12}</annotation></semantics></math></p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math> = observed correlation matrix <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mstyle mathvariant="double-struck"><mi>ℝ</mi></mstyle><mrow><mn>12</mn><mi>x</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{12 x 12}</annotation></semantics></math> . In our example, this is the polychoric correlation.</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> = factor loading matrix <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mstyle mathvariant="double-struck"><mi>ℝ</mi></mstyle><mrow><mn>12</mn><mi>x</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{12 x 6}</annotation></semantics></math> . This is calculated from the <code>fa</code> function.</p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>=</mo><msup><mi>C</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mi>L</mi></mrow><annotation encoding="application/x-tex">W = C^{-1}L</annotation></semantics></math> = matrix of weights (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math> ’s in the regression model) <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mstyle mathvariant="double-struck"><mi>ℝ</mi></mstyle><mrow><mn>12</mn><mi>x</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{12 x 6}</annotation></semantics></math></p></li>
 <li>
-<p><span class="math inline">\(S = D_s W\)</span> = matrix of scores
-<span class="math inline">\(\in \mathbb{R}^{n x 6}\)</span></p>
-<p>Thus if <span class="math inline">\(D_s^*\)</span> is a new (scaled)
-design matrix using the same scaling mean and sd as <span class="math inline">\(D_S\)</span> , then <span class="math inline">\(S^* = D_s^* W\)</span>$ is the matrix of new
-scores. (The <code>factor.scores</code> function automatically scales
-the <span class="math inline">\(D\)</span> matrix in its
-calculation).</p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><msub><mi>D</mi><mi>s</mi></msub><mi>W</mi></mrow><annotation encoding="application/x-tex">S = D_s W</annotation></semantics></math> = matrix of scores <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mstyle mathvariant="double-struck"><mi>ℝ</mi></mstyle><mrow><mi>n</mi><mi>x</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{n x 6}</annotation></semantics></math></p>
+<p>Thus if <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>D</mi><mi>s</mi><mo>*</mo></msubsup><annotation encoding="application/x-tex">D_s^*</annotation></semantics></math> is a new (scaled) design matrix using the same scaling mean and sd as <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>D</mi><mi>S</mi></msub><annotation encoding="application/x-tex">D_S</annotation></semantics></math> , then <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>S</mi><mo>*</mo></msup><mo>=</mo><msubsup><mi>D</mi><mi>s</mi><mo>*</mo></msubsup><mi>W</mi></mrow><annotation encoding="application/x-tex">S^* = D_s^* W</annotation></semantics></math>$ is the matrix of new scores. (The <code>factor.scores</code> function automatically scales the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math> matrix in its calculation).</p>
 </li>
 </ul>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># from above: </span></span>
 <span><span class="co"># scores &lt;- factor.scores(features2, </span></span>
 <span><span class="co">#                         model6, </span></span>
@@ -2414,11 +2162,9 @@ calculation).</p>
 <span></span>
 <span><span class="co">#W = C^(-1) L so lets check  ||C^(-1) L - W|| ~=0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/solve-methods.html" class="external-link">solve</a></span><span class="op">(</span><span class="va">C</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">L</span> <span class="op">-</span> <span class="va">W</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.552541e-14</span></span></code></pre></div>
-<p>If we were to get new data, this is how we would get the new scores.
-It is important to use the correlation matrix of the original data set
-so that the score results are interpretable.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; [1] 1.291725e-14</span></span></code></pre></div>
+<p>If we were to get new data, this is how we would get the new scores. It is important to use the correlation matrix of the original data set so that the score results are interpretable.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scaled.mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">data.scaled</span>, <span class="st">"scaled:center"</span><span class="op">)</span></span>
 <span><span class="va">scaled.sd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">data.scaled</span>, <span class="st">"scaled:scale"</span><span class="op">)</span></span>
 <span></span>
@@ -2437,17 +2183,8 @@ so that the score results are interpretable.</p>
 <div class="section level3">
 <h3 id="note-about-how-psych-package-calculates-scores">Note about how <code>psych</code> package calculates scores<a class="anchor" aria-label="anchor" href="#note-about-how-psych-package-calculates-scores"></a>
 </h3>
-<p>Scores should be calculated as <span class="math inline">\(DC^{-1}L\)</span>, where <span class="math inline">\(L\)</span> was calculated from the <code>fa</code>
-function using the polychoric correlations. Thus, we want the scores to
-be <span class="math inline">\(S = DC^{-1}_{polychoric}L\)</span>.
-However, even when you specify for the <code>fa</code> function to use
-polychoric correlations when calculating <span class="math inline">\(L\)</span>, they will always use Pearson
-correlations when calculating the scores. Thus the <code>scores</code>
-object in the <code>fa</code> output will always be <span class="math inline">\(S_{default} = DC^{-1}_{Pearson}L\)</span>. Since
-we are interested in the polychoric correlations, we need to calculate
-the scores using the <code>factor.scores</code> function to have more
-control over which correlation matrix is used.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<p>Scores should be calculated as <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><msup><mi>C</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mi>L</mi></mrow><annotation encoding="application/x-tex">DC^{-1}L</annotation></semantics></math>, where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> was calculated from the <code>fa</code> function using the polychoric correlations. Thus, we want the scores to be <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><mi>D</mi><msubsup><mi>C</mi><mrow><mi>p</mi><mi>o</mi><mi>l</mi><mi>y</mi><mi>c</mi><mi>h</mi><mi>o</mi><mi>r</mi><mi>i</mi><mi>c</mi></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msubsup><mi>L</mi></mrow><annotation encoding="application/x-tex">S = DC^{-1}_{polychoric}L</annotation></semantics></math>. However, even when you specify for the <code>fa</code> function to use polychoric correlations when calculating <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>, they will always use Pearson correlations when calculating the scores. Thus the <code>scores</code> object in the <code>fa</code> output will always be <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mrow><mi>d</mi><mi>e</mi><mi>f</mi><mi>a</mi><mi>u</mi><mi>l</mi><mi>t</mi></mrow></msub><mo>=</mo><mi>D</mi><msubsup><mi>C</mi><mrow><mi>P</mi><mi>e</mi><mi>a</mi><mi>r</mi><mi>s</mi><mi>o</mi><mi>n</mi></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msubsup><mi>L</mi></mrow><annotation encoding="application/x-tex">S_{default} = DC^{-1}_{Pearson}L</annotation></semantics></math>. Since we are interested in the polychoric correlations, we need to calculate the scores using the <code>factor.scores</code> function to have more control over which correlation matrix is used.</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Default scores </span></span>
 <span><span class="va">S.defult</span> <span class="op">&lt;-</span> <span class="va">model6</span><span class="op">$</span><span class="va">scores</span></span>
 <span></span>
@@ -2461,41 +2198,39 @@ control over which correlation matrix is used.</p>
 <span><span class="va">S.poly</span> <span class="op">&lt;-</span> <span class="va">D</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/solve-methods.html" class="external-link">solve</a></span><span class="op">(</span><span class="va">C.poly</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">L</span></span>
 <span><span class="co"># show that ||S.polychoric - factor.scores output|| ~= 0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">scores</span><span class="op">$</span><span class="va">scores</span> <span class="op">-</span> <span class="va">S.poly</span><span class="op">)</span><span class="op">)</span> <span class="co">#approx 0</span></span>
-<span><span class="co">#&gt; [1] 3.243303e-10</span></span>
+<span><span class="co">#&gt; [1] 2.529046e-10</span></span>
 <span></span>
 <span><span class="co">## What the `fa` funciton gives us</span></span>
 <span><span class="va">S.pearson</span> <span class="op">&lt;-</span> <span class="va">D</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/solve-methods.html" class="external-link">solve</a></span><span class="op">(</span><span class="va">C.pearson</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">L</span></span>
 <span><span class="co"># show that ||S.default - fa output|| ~=0 </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">S.defult</span> <span class="op">-</span> <span class="va">S.pearson</span><span class="op">)</span><span class="op">)</span> <span class="co">#approx 0</span></span>
-<span><span class="co">#&gt; [1] 5.567155e-08</span></span>
+<span><span class="co">#&gt; [1] 1.315959e-10</span></span>
 <span></span>
 <span><span class="co">#But S.poly =/= S.pearson</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">S.defult</span> <span class="op">-</span> <span class="va">S.poly</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 161480.4</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 161480.6</span></span></code></pre></div>
 </div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by Olivia Beck, Jesse Lecy, Urban Inistitue National Center for Charitable Statistics.</p>
+  <p>Developed by Olivia Beck, Jesse Lecy, Urban Institute National Center for Charitable Statistics.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

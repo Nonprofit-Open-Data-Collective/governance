@@ -150,14 +150,25 @@ model; the reproducibility test covers regressions there.
   `making-gov-scores` article is reused, not re-knit).
 - [x] `.Rbuildignore`: excluded `PLAN.md` and `data-raw/` from the package tarball.
 
-**Deliberately deferred (flagged, not done):**
-- `making-gov-scores.Rmd` still knits by downloading ~10 years × 4 tables from the
-  **legacy `/parsed/` endpoint**. Untouched so the lazy site build reuses its HTML.
-  Migrating it to the v2.1 endpoint (or loading committed training `.rda` so it
-  builds offline) is a separate task.
+### Methodology vignette migrated to offline build (Option 2) — **DONE**
+
+- [x] `making-gov-scores.Rmd`: the four table-download chunks are now
+  `eval=FALSE` (kept as provenance, with a pointer to `vignette("download-data")`
+  for current v2.1 retrieval). A new chunk loads the committed
+  `data-raw/dat-train-raw.rda`, so the whole article builds **offline** — the
+  wrangling, `polycor::hetcor`, and `psych::fa` steps run on the saved 2018
+  training data. Verified: renders in ~38s with no network; full `pkgdown`
+  site rebuilds clean.
+- Note: `polycor` and `ggcorrplot` were missing from the local library and were
+  installed; both are declared in `Suggests`.
+
+**Still deferred (flagged, not done):**
 - `inst/` is excluded by `.Rbuildignore` (`^inst$`), which drops `inst/CITATION`
   from the built package — pre-existing, worth revisiting.
 - Release version left at `0.0.0.9000` (a release bump is a maintainer decision).
+- `PLAN.md` (this file) renders to `PLAN.html` on a full `pkgdown` rebuild even
+  though it is in `.Rbuildignore`; drop `docs/PLAN.html` or relocate this file if
+  it should stay off the public site.
 
 ---
 
