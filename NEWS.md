@@ -1,4 +1,4 @@
-# governance (development version)
+# governance 0.0.0.9000
 
 * Fixed a Part XII normalization bug where the accounting-method "other" case was
   detected with `is.na()` on a free-text field that reads as `""` (not `NA`) from

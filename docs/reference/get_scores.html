@@ -72,6 +72,13 @@ scores are found based upon the mean of the available items for each subject.
 If missing is FALSE, input rows with NA values will not be included in the output.</p></dd>
 
 
+<dt id="arg-impute">impute<a class="anchor" aria-label="anchor" href="#arg-impute"></a></dt>
+<dd><p>From psych::factor.scores. If missing == TRUE, then missing data
+can be imputed using "median" or "mean". The number of missing by subject is
+reported. If impute = "none", missing data are not scored.
+Median is the default for our usage because all of our feature values are binary.</p></dd>
+
+
 <dt id="arg-scores-by-hand">scores.by.hand<a class="anchor" aria-label="anchor" href="#arg-scores-by-hand"></a></dt>
 <dd><p>If FALSE, psych::factor.scores is used to calculate features scores.
 If TRUE, manual calculations are used to calculate the factors scores. This option
@@ -79,13 +86,6 @@ should only be used if <code>features.matrix</code> has no missing values AND is
 (i.e. at least one column is all 0's or 1's).
 See Appendix of See <code><a href="../articles/making-gov-scores.html">vignette("making-gov-scores", package = "governance")</a></code> for
 details on this calculation.</p></dd>
-
-
-<dt id="arg-imput">imput<a class="anchor" aria-label="anchor" href="#arg-imput"></a></dt>
-<dd><p>From psych::factor.scores. If missing == TRUE, then missing data
-can be imputed using "median" or "mean". The number of missing by subject is
-reported. If impute = "none", missing data are not scored.
-Median is the default for our usage because all of our feature values are binary.</p></dd>
 
 </dl></div>
     <div class="section level2">

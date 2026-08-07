@@ -350,9 +350,21 @@ endpoint. For current retrieval (the efile v2.1 archive and the forthcoming
 reproducible offline, we load that saved copy of the raw 2018 data:
 
 ```{r load-train-raw}
-train_file <- "../data-raw/dat-train-raw.rda"
-if (!file.exists(train_file)) train_file <- "data-raw/dat-train-raw.rda"
-load(train_file)   # dat_all_4, dat_all_6, dat_all_12, dat_all_M
+# This article is built with the committed training data present (pkgdown, or a
+# source checkout). When it is unavailable -- e.g. R CMD check rebuilds vignettes
+# from the tarball, which excludes data-raw/ -- the remaining chunks are skipped
+# so the article still builds without error.
+candidates <- c("../data-raw/dat-train-raw.rda",
+                "../../data-raw/dat-train-raw.rda",
+                "data-raw/dat-train-raw.rda")
+train_file <- candidates[file.exists(candidates)][1]
+if (is.na(train_file)) {
+  knitr::opts_chunk$set(eval = FALSE)
+  message("Training data (data-raw/dat-train-raw.rda) not found; ",
+          "remaining chunks are not evaluated.")
+} else {
+  load(train_file)   # dat_all_4, dat_all_6, dat_all_12, dat_all_M
+}
 ```
 
 

@@ -6,4 +6,4 @@
 ^data-raw$
 ^pkgdown$
 ^blog$
-^inst$
+^CITATION\.cff$

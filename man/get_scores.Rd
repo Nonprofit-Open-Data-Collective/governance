@@ -25,17 +25,17 @@ are imputed using either the median or mean. If missing is FALSE, the default,
 scores are found based upon the mean of the available items for each subject.
 If missing is FALSE, input rows with NA values will not be included in the output.}
 
+\item{impute}{From psych::factor.scores. If missing == TRUE, then missing data
+can be imputed using "median" or "mean". The number of missing by subject is
+reported. If impute = "none", missing data are not scored.
+Median is the default for our usage because all of our feature values are binary.}
+
 \item{scores.by.hand}{If FALSE, psych::factor.scores is used to calculate features scores.
 If TRUE, manual calculations are used to calculate the factors scores. This option
 should only be used if \code{features.matrix} has no missing values AND is not of full rank
 (i.e. at least one column is all 0's or 1's).
 See Appendix of See \code{vignette("making-gov-scores", package = "governance")} for
 details on this calculation.}
-
-\item{imput}{From psych::factor.scores. If missing == TRUE, then missing data
-can be imputed using "median" or "mean". The number of missing by subject is
-reported. If impute = "none", missing data are not scored.
-Median is the default for our usage because all of our feature values are binary.}
 }
 \value{
 A data frame with the original \code{features.matrix} input data and
