@@ -17,6 +17,25 @@ articles:
       - governance-workflow
       - making-gov-scores
 
+reference:
+  - title: "Scoring functions"
+    desc: "Turn raw 990 governance fields into a governance index."
+    contents:
+      - get_features
+      - get_scores
+  - title: "Data"
+    desc: "Bundled example data and the fitted factor model."
+    contents:
+      - dat_example
+      - dat.2018
+      - features2
+      - model6
+      - rho2
+      - scores
+  - title: "Utilities"
+    contents:
+      - "%>%"
+
 home:
   links:
   - text: NCCS Homepage

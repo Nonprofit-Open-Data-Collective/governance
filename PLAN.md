@@ -133,18 +133,31 @@ Note: an expected-scores fixture (golden file) was left out deliberately — the
 scores depend on the stored `model6`, so a golden file would just restate the
 model; the reproducibility test covers regressions there.
 
-## Phase D — Docs / tutorials / website
+## Phase D — Docs / tutorials / website  (**DONE**)
 
-- [ ] `governance-workflow.Rmd` — reframe as **"given a retrieved sample →
-  `get_features()` → `get_scores()`"**; drop manual download steps (point to the
-  retrieval package instead).
-- [ ] `download-data.Rmd` — slim to "retrieval is handled by <retrieval pkg>;
-  here's the input contract"; link the v2.1 catalog
-  (<https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html>).
-- [ ] `making-gov-scores.Rmd` — light refresh (dates/calls); methodology intact.
-- [ ] `README.md`, `NEWS.md`, `_pkgdown.yml` (`reference:` grouping), rebuild site.
-- [ ] DESCRIPTION metadata: fix typos ("Goveranace", "Inistitue"), bump
-  `RoxygenNote` (7.2.3), set a release version.
+- [x] `governance.Rmd` (Getting Started) — reframed around the two-step workflow
+  and the panel990 retrieval package; self-contained, uses the bundled 2022
+  example. Knits network-free.
+- [x] `governance-workflow.Rmd` — reframed; added a feature-pass-rate chart and a
+  score histogram; the BMF join is now an illustrative (non-evaluated) snippet on
+  the unified BMF, so the build needs no network.
+- [x] `download-data.Rmd` — rewritten around the **input contract** + panel990;
+  clean field table; v2.1 endpoint/columns; download code shown but not run
+  (mirrors `make-dat-example.R`).
+- [x] `README.md`, `NEWS.md`, `_pkgdown.yml` (`reference:` grouping added),
+  DESCRIPTION Suggests for vignette deps.
+- [x] Rebuilt the pkgdown site (`lazy=TRUE` — the download-heavy
+  `making-gov-scores` article is reused, not re-knit).
+- [x] `.Rbuildignore`: excluded `PLAN.md` and `data-raw/` from the package tarball.
+
+**Deliberately deferred (flagged, not done):**
+- `making-gov-scores.Rmd` still knits by downloading ~10 years × 4 tables from the
+  **legacy `/parsed/` endpoint**. Untouched so the lazy site build reuses its HTML.
+  Migrating it to the v2.1 endpoint (or loading committed training `.rda` so it
+  builds offline) is a separate task.
+- `inst/` is excluded by `.Rbuildignore` (`^inst$`), which drops `inst/CITATION`
+  from the built package — pre-existing, worth revisiting.
+- Release version left at `0.0.0.9000` (a release bump is a maintainer decision).
 
 ---
 
