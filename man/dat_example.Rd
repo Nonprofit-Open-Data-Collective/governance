@@ -5,14 +5,21 @@
 \alias{dat_example}
 \title{Example Data}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 198729 rows and 33 columns.
+An object of class \code{data.frame} with 5000 rows and 31 columns.
 }
 \usage{
 dat_example
 }
 \description{
-Raw 990 data from 2013 to be used as an example for how to make features and run the factor model.
-See \code{data-raw/01-get-example-data.R} and \code{vignette("download-data", package = "governance")} for details on how this data was downloaded.
-Data is from NCCS 990 data download website \href{https://nccs.urban.org/nccs/catalogs/catalog-efile.html}{here}.
+A 5,000-organization sample of raw 990 efile fields (tax year 2022), used as a
+worked example for building features and running the factor model. Contains the
+Part IV, VI, and XII and Schedule M fields that \code{\link{get_features}}
+consumes, plus organization name / return type / tax year for illustration.
+Values are unmodified from the source (e.g. yes/no fields as
+\code{"true"}/\code{"false"}, flags as \code{"X"}, blanks as \code{""}).
+
+Pulled directly from the NCCS 990 efile v2.1 archive; see
+\code{data-raw/make-dat-example.R} for the exact provenance and the
+\href{https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html}{efile v2.1 catalog}.
 }
 \keyword{datasets}

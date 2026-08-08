@@ -28,7 +28,6 @@ Variables from Part IV:
 
 \itemize{
 \item{F9_04_AFS_IND_X}
-\item{F9_04_AFS_CONSOL_X}
 \item{F9_04_BIZ_TRANSAC_DTK_X}
 \item{F9_04_BIZ_TRANSAC_DTK_FAM_X}
 \item{F9_04_BIZ_TRANSAC_DTK_ENTITY_X}
@@ -70,6 +69,16 @@ Variables from Schedule M:
 \itemize{
 \item{SM_01_REVIEW_PROCESS_UNUSUAL_X}
 }
+
+Input values may be encoded as \code{"true"}/\code{"false"}, \code{"1"}/\code{"0"},
+\code{"X"} flags, or blanks; blanks may arrive as \code{NA} or \code{""}
+depending on how the tables were read. Blank or missing yes/no responses are
+treated as \code{0} (the governance property is absent), and the result does
+not depend on the blank encoding. Two derived features can still be \code{NA}
+when their inputs are genuinely unavailable: \code{P6_LINE_1} (share of
+independent voting members, undefined when the voting-member count is 0 or
+missing) and \code{P12_LINE_1} (accounting method, when none is reported);
+\code{\link{get_scores}} imputes these.
 }
 \examples{
 # get data

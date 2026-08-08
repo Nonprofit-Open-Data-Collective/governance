@@ -16,7 +16,7 @@
 #' scores are found based upon the mean of the available items for each subject.
 #' If missing is FALSE, input rows with NA values will not be included in the output.
 #'
-#' @param imput From psych::factor.scores. If missing == TRUE, then missing data
+#' @param impute From psych::factor.scores. If missing == TRUE, then missing data
 #' can be imputed using "median" or "mean". The number of missing by subject is
 #' reported. If impute = "none", missing data are not scored.
 #' Median is the default for our usage because all of our feature values are binary.
@@ -72,7 +72,7 @@ get_scores <- function(feature.matrix, missing = TRUE, impute = "median", scores
   # feature.matrix with appended 6 factor scores and total score
 
 
-  data("factor-objects", envir=environment())
+  utils::data("factor-objects", package = "governance", envir = environment())
 
   ### Make sure data is formatted correctly -------------------------------------
   col.names.correct <- colnames(features2[, 1:12])
@@ -93,6 +93,17 @@ get_scores <- function(feature.matrix, missing = TRUE, impute = "median", scores
   all.0.or.1 <- all(temp.dat == 0 | temp.dat == 1, na.rm = T)
   if(!all.0.or.1){
     stop("data object must only have 0 or 1 entries for all factors")
+  }
+
+  # Guard against a broken upstream normalization: a feature that is entirely NA
+  # cannot be scored or imputed and usually signals a field that failed to parse
+  # (e.g. a format change in the raw 990 data). Fail loudly rather than return
+  # silently garbage scores.
+  all.na.cols <- col.names.correct[colSums(!is.na(temp.dat)) == 0]
+  if(length(all.na.cols) > 0){
+    stop(paste0("These feature columns are entirely NA and cannot be scored: ",
+                paste(all.na.cols, collapse = ", "),
+                ". Check the normalization step (get_features)."))
   }
 
   # removing NA rows

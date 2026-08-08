@@ -182,8 +182,8 @@ We only pull in the columns pertaining to the questions listed in the previous s
 
 ### Part IV
 
-```{r read.partIV}
-### Part IV 
+```{r read.partIV, eval=FALSE}
+### Part IV
 
 #initialize data
 dat_4 <-  vector(mode = "list", length = length(years))
@@ -213,7 +213,7 @@ dat_all_4 <-
 
 ### Part VI
 
-```{r read.partVI}
+```{r read.partVI, eval=FALSE}
 ### Part VI 
 
 #initialize data
@@ -290,7 +290,7 @@ dat_all_6 <-
 
 ### Part XII
 
-```{r read.partXII}
+```{r read.partXII, eval=FALSE}
 ### Part XII
 
 #initialize data
@@ -312,7 +312,7 @@ dat_all_12 <-
 
 ### Schedule M
 
-```{r read.partM}
+```{r read.partM, eval=FALSE}
 #initialize data
 dat_M <-  vector(mode = "list", length = length(years))
 #get columns I want 
@@ -341,6 +341,30 @@ dat_all_M <-
 ```{r, eval=FALSE}
 save(dat_all_4, dat_all_6, dat_all_12, dat_all_M,
      file = "data-raw/dat-train-raw.rda")
+```
+
+The four download chunks above are shown for provenance and are **not run** when
+this article is built — they pulled the 2018 training tables from a legacy NCCS
+endpoint. For current retrieval (the efile v2.1 archive and the forthcoming
+`panel990` package) see `vignette("download-data")`. To keep this article
+reproducible offline, we load that saved copy of the raw 2018 data:
+
+```{r load-train-raw}
+# This article is built with the committed training data present (pkgdown, or a
+# source checkout). When it is unavailable -- e.g. R CMD check rebuilds vignettes
+# from the tarball, which excludes data-raw/ -- the remaining chunks are skipped
+# so the article still builds without error.
+candidates <- c("../data-raw/dat-train-raw.rda",
+                "../../data-raw/dat-train-raw.rda",
+                "data-raw/dat-train-raw.rda")
+train_file <- candidates[file.exists(candidates)][1]
+if (is.na(train_file)) {
+  knitr::opts_chunk$set(eval = FALSE)
+  message("Training data (data-raw/dat-train-raw.rda) not found; ",
+          "remaining chunks are not evaluated.")
+} else {
+  load(train_file)   # dat_all_4, dat_all_6, dat_all_12, dat_all_M
+}
 ```
 
 

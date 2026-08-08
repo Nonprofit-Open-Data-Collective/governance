@@ -14,53 +14,68 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, message=FALSE, warning=F}
+```{r setup, message=FALSE, warning=FALSE}
 library(governance)
 library(dplyr)
-library(data.table)
 ```
 
+The **governance** package turns raw IRS Form 990 governance and management
+fields into a multi-dimensional governance index for benchmarking nonprofits.
+The workflow is two steps: normalize the raw fields into a binary feature matrix
+with `get_features()`, then score them against a pre-fit factor model with
+`get_scores()`.
 
-## Step 1: Get Input Data 
+## Step 1: Get input data
 
-We assume the user already has the relevant 990 Efile data downloaded. Instructions for downloading the need 990 efile data, see \code{vignette("download-data", package = "goveranance")}. 
+`get_features()` expects a data frame of raw 990 efile fields — the governance,
+management, and disclosure questions from Part IV, Part VI, Part XII, and
+Schedule M. See `vignette("download-data")` for the exact fields and where they
+come from. Retrieval and management of the efile tables is handled by the
+companion **panel990** package (in development); until then you can pull the
+tables directly from the
+[NCCS efile v2.1 archive](https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html).
 
-We will use a subset of a test set that was already created. See `data-raw/01-get-example-data.R`[here](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/01-get-example-data.R) for details on how this data set was created. 
+The package ships a ready-to-use example: a 5,000-organization sample of raw
+2022 fields.
 
 ```{r}
 data("dat_example", package = "governance")
 
 set.seed(57)
-keep_rows <- sample(1:nrow(dat_example), 200)
-dat_example <- dat_example[keep_rows, ]
-
+dat_example <- dat_example[sample(seq_len(nrow(dat_example)), 200), ]
 ```
 
+## Step 2: Build the feature matrix
 
-## Step 2: Get Features Matrix 
-
-Use the `get_features()` function to clean the data and transform it into a features matrix. 
+`get_features()` normalizes the raw fields (yes/no, `"X"` flags, member counts)
+into 12 binary governance features, appended to the input.
 
 ```{r}
 features_example <- get_features(dat_example)
-head(features_example) %>% data.table()
+
+features_example %>%
+  select(ORG_EIN, P6_LINE_1, P6_LINE_12_13_14, P12_LINE_1) %>%
+  head()
 ```
 
+## Step 3: Calculate the scores
 
-## Step 3: Calculate the Scores 
-
-Use the `get_scores()` function to get the governance scores. 
+`get_scores()` applies the pre-fit factor model and appends six factor scores
+plus a `total.score`.
 
 ```{r}
 scores_example <- get_scores(features_example)
-head(scores_example) %>% data.table()
+
+scores_example %>%
+  select(ORG_EIN, total.score) %>%
+  head()
 ```
 
-We can explore our governance scores.
-
-```{r}
+```{r, fig.width=6, fig.height=4}
 hist(scores_example$total.score,
-     main = "Histogram of Goverance Scores",
+     main = "Distribution of Governance Scores",
      xlab = "Total Score")
-
 ```
+
+See `vignette("governance-workflow")` for a fuller walk-through and
+`vignette("making-gov-scores")` for the methodology behind the index.

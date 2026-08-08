@@ -1,66 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/articles/download-data.html</loc>
-  </url>
-  <url>
-    <loc>/articles/governance-workflow.html</loc>
-  </url>
-  <url>
-    <loc>/articles/governance.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/making-gov-scores.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dat.2018.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dat_example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/features2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_features.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_scores.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hello.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/model2.6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/model6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rho2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/scores.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/download-data.html</loc></url>
+<url><loc>/articles/governance-workflow.html</loc></url>
+<url><loc>/articles/governance.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/making-gov-scores.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/dat.2018.html</loc></url>
+<url><loc>/reference/dat_example.html</loc></url>
+<url><loc>/reference/features2.html</loc></url>
+<url><loc>/reference/get_features.html</loc></url>
+<url><loc>/reference/get_scores.html</loc></url>
+<url><loc>/reference/hello.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/model2.6.html</loc></url>
+<url><loc>/reference/model6.html</loc></url>
+<url><loc>/reference/pipe.html</loc></url>
+<url><loc>/reference/rho2.html</loc></url>
+<url><loc>/reference/scores.html</loc></url>
 </urlset>
+

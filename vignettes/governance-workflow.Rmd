@@ -10,106 +10,110 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-# Needed for Functionality
 library(governance)
 library(dplyr)
-# Needed for presentation
-library(data.table)
 library(ggplot2)
-# Needed for additional visualizations
-library(stringr)
-library(readr)
 ```
 
 # Governance Workflow
 
-## Step 1: Get Input data 
+This vignette walks through the full path from raw 990 fields to governance
+scores and shows a few ways to explore the results.
 
-We assume the user already has the relevant 990 Efile data downloaded. See `vignette("download-data")` for instructions on downloading the need 990 efile data.
+## Step 1: Get input data
 
-We will use a subset of a test set that was already created. See `data-raw/01-get-example-data.R` [here](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/01-get-example-data.R) for details on how this data set was created. 
+`get_features()` consumes raw 990 efile fields from Part IV, Part VI, Part XII,
+and Schedule M. See `vignette("download-data")` for the field list and the
+input contract. In production these tables come from the companion **panel990**
+package (in development) or directly from the
+[NCCS efile v2.1 archive](https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html);
+here we use the bundled example, a 5,000-organization sample of raw 2022 fields.
 
 ```{r}
 data("dat_example", package = "governance")
 
 set.seed(57)
-keep_rows <- sample(1:nrow(dat_example), 200)
-dat_example <- dat_example[keep_rows, ]
-
+dat_example <- dat_example[sample(seq_len(nrow(dat_example)), 200), ]
 ```
 
+## Step 2: Build the feature matrix
 
-## Step 2: Get Features Matrix 
-
-Use the `get_features()` function to clean the data and transform it into a features matrix. 
+`get_features()` cleans the raw fields and appends 12 binary governance
+features. Blank or missing yes/no responses are treated as `0` regardless of how
+the source encoded them (`NA` or `""`), so results do not depend on how the
+tables were read.
 
 ```{r}
 features_example <- get_features(dat_example)
-head(features_example) %>% data.table()
+
+features_example %>%
+  select(ORG_EIN, starts_with("P6_"), P12_LINE_1) %>%
+  head()
 ```
 
+Each feature is an indicator of a good-governance practice. We can look at how
+common each practice is in the sample:
 
-## Step 3: Calculate the Scores 
+```{r, fig.width=7, fig.height=4}
+feature_cols <- c("P12_LINE_1", "P4_LINE_12", "P4_LINE_28", "P4_LINE_29_30",
+                  "P6_LINE_1", "P6_LINE_11A", "P6_LINE_15A", "P6_LINE_18",
+                  "P6_LINE_2", "P6_LINE_3", "P6_LINE_8A", "P6_LINE_12_13_14")
 
-Use the `get_scores()` function to get the governance scores. 
+rates <- features_example %>%
+  summarise(across(all_of(feature_cols), ~ mean(.x == 1, na.rm = TRUE))) %>%
+  tidyr::pivot_longer(everything(), names_to = "feature", values_to = "rate")
+
+ggplot(rates, aes(x = reorder(feature, rate), y = rate)) +
+  geom_col() +
+  coord_flip() +
+  labs(title = "Share of organizations passing each governance feature",
+       x = NULL, y = "Share == 1")
+```
+
+## Step 3: Calculate the scores
+
+`get_scores()` applies the pre-fit factor model and appends six factor scores
+and a `total.score`.
 
 ```{r}
 scores_example <- get_scores(features_example)
-head(scores_example) %>% data.table()
+
+scores_example %>%
+  select(ORG_EIN, total.score) %>%
+  head()
 ```
 
-We can visualize the distribution of our governance scores.
-
-```{r}
-hist(scores_example$total.score,
-     main = "Histogram of Goverance Scores",
-     xlab = "Total Score")
-
+```{r, fig.width=6, fig.height=4}
+ggplot(scores_example, aes(x = total.score)) +
+  geom_histogram(bins = 30) +
+  labs(title = "Distribution of Governance Scores", x = "Total Score", y = "Count")
 ```
 
-## Additional Visualizations
+## Joining external data (optional)
 
-We can also join our data with the relevance Business Master File (BMF) data [here](https://nccs.urban.org/nccs/catalogs/catalog-bmf.html) to explore other aspects of the organizations relative to their scores. 
+Governance scores are most useful alongside other organizational characteristics.
+You can join the scores to the NCCS
+[Business Master File (BMF)](https://nccs.urban.org/nccs/catalogs/catalog-bmf.html)
+on `ORG_EIN` to relate governance to size, sector, or geography. The snippet
+below is illustrative (not run here, as it downloads a large file):
 
-### Loading in the BMF Data
+```{r, eval=FALSE}
+library(readr)
+library(stringr)
 
-Since our test data set is from 2013, we first load in the 2013 BMF and only keep 
-data from the organizations that are in our test set. 
+# Unified BMF (single file across years)
+bmf <- read_csv("https://nccsdata.s3.us-east-1.amazonaws.com/bmf/unified/v1.2/UNIFIED_BMF_V1.2.csv")
+bmf$EIN <- str_pad(gsub("\\D", "", bmf$EIN), 9, pad = "0")
 
-```{r}
-# Read in BMF data
-link2013 <- "https://nccsdata.s3.us-east-1.amazonaws.com/legacy/bmf/BMF-2013-12-501CX-NONPROFIT-PX.csv"
-bmf.2013 <- readr::read_csv(link2013)
+plot_data <- scores_example %>%
+  left_join(bmf, by = c("ORG_EIN" = "EIN"))
 
-#format EIN's correctly 
-bmf.2013$EIN <- as.numeric(stringr::str_pad(bmf.2013$EIN, 9, pad = "0"))
-
-# Get needed EIN's 
-EIN.keep <- dat_example$ORG_EIN
-bmf.keep <- bmf.2013[ bmf.2013$EIN %in% EIN.keep, ]
-
-#join them 
-plot_example <- 
-  scores_example %>%
-  left_join(bmf.keep, by = join_by(ORG_EIN == EIN))
-
-
+ggplot(plot_data, aes(x = log(ASSETS), y = total.score)) +
+  geom_point(alpha = 0.4) +
+  labs(title = "Governance Scores vs. Total Assets",
+       x = "log(Total Assets)", y = "Total Governance Score")
 ```
-
-We can plot the distribution of scores by various characteristics of the organizations. 
-
-```{r}
-plot_example %>% 
-  select(total.score, ASSETS) %>% 
-  ggplot(aes(y = total.score, x = log(ASSETS))) +
-  geom_point() +
-  ggtitle("Governance Scores vs. Total Assests") +
-  xlab("Total Governance Score") +
-  ylab("log(Total Assests)")
-
-```
-

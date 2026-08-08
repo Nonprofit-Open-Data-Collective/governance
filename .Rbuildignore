@@ -2,6 +2,8 @@
 ^\.Rproj\.user$
 ^_pkgdown\.yml$
 ^docs$
+^dev$
+^data-raw$
 ^pkgdown$
 ^blog$
-^inst$
+^CITATION\.cff$
