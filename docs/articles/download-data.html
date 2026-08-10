@@ -60,10 +60,31 @@
 
     
     
-<p>This vignette describes the raw 990 efile fields that <code><a href="../reference/get_features.html">get_features()</a></code> needs and shows how to assemble them from the NCCS efile archive.</p>
-<blockquote>
-<p><strong>Note.</strong> Retrieval and management of efile tables is moving into the companion <strong>panel990</strong> package. Once it is available, prefer it over the manual approach below. The fields and input contract described here stay the same.</p>
-</blockquote>
+<p>This vignette describes the raw 990 efile fields that <code><a href="../reference/get_features.html">get_features()</a></code> needs and shows how to assemble them — either with the companion <strong>panel990</strong> package (the recommended path) or by hand.</p>
+<div class="section level2">
+<h2 id="import-with-panel990-recommended">Import with panel990 (recommended)<a class="anchor" aria-label="anchor" href="#import-with-panel990-recommended"></a>
+</h2>
+<p><code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> uses the <a href="https://github.com/Nonprofit-Open-Data-Collective/panel990" class="external-link">panel990</a> package to download the required tables, keep the needed columns, merge them into one row per filing, and drop 990EZ filers — returning a data frame ready for <code><a href="../reference/get_features.html">get_features()</a></code>. Install panel990 first:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Nonprofit-Open-Data-Collective/panel990"</span><span class="op">)</span></span></code></pre></div>
+<p>Then import a year (optionally restricting to specific EINs) and score in one step:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Nonprofit-Open-Data-Collective/governance" class="external-link">governance</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assemble the raw fields for a tax year</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_data.html">get_governance_data</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
+<span><span class="va">scores</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># ...or the whole pipeline in one call</span></span>
+<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_scores.html">get_governance_scores</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span></code></pre></div>
+<p>By default the data comes from the NCCS efile v2.1 archive. To read tables you have already downloaded, point the source at a local directory:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">src</span> <span class="op">&lt;-</span> <span class="fu">panel990</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/panel990/man/data_source.html" class="external-link">data_source</a></span><span class="op">(</span>root <span class="op">=</span> <span class="st">"path/to/efile/csvs"</span><span class="op">)</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_data.html">get_governance_data</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span>, source <span class="op">=</span> <span class="va">src</span><span class="op">)</span></span></code></pre></div>
+<p>The rest of this vignette documents the fields those tables must contain — useful whether you use panel990 or assemble the input yourself.</p>
+</div>
 <div class="section level2">
 <h2 id="the-input-contract">The input contract<a class="anchor" aria-label="anchor" href="#the-input-contract"></a>
 </h2>
@@ -259,7 +280,7 @@
 <h2 id="assembling-the-input-manually">Assembling the input manually<a class="anchor" aria-label="anchor" href="#assembling-the-input-manually"></a>
 </h2>
 <p>The code below pulls the four tables for one year, keeps only the fields needed, and merges them into a single data frame ready for <code><a href="../reference/get_features.html">get_features()</a></code>. It is not run here (it downloads full-year tables); it mirrors <a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/make-dat-example.R" class="external-link"><code>data-raw/make-dat-example.R</code></a>, which builds the bundled <code>dat_example</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
