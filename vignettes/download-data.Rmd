@@ -15,11 +15,47 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 This vignette describes the raw 990 efile fields that `get_features()` needs and
-shows how to assemble them from the NCCS efile archive.
+shows how to assemble them — either with the companion **panel990** package (the
+recommended path) or by hand.
 
-> **Note.** Retrieval and management of efile tables is moving into the companion
-> **panel990** package. Once it is available, prefer it over the manual approach
-> below. The fields and input contract described here stay the same.
+## Import with panel990 (recommended)
+
+`get_governance_data()` uses the
+[panel990](https://github.com/Nonprofit-Open-Data-Collective/panel990) package to
+download the required tables, keep the needed columns, merge them into one row
+per filing, and drop 990EZ filers — returning a data frame ready for
+`get_features()`. Install panel990 first:
+
+```{r, eval=FALSE}
+remotes::install_github("Nonprofit-Open-Data-Collective/panel990")
+```
+
+Then import a year (optionally restricting to specific EINs) and score in one
+step:
+
+```{r, eval=FALSE}
+library(governance)
+
+# Assemble the raw fields for a tax year
+dat <- get_governance_data(years = 2022)
+
+features <- get_features(dat)
+scores   <- get_scores(features)
+
+# ...or the whole pipeline in one call
+scores <- get_governance_scores(years = 2022)
+```
+
+By default the data comes from the NCCS efile v2.1 archive. To read tables you
+have already downloaded, point the source at a local directory:
+
+```{r, eval=FALSE}
+src <- panel990::data_source(root = "path/to/efile/csvs")
+dat <- get_governance_data(years = 2022, source = src)
+```
+
+The rest of this vignette documents the fields those tables must contain — useful
+whether you use panel990 or assemble the input yourself.
 
 ## The input contract
 

@@ -19,13 +19,21 @@ The workflow is two steps: normalize raw 990 fields into features with
 ### Step 1: Get input data
 
 `get_features()` expects raw 990 efile fields from Part IV, Part VI, Part XII,
-and Schedule M. See the [Download Data vignette](https://nonprofit-open-data-collective.github.io/governance/articles/download-data.html)
-for the field list and input contract. Retrieval of the efile tables is handled
-by the companion **panel990** package (in development); until then you can pull
-them from the [NCCS efile v2.1 archive](https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html).
+and Schedule M. The companion
+[panel990](https://github.com/Nonprofit-Open-Data-Collective/panel990) package
+retrieves and assembles them for you:
 
-The package ships a ready-to-use example (a 5,000-organization sample of raw 2022
-fields):
+```r
+# remotes::install_github("Nonprofit-Open-Data-Collective/panel990")
+dat <- get_governance_data(years = 2022)          # one row per filing, ready for get_features()
+scores <- get_governance_scores(years = 2022)     # or the whole pipeline in one call
+```
+
+See the [Download Data vignette](https://nonprofit-open-data-collective.github.io/governance/articles/download-data.html)
+for the field list and input contract.
+
+The package also ships a ready-to-use example (a 5,000-organization sample of raw
+2022 fields) so you can try the workflow without downloading anything:
 
 ```r
 data("dat_example", package = "governance")

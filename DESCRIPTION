@@ -33,6 +33,7 @@ Suggests:
     kableExtra,
     ggcorrplot,
     tidyr,
-    tidyverse
+    tidyverse,
+    panel990
 Config/testthat/edition: 3
 VignetteBuilder: knitr

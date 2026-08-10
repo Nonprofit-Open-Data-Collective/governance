@@ -1,5 +1,11 @@
 # governance 0.0.1.0000
 
+* Added `get_governance_data()` and `get_governance_scores()` to import IRS 990
+  efile tables through the companion
+  [panel990](https://github.com/Nonprofit-Open-Data-Collective/panel990) package
+  and assemble the input to `get_features()` (Parts IV, VI, XII and Schedule M),
+  merged to one row per filing with 990EZ filers dropped.
+
 * Fixed a Part XII normalization bug where the accounting-method "other" case was
   detected with `is.na()` on a free-text field that reads as `""` (not `NA`) from
   `data.table::fread`, causing every filer to be labeled "other" and
