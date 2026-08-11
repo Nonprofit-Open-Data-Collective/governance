@@ -18,6 +18,11 @@ articles:
       - making-gov-scores
 
 reference:
+  - title: "Data import"
+    desc: "Retrieve and assemble 990 efile data via the panel990 package."
+    contents:
+      - get_governance_data
+      - get_governance_scores
   - title: "Scoring functions"
     desc: "Turn raw 990 governance fields into a governance index."
     contents:

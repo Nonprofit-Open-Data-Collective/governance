@@ -52,6 +52,7 @@
 <a class="anchor" aria-label="anchor" href="#governance-doi"></a>
 </h1></div>
 <p>R package for creating a nonprofit governance index score from IRS Form 990 efile data. It normalizes the governance and management fields of the 990 into a binary feature matrix, then scores them against a factor model derived empirically from the full filing population for benchmarking.</p>
+<p><strong>governance scores; it does not download data.</strong> Retrieving and assembling the 990 efile tables is handled by the companion <a href="https://github.com/Nonprofit-Open-Data-Collective/panel990" class="external-link">panel990</a> package, which <code>governance</code> calls for you through <code><a href="reference/get_governance_data.html">get_governance_data()</a></code> and <code><a href="reference/get_governance_scores.html">get_governance_scores()</a></code>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -65,9 +66,14 @@
 <div class="section level3">
 <h3 id="step-1-get-input-data">Step 1: Get input data<a class="anchor" aria-label="anchor" href="#step-1-get-input-data"></a>
 </h3>
-<p><code><a href="reference/get_features.html">get_features()</a></code> expects raw 990 efile fields from Part IV, Part VI, Part XII, and Schedule M. See the <a href="https://nonprofit-open-data-collective.github.io/governance/articles/download-data.html" class="external-link">Download Data vignette</a> for the field list and input contract. Retrieval of the efile tables is handled by the companion <strong>panel990</strong> package (in development); until then you can pull them from the <a href="https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html" class="external-link">NCCS efile v2.1 archive</a>.</p>
-<p>The package ships a ready-to-use example (a 5,000-organization sample of raw 2022 fields):</p>
+<p>The index uses Form 990 Parts IV, VI, and XII and Schedule M, and applies to <strong>full 990 filers only</strong> (not 990EZ). <code><a href="reference/get_governance_data.html">get_governance_data()</a></code> handles the retrieval, the full-990 filter, and the merge:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># remotes::install_github("Nonprofit-Open-Data-Collective/panel990")</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_governance_data.html">get_governance_data</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span>          <span class="co"># one row per filing, ready for get_features()</span></span>
+<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_governance_scores.html">get_governance_scores</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span>     <span class="co"># or the whole pipeline in one call</span></span></code></pre></div>
+<p>See the <a href="https://nonprofit-open-data-collective.github.io/governance/articles/download-data.html" class="external-link">Download Data vignette</a> for the required tables, the field list, and the panel990 workflow.</p>
+<p>The package also ships a ready-to-use example (a 5,000-organization sample of raw 2022 fields) so you can try the workflow without downloading anything:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dat_example"</span>, package <span class="op">=</span> <span class="st">"governance"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">57</span><span class="op">)</span></span>
@@ -76,13 +82,13 @@
 <div class="section level3">
 <h3 id="step-2-build-the-feature-matrix">Step 2: Build the feature matrix<a class="anchor" aria-label="anchor" href="#step-2-build-the-feature-matrix"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">features_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat_example</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="step-3-calculate-the-scores">Step 3: Calculate the scores<a class="anchor" aria-label="anchor" href="#step-3-calculate-the-scores"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span></code></pre></div>
 <p><code><a href="reference/get_scores.html">get_scores()</a></code> appends six factor scores and a <code>total.score</code>. See the <a href="https://nonprofit-open-data-collective.github.io/governance/articles/governance-workflow.html" class="external-link">Governance Workflow vignette</a> for a fuller walk-through and the <a href="https://nonprofit-open-data-collective.github.io/governance/articles/making-gov-scores.html" class="external-link">Making Governance Scores vignette</a> for the methodology.</p>
 </div>

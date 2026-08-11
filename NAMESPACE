@@ -2,5 +2,7 @@
 
 export("%>%")
 export(get_features)
+export(get_governance_data)
+export(get_governance_scores)
 export(get_scores)
 importFrom(magrittr,"%>%")

@@ -345,7 +345,7 @@ save(dat_all_4, dat_all_6, dat_all_12, dat_all_M,
 
 The four download chunks above are shown for provenance and are **not run** when
 this article is built — they pulled the 2018 training tables from a legacy NCCS
-endpoint. For current retrieval (the efile v2.1 archive and the forthcoming
+endpoint. For current retrieval (the efile v2.1 archive and the
 `panel990` package) see `vignette("download-data")`. To keep this article
 reproducible offline, we load that saved copy of the raw 2018 data:
 

@@ -29,14 +29,14 @@ with `get_features()`, then score them against a pre-fit factor model with
 
 `get_features()` expects a data frame of raw 990 efile fields — the governance,
 management, and disclosure questions from Part IV, Part VI, Part XII, and
-Schedule M. See `vignette("download-data")` for the exact fields and where they
-come from. Retrieval and management of the efile tables is handled by the
-companion **panel990** package (in development); until then you can pull the
-tables directly from the
-[NCCS efile v2.1 archive](https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html).
+Schedule M. The companion
+[panel990](https://github.com/Nonprofit-Open-Data-Collective/panel990) package
+retrieves and assembles them; `get_governance_data(years = 2022)` returns a data
+frame ready for the steps below. See `vignette("download-data")` for the fields,
+the required tables, and the full-990 filter.
 
-The package ships a ready-to-use example: a 5,000-organization sample of raw
-2022 fields.
+The package also ships a ready-to-use example — a 5,000-organization sample of
+raw 2022 fields — so you can try the workflow without downloading anything.
 
 ```{r}
 data("dat_example", package = "governance")
@@ -53,8 +53,8 @@ into 12 binary governance features, appended to the input.
 ```{r}
 features_example <- get_features(dat_example)
 
-features_example %>%
-  select(ORG_EIN, P6_LINE_1, P6_LINE_12_13_14, P12_LINE_1) %>%
+features_example |>
+  select(ORG_EIN, P6_LINE_1, P6_LINE_12_13_14, P12_LINE_1) |>
   head()
 ```
 
@@ -66,8 +66,8 @@ plus a `total.score`.
 ```{r}
 scores_example <- get_scores(features_example)
 
-scores_example %>%
-  select(ORG_EIN, total.score) %>%
+scores_example |>
+  select(ORG_EIN, total.score) |>
   head()
 ```
 

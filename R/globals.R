@@ -11,7 +11,8 @@ utils::globalVariables(c(
   "P6_LINE_1A", "P6_LINE_1B", "divide.by.0",
   "P6_LINE_12", "P6_LINE_12A", "P6_LINE_12B", "P6_LINE_12C",
   "P6_LINE_13", "P6_LINE_14",
-  "P6_LINE_18_other", "P6_LINE_18_other_web", "P6_LINE_18_own_web", "P6_LINE_18_req",
+  "P6_LINE_18_other", "P6_LINE_18_other_web",
+  "P6_LINE_18_own_web", "P6_LINE_18_req",
   # factor model objects loaded via data("factor-objects")
   "features2", "model6", "rho2"
 ))
