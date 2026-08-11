@@ -18,13 +18,13 @@ get_governance_scores(
 \item{years}{Integer vector of tax years to import.}
 
 \item{eins}{Optional character vector of formatted EINs (\code{EIN2}, e.g.
-\code{"EIN-43-2031361"}) to restrict the download to specific organizations.}
+\code{"EIN-43-2031361"}) to restrict the download to given organizations.}
 
 \item{source}{A \code{panel990::data_source()} configuration. Defaults to the
 NCCS efile v2.1 archive. Point \code{root} at a local directory to read
 already-downloaded tables.}
 
-\item{cache}{Passed to \code{panel990::download_tables()}: \code{"temporary"}
+\item{cache}{Passed to \code{panel990::panelize()}: \code{"temporary"}
 (default) uses a session temp directory; \code{"retain"} keeps a durable
 cache in \code{path}.}
 

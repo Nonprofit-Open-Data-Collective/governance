@@ -4,7 +4,9 @@
   efile tables through the companion
   [panel990](https://github.com/Nonprofit-Open-Data-Collective/panel990) package
   and assemble the input to `get_features()` (Parts IV, VI, XII and Schedule M),
-  merged to one row per filing with 990EZ filers dropped.
+  merged to one row per filing. Retrieval uses `panel990::panelize()` with a
+  sample frame that restricts the data to full 990 filers
+  (`RETURN_TYPE == "990"`) via the SFW `form_type` filter.
 
 * Fixed a Part XII normalization bug where the accounting-method "other" case was
   detected with `is.na()` on a free-text field that reads as `""` (not `NA`) from

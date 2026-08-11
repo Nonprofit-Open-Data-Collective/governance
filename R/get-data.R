@@ -39,35 +39,57 @@
 
 #' Import raw 990 governance fields via the panel990 package
 #'
-#' Downloads the IRS efile tables that hold the governance and management fields
-#' (Form 990 Parts IV, VI, and XII and Schedule M), keeps the columns
-#' \code{\link{get_features}} needs, merges them into one row per filing, and
-#' drops 990EZ filers (who do not report these fields). The result is ready to
-#' pass to \code{\link{get_features}}.
-#'
-#' Retrieval is delegated to the
+#' Builds the input to \code{\link{get_features}} from the IRS efile archive
+#' using the
 #' \href{https://github.com/Nonprofit-Open-Data-Collective/panel990}{panel990}
-#' package, which must be installed:
+#' package. It assembles a sample frame that restricts the data to **full 990
+#' filers** (\code{RETURN_TYPE == "990"}; the governance index does not apply to
+#' 990EZ returns, which omit these fields), then calls
+#' \code{panel990::panelize()} to download the required tables, keep the needed
+#' columns, and merge them into one row per filing.
+#'
+#' The governance and management fields come from four tables:
+#' \describe{
+#'   \item{\code{F9-P04-T00-REQUIRED-SCHEDULES}}{Part IV -- required-schedule
+#'     triggers (audited financials, interested-person transactions, non-cash
+#'     and art/historical contributions).}
+#'   \item{\code{F9-P06-T00-GOVERNANCE}}{Part VI -- governing body composition
+#'     and governance/management policies and disclosures.}
+#'   \item{\code{F9-P12-T00-FINANCIAL-REPORTING}}{Part XII -- accounting method
+#'     and audit oversight.}
+#'   \item{\code{SM-P01-T00-NONCASH-CONTRIBUTIONS}}{Schedule M -- non-cash
+#'     contribution review process.}
+#' }
+#'
+#' The tables are imported raw and handed to \code{\link{get_features}}, which
+#' performs the governance-specific normalization.
+#' \code{panel990::panel_normalize()} only rewrites blank *financial* fields and
+#' leaves these checkbox and count fields untouched, so it is safe (but
+#' unnecessary) to apply beforehand.
+#'
+#' Install panel990 with
 #' \code{remotes::install_github("Nonprofit-Open-Data-Collective/panel990")}.
 #'
 #' @param years Integer vector of tax years to import.
 #' @param eins Optional character vector of formatted EINs (\code{EIN2}, e.g.
-#'   \code{"EIN-43-2031361"}) to restrict the download to specific organizations.
+#'   \code{"EIN-43-2031361"}) to restrict the download to given organizations.
 #' @param source A \code{panel990::data_source()} configuration. Defaults to the
 #'   NCCS efile v2.1 archive. Point \code{root} at a local directory to read
 #'   already-downloaded tables.
-#' @param cache Passed to \code{panel990::download_tables()}: \code{"temporary"}
+#' @param cache Passed to \code{panel990::panelize()}: \code{"temporary"}
 #'   (default) uses a session temp directory; \code{"retain"} keeps a durable
 #'   cache in \code{path}.
 #' @param path Cache directory used when \code{cache = "retain"}.
 #' @param verbose Print panel990 progress messages.
 #'
-#' @return A data.frame with one row per filing containing \code{ORG_EIN}, the
+#' @return A data.frame with one row per full-990 filing: \code{ORG_EIN}, the
 #'   raw governance fields, and identifier columns, ready for
 #'   \code{\link{get_features}}.
 #'
 #' @seealso \code{\link{get_features}}, \code{\link{get_scores}},
-#'   \code{\link{get_governance_scores}}.
+#'   \code{\link{get_governance_scores}};
+#'   \code{panel990::panelize()} and \code{panel990::create_sfw()} for the
+#'   underlying sample-frame workflow.
 #'
 #' @examples
 #' \dontrun{
@@ -78,47 +100,40 @@
 #'
 #' @export
 get_governance_data <- function(
-    years,
-    eins = NULL,
-    source = NULL,
-    cache = c("temporary", "retain"),
-    path = "efdata",
-    verbose = FALSE
+  years,
+  eins = NULL,
+  source = NULL,
+  cache = c("temporary", "retain"),
+  path = "efdata",
+  verbose = FALSE
 ) {
   if (!requireNamespace("panel990", quietly = TRUE)) {
     stop("The 'panel990' package is required to import efile data.\n",
-         "Install it with:\n",
-         "  remotes::install_github(\"Nonprofit-Open-Data-Collective/panel990\")",
-         call. = FALSE)
+      "Install it with:\n",
+      "  remotes::install_github(\"Nonprofit-Open-Data-Collective/panel990\")",
+      call. = FALSE
+    )
   }
   cache <- match.arg(cache)
   if (is.null(source)) source <- panel990::data_source()
 
-  downloads <- panel990::download_tables(
-    years = years, tables = .gov_tables, source = source,
+  # Sample frame: full 990 filers only, optionally restricted to given EINs.
+  sfw_args <- list(name = "governance full-990 panel", form_type = "990")
+  if (!is.null(eins)) sfw_args$eins <- eins
+  sfw <- do.call(panel990::create_sfw, sfw_args)
+
+  panel <- panel990::panelize(
+    sfw = sfw, tables = .gov_tables, years = years, source = source,
+    columns = c(.gov_keys, .gov_fields), bmf = FALSE,
     cache = cache, path = path, verbose = verbose
   )
 
-  filters <- if (!is.null(eins)) list(EIN2 = eins) else NULL
-  reads <- panel990::read_tables(
-    downloads, columns = c(.gov_keys, .gov_fields), filters = filters
-  )
-
-  merged <- panel990::merge_tables(reads)
-
-  # One data frame per year -> a single stacked data frame.
-  dat <- do.call(
-    function(...) dplyr::bind_rows(...),
-    merged$years
-  )
+  dat <- as.data.frame(panel)
   if (is.null(dat) || !nrow(dat)) {
-    stop("No filings were imported for years ",
-         paste(years, collapse = ", "), ".", call. = FALSE)
-  }
-
-  # Full-990 filers only; 990EZ returns lack these Parts.
-  if ("RETURN_TYPE" %in% names(dat)) {
-    dat <- dat[dat$RETURN_TYPE != "990EZ", , drop = FALSE]
+    stop("No full-990 filings were imported for years ",
+      paste(years, collapse = ", "), ".",
+      call. = FALSE
+    )
   }
   rownames(dat) <- NULL
   dat
@@ -145,13 +160,13 @@ get_governance_data <- function(
 #'
 #' @export
 get_governance_scores <- function(
-    years,
-    eins = NULL,
-    source = NULL,
-    cache = c("temporary", "retain"),
-    path = "efdata",
-    verbose = FALSE,
-    ...
+  years,
+  eins = NULL,
+  source = NULL,
+  cache = c("temporary", "retain"),
+  path = "efdata",
+  verbose = FALSE,
+  ...
 ) {
   dat <- get_governance_data(
     years = years, eins = eins, source = source,

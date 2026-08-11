@@ -27,11 +27,11 @@ scores and shows a few ways to explore the results.
 ## Step 1: Get input data
 
 `get_features()` consumes raw 990 efile fields from Part IV, Part VI, Part XII,
-and Schedule M. See `vignette("download-data")` for the field list and the
-input contract. In production these tables come from the companion **panel990**
-package (in development) or directly from the
-[NCCS efile v2.1 archive](https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html);
-here we use the bundled example, a 5,000-organization sample of raw 2022 fields.
+and Schedule M. In production these come from the companion
+[panel990](https://github.com/Nonprofit-Open-Data-Collective/panel990) package
+via `get_governance_data(years = 2022)`; see `vignette("download-data")` for the
+field list, the required tables, and the full-990 filter. Here we use the
+bundled example, a 5,000-organization sample of raw 2022 fields.
 
 ```{r}
 data("dat_example", package = "governance")
@@ -50,8 +50,8 @@ tables were read.
 ```{r}
 features_example <- get_features(dat_example)
 
-features_example %>%
-  select(ORG_EIN, starts_with("P6_"), P12_LINE_1) %>%
+features_example |>
+  select(ORG_EIN, starts_with("P6_"), P12_LINE_1) |>
   head()
 ```
 
@@ -63,8 +63,8 @@ feature_cols <- c("P12_LINE_1", "P4_LINE_12", "P4_LINE_28", "P4_LINE_29_30",
                   "P6_LINE_1", "P6_LINE_11A", "P6_LINE_15A", "P6_LINE_18",
                   "P6_LINE_2", "P6_LINE_3", "P6_LINE_8A", "P6_LINE_12_13_14")
 
-rates <- features_example %>%
-  summarise(across(all_of(feature_cols), ~ mean(.x == 1, na.rm = TRUE))) %>%
+rates <- features_example |>
+  summarise(across(all_of(feature_cols), ~ mean(.x == 1, na.rm = TRUE))) |>
   tidyr::pivot_longer(everything(), names_to = "feature", values_to = "rate")
 
 ggplot(rates, aes(x = reorder(feature, rate), y = rate)) +
@@ -82,15 +82,18 @@ and a `total.score`.
 ```{r}
 scores_example <- get_scores(features_example)
 
-scores_example %>%
-  select(ORG_EIN, total.score) %>%
+scores_example |>
+  select(ORG_EIN, total.score) |>
   head()
 ```
 
 ```{r, fig.width=6, fig.height=4}
 ggplot(scores_example, aes(x = total.score)) +
   geom_histogram(bins = 30) +
-  labs(title = "Distribution of Governance Scores", x = "Total Score", y = "Count")
+  labs(
+    title = "Distribution of Governance Scores",
+    x = "Total Score", y = "Count"
+  )
 ```
 
 ## Joining external data (optional)
@@ -106,10 +109,14 @@ library(readr)
 library(stringr)
 
 # Unified BMF (single file across years)
-bmf <- read_csv("https://nccsdata.s3.us-east-1.amazonaws.com/bmf/unified/v1.2/UNIFIED_BMF_V1.2.csv")
+bmf_url <- paste0(
+  "https://nccsdata.s3.us-east-1.amazonaws.com/",
+  "bmf/unified/v1.2/UNIFIED_BMF_V1.2.csv"
+)
+bmf <- read_csv(bmf_url)
 bmf$EIN <- str_pad(gsub("\\D", "", bmf$EIN), 9, pad = "0")
 
-plot_data <- scores_example %>%
+plot_data <- scores_example |>
   left_join(bmf, by = c("ORG_EIN" = "EIN"))
 
 ggplot(plot_data, aes(x = log(ASSETS), y = total.score)) +

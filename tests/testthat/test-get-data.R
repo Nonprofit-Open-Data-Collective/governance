@@ -1,8 +1,12 @@
 # Write dat_example out as the four source efile tables in a local directory,
 # so panel990 can "download" them from a local root -- no network needed.
-write_local_source <- function(dir, year = 2022) {
+write_local_source <- function(dir, year = 2022, ez_rows = 0) {
   utils::data("dat_example", package = "governance", envir = environment())
-  keys <- c("OBJECTID", "ORG_EIN", "ORG_NAME_L1", "RETURN_TYPE", "TAX_YEAR")
+  # Add EIN2 (formatted) as the real efile tables carry it.
+  dat_example$EIN2 <- paste0("EIN-", substr(dat_example$ORG_EIN, 1, 2), "-",
+                             substr(dat_example$ORG_EIN, 3, 9))
+  if (ez_rows > 0) dat_example$RETURN_TYPE[seq_len(ez_rows)] <- "990EZ"
+  keys <- c("EIN2", "OBJECTID", "ORG_EIN", "ORG_NAME_L1", "RETURN_TYPE", "TAX_YEAR")
   groups <- list(
     "F9-P04-T00-REQUIRED-SCHEDULES"   = grep("^F9_04", names(dat_example), value = TRUE),
     "F9-P06-T00-GOVERNANCE"           = grep("^F9_06", names(dat_example), value = TRUE),
@@ -52,6 +56,18 @@ test_that("imported data yields the same features as the bundled example", {
   a <- a[order(a$ORG_EIN), feats]; rownames(a) <- NULL
   b <- b[order(b$ORG_EIN), feats]; rownames(b) <- NULL
   expect_equal(a, b)
+})
+
+test_that("get_governance_data keeps only full-990 filers", {
+  skip_if_not_installed("panel990")
+  root <- tempfile("efsrc"); dir.create(root)
+  write_local_source(root, year = 2022, ez_rows = 25)
+
+  dat <- get_governance_data(
+    years = 2022, source = panel990::data_source(root = root), verbose = FALSE
+  )
+  expect_true(all(dat$RETURN_TYPE == "990"))
+  expect_false(any(dat$RETURN_TYPE == "990EZ"))
 })
 
 test_that("get_governance_scores runs the full pipeline", {

@@ -1,5 +1,5 @@
 ---
-title: "Download 990 Efile Data"
+title: "Getting 990 Data with panel990"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{download-data}
@@ -14,29 +14,54 @@ editor_options:
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-This vignette describes the raw 990 efile fields that `get_features()` needs and
-shows how to assemble them — either with the companion **panel990** package (the
-recommended path) or by hand.
+## governance and panel990
 
-## Import with panel990 (recommended)
+The **governance** package *scores* nonprofit governance; it does not retrieve
+data. Retrieving, normalizing, and assembling IRS 990 efile tables is the job of
+the companion
+[panel990](https://github.com/Nonprofit-Open-Data-Collective/panel990) package.
 
-`get_governance_data()` uses the
-[panel990](https://github.com/Nonprofit-Open-Data-Collective/panel990) package to
-download the required tables, keep the needed columns, merge them into one row
-per filing, and drop 990EZ filers — returning a data frame ready for
-`get_features()`. Install panel990 first:
+| Package | Role |
+|---|---|
+| **panel990** | Download efile tables, filter to a sample frame, merge to one row per filing, build panels. |
+| **governance** | Normalize the governance fields into a feature matrix (`get_features()`) and compute the governance index (`get_scores()`). |
+
+`governance` calls `panel990` for you through `get_governance_data()` and
+`get_governance_scores()`, so most users never touch `panel990` directly. This
+vignette shows both the one-call path and the underlying `panel990` workflow for
+when you want more control. Install `panel990` first:
 
 ```{r, eval=FALSE}
 remotes::install_github("Nonprofit-Open-Data-Collective/panel990")
 ```
 
-Then import a year (optionally restricting to specific EINs) and score in one
-step:
+## Required 990 tables
+
+The governance index is built from four efile tables — Form 990 Parts IV, VI, and
+XII and Schedule M. Each is a `panel990` table name you pass to `panelize()`
+(Part XII also has the short alias `"P12"`).
+
+| Part / Schedule | Governance information it contains | panel990 table name |
+|---|---|---|
+| Part IV | Required-schedule triggers: audited financials, interested-person business transactions, large non-cash and art/historical contributions | `F9-P04-T00-REQUIRED-SCHEDULES` |
+| Part VI | Governing body composition (voting / independent members) and governance & management policies (conflict-of-interest, whistleblower, document retention, CEO compensation process, document availability) | `F9-P06-T00-GOVERNANCE` |
+| Part XII | Financial-reporting method (cash / accrual / other) and audit oversight | `F9-P12-T00-FINANCIAL-REPORTING` |
+| Schedule M | Review process for unusual non-cash gifts | `SM-P01-T00-NONCASH-CONTRIBUTIONS` |
+
+> **Full 990 filers only.** The governance index does not apply to 990EZ returns
+> — they omit these Parts. Restrict the data to `RETURN_TYPE == "990"` (shown
+> below). `get_governance_data()` does this for you.
+
+## Option 1: one call (recommended)
+
+`get_governance_data()` builds the full-990 sample frame, downloads the four
+tables, keeps the needed columns, and merges them to one row per filing — ready
+for `get_features()`.
 
 ```{r, eval=FALSE}
 library(governance)
 
-# Assemble the raw fields for a tax year
+# Assemble the raw fields for a tax year (full 990 filers only)
 dat <- get_governance_data(years = 2022)
 
 features <- get_features(dat)
@@ -46,23 +71,69 @@ scores   <- get_scores(features)
 scores <- get_governance_scores(years = 2022)
 ```
 
-By default the data comes from the NCCS efile v2.1 archive. To read tables you
-have already downloaded, point the source at a local directory:
+Restrict to specific organizations with `eins` (formatted `EIN2` values), or
+read tables you have already downloaded by pointing the source at a directory:
 
 ```{r, eval=FALSE}
+scores <- get_governance_scores(years = 2022, eins = c("EIN-43-2031361"))
+
 src <- panel990::data_source(root = "path/to/efile/csvs")
 dat <- get_governance_data(years = 2022, source = src)
 ```
 
-The rest of this vignette documents the fields those tables must contain — useful
-whether you use panel990 or assemble the input yourself.
+## Option 2: the panel990 workflow
+
+Under the hood, `get_governance_data()` assembles a **sample frame** and calls
+`panel990::panelize()`. Doing it yourself gives full control — additional
+filters, multiple years, BMF traits, DuckDB backends, and so on.
+
+The `form_type` filter is how you keep only full 990 filers: it is a built-in
+sample-frame alias mapping to the `RETURN_TYPE` column, so `form_type = "990"`
+keeps only `RETURN_TYPE == "990"`.
+
+```{r, eval=FALSE}
+library(panel990)
+
+gov_tables <- c(
+  "F9-P04-T00-REQUIRED-SCHEDULES",
+  "F9-P06-T00-GOVERNANCE",
+  "F9-P12-T00-FINANCIAL-REPORTING",
+  "SM-P01-T00-NONCASH-CONTRIBUTIONS"
+)
+
+# Sample frame: keep full 990 filers (RETURN_TYPE == "990") via the SFW filter
+sfw <- create_sfw("governance panel", form_type = "990")
+
+# Download, filter, and merge the tables into one row per filing
+panel <- panelize(sfw = sfw, tables = gov_tables, years = 2022)
+
+dat <- as.data.frame(panel)
+scores <- get_scores(get_features(dat))
+```
+
+`create_sfw()` accepts other convenience filters too — for example
+`state = "CA"` or `years = 2018:2022` — which `panelize()` pushes down to the
+download step. See `?panel990::create_sfw` and `?panel990::panelize`.
+
+### A note on normalization
+
+`get_features()` performs the governance-specific normalization itself (blank
+checkboxes and counts become `0` regardless of how the source encoded them), so
+the tables are imported **raw**.
+
+`panel990::panel_normalize()` only rewrites blank *financial* fields (revenue,
+expenses, balance sheet) to zero; it leaves the governance checkbox and count
+fields untouched. It is therefore safe to include in a shared pipeline but is
+neither required nor sufficient for the governance features — `get_features()`
+is what normalizes them. (Do **not** run the general `panel990::normalize()` on
+the governance checkboxes before `get_features()`: it converts them to logicals,
+which `get_features()` does not expect.)
 
 ## The input contract
 
-`get_features()` expects a data frame with one row per filing and, at minimum,
-the identifier `ORG_EIN` plus the raw governance fields from Part IV, Part VI,
-Part XII, and Schedule M listed below. Values may be encoded as
-`"true"`/`"false"`, `"1"`/`"0"`, `"X"` flags, or blanks (`NA` or `""`);
+However you obtain the data, `get_features()` expects a data frame with one row
+per filing containing `ORG_EIN` plus the raw fields below. Values may be encoded
+as `"true"`/`"false"`, `"1"`/`"0"`, `"X"` flags, or blanks (`NA` or `""`);
 `get_features()` normalizes all of these.
 
 | Part/Schedule | Variable | 990 line | Question |
@@ -96,81 +167,7 @@ Part XII, and Schedule M listed below. Values may be encoded as
 
 For a full data dictionary see the
 [irs990efile data dictionary](https://nonprofit-open-data-collective.github.io/irs990efile/data-dictionary/data-dictionary.html).
-
-## Where the tables live
-
-The NCCS efile v2.1 archive hosts one CSV per Part/Schedule and year at:
-
-```
-https://nccs-efile.s3.us-east-1.amazonaws.com/public/efile_v2_1/{TABLE}-{YEAR}.CSV
-```
-
-See the [efile v2.1 catalog](https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html)
-to browse Parts, Schedules, and available years (2009–2024). The four tables
-this package needs are:
-
-- `F9-P04-T00-REQUIRED-SCHEDULES`
-- `F9-P06-T00-GOVERNANCE`
-- `F9-P12-T00-FINANCIAL-REPORTING`
-- `SM-P01-T00-NONCASH-CONTRIBUTIONS`
-
-## Assembling the input manually
-
-The code below pulls the four tables for one year, keeps only the fields needed,
-and merges them into a single data frame ready for `get_features()`. It is not
-run here (it downloads full-year tables); it mirrors
-[`data-raw/make-dat-example.R`](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/make-dat-example.R),
-which builds the bundled `dat_example`.
-
-```{r, eval=FALSE}
-library(data.table)
-library(dplyr)
-
-ROOT <- "https://nccs-efile.s3.us-east-1.amazonaws.com/public/efile_v2_1/"
-YEAR <- 2022
-
-get_table <- function(table.name, select) {
-  options(timeout = max(600, getOption("timeout")))
-  fread(paste0(ROOT, table.name, "-", YEAR, ".CSV"),
-        colClasses = "character", select = select)
-}
-
-id <- c("OBJECTID", "ORG_EIN")
-
-p06 <- get_table("F9-P06-T00-GOVERNANCE",
-                 c(id, "RETURN_TYPE",
-                   "F9_06_GVRN_NUM_VOTING_MEMB", "F9_06_GVRN_NUM_VOTING_MEMB_IND",
-                   "F9_06_GVRN_DTK_FAMBIZ_RELATION_X", "F9_06_GVRN_DELEGATE_MGMT_DUTY_X",
-                   "F9_06_GVRN_DOC_GVRN_BODY_X", "F9_06_POLICY_FORM990_GVRN_BODY_X",
-                   "F9_06_POLICY_COI_X", "F9_06_POLICY_COI_DISCLOSURE_X",
-                   "F9_06_POLICY_COI_MONITOR_X", "F9_06_POLICY_WHSTLBLWR_X",
-                   "F9_06_POLICY_DOC_RETENTION_X", "F9_06_POLICY_COMP_PROCESS_CEO_X",
-                   "F9_06_DISCLOSURE_AVBL_OTH_X", "F9_06_DISCLOSURE_AVBL_OTH_WEB_X",
-                   "F9_06_DISCLOSURE_AVBL_REQUEST_X", "F9_06_DISCLOSURE_AVBL_OWN_WEB_X"))
-
-p04 <- get_table("F9-P04-T00-REQUIRED-SCHEDULES",
-                 c("OBJECTID",
-                   "F9_04_AFS_IND_X", "F9_04_BIZ_TRANSAC_DTK_X",
-                   "F9_04_BIZ_TRANSAC_DTK_FAM_X", "F9_04_BIZ_TRANSAC_DTK_ENTITY_X",
-                   "F9_04_CONTR_NONCSH_MT_25K_X", "F9_04_CONTR_ART_HIST_X"))
-
-p12 <- get_table("F9-P12-T00-FINANCIAL-REPORTING",
-                 c("OBJECTID",
-                   "F9_12_FINSTAT_METHOD_ACC_OTH", "F9_12_FINSTAT_METHOD_ACC_ACCRU_X",
-                   "F9_12_FINSTAT_METHOD_ACC_CASH_X"))
-
-m01 <- get_table("SM-P01-T00-NONCASH-CONTRIBUTIONS",
-                 c("OBJECTID", "SM_01_REVIEW_PROCESS_UNUSUAL_X"))
-
-# OBJECTID is unique per filing. Parts IV/VI/XII are core 990 parts (inner join);
-# Schedule M is filed by only some orgs (left join). Drop EZ filers, who lack
-# these fields.
-dat_govern <- p06 |>
-  merge(p04, by = "OBJECTID") |>
-  merge(p12, by = "OBJECTID") |>
-  merge(m01, by = "OBJECTID", all.x = TRUE) |>
-  filter(RETURN_TYPE != "990EZ")
-```
-
-The resulting `dat_govern` can be passed straight to `get_features()`; see
-`vignette("governance-workflow")`.
+The tables themselves live in the NCCS efile v2.1 archive
+(`https://nccs-efile.s3.us-east-1.amazonaws.com/public/efile_v2_1/{TABLE}-{YEAR}.CSV`,
+years 2009–2024); browse them in the
+[efile v2.1 catalog](https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html).
