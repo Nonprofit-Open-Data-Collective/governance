@@ -67,8 +67,8 @@
 <div class="section level2">
 <h2 id="step-1-get-input-data">Step 1: Get input data<a class="anchor" aria-label="anchor" href="#step-1-get-input-data"></a>
 </h2>
-<p><code><a href="../reference/get_features.html">get_features()</a></code> expects a data frame of raw 990 efile fields — the governance, management, and disclosure questions from Part IV, Part VI, Part XII, and Schedule M. See <code><a href="../articles/download-data.html">vignette("download-data")</a></code> for the exact fields and where they come from. Retrieval and management of the efile tables is handled by the companion <strong>panel990</strong> package (in development); until then you can pull the tables directly from the <a href="https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html" class="external-link">NCCS efile v2.1 archive</a>.</p>
-<p>The package ships a ready-to-use example: a 5,000-organization sample of raw 2022 fields.</p>
+<p><code><a href="../reference/get_features.html">get_features()</a></code> expects a data frame of raw 990 efile fields — the governance, management, and disclosure questions from Part IV, Part VI, Part XII, and Schedule M. The companion <a href="https://github.com/Nonprofit-Open-Data-Collective/panel990" class="external-link">panel990</a> package retrieves and assembles them; <code>get_governance_data(years = 2022)</code> returns a data frame ready for the steps below. See <code><a href="../articles/download-data.html">vignette("download-data")</a></code> for the fields, the required tables, and the full-990 filter.</p>
+<p>The package also ships a ready-to-use example — a 5,000-organization sample of raw 2022 fields — so you can try the workflow without downloading anything.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dat_example"</span>, package <span class="op">=</span> <span class="st">"governance"</span><span class="op">)</span></span>
 <span></span>
@@ -82,8 +82,8 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">features_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat_example</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">features_example</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ORG_EIN</span>, <span class="va">P6_LINE_1</span>, <span class="va">P6_LINE_12_13_14</span>, <span class="va">P12_LINE_1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">features_example</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ORG_EIN</span>, <span class="va">P6_LINE_1</span>, <span class="va">P6_LINE_12_13_14</span>, <span class="va">P12_LINE_1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        ORG_EIN P6_LINE_1 P6_LINE_12_13_14 P12_LINE_1</span></span>
 <span><span class="co">#&gt; 849  521314461         1                1          1</span></span>
@@ -100,8 +100,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">scores_example</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ORG_EIN</span>, <span class="va">total.score</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">scores_example</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ORG_EIN</span>, <span class="va">total.score</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        ORG_EIN total.score</span></span>
 <span><span class="co">#&gt; 849  521314461  1.84480679</span></span>
