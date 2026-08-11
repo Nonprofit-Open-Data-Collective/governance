@@ -36,4 +36,6 @@ Suggests:
     tidyverse,
     panel990
 Config/testthat/edition: 3
+Remotes:
+    Nonprofit-Open-Data-Collective/panel990
 VignetteBuilder: knitr
