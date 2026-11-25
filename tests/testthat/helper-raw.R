@@ -12,6 +12,7 @@ make_raw <- function(n = 1) {
     F9_04_BIZ_TRANSAC_DTK_ENTITY_X   = "false",
     F9_04_CONTR_NONCSH_MT_25K_X      = "false",
     F9_04_CONTR_ART_HIST_X           = "false",
+    F9_04_LOAN_DTK_X                 = "false",
     # Part VI
     F9_06_GVRN_NUM_VOTING_MEMB       = "10",
     F9_06_GVRN_NUM_VOTING_MEMB_IND   = "8",
@@ -29,15 +30,27 @@ make_raw <- function(n = 1) {
     F9_06_DISCLOSURE_AVBL_OTH_WEB_X  = "",
     F9_06_DISCLOSURE_AVBL_REQUEST_X  = "",
     F9_06_DISCLOSURE_AVBL_OWN_WEB_X  = "X",
+    F9_06_GVRN_DOC_COMMITTEE_X       = "true",
+    F9_06_POLICY_COMP_PROCESS_OTH_X  = "true",
+    F9_06_GVRN_ASSET_DIVERSION_X     = "false",
     # Part XII (accrual)
     F9_12_FINSTAT_METHOD_ACC_OTH     = "",
     F9_12_FINSTAT_METHOD_ACC_ACCRU_X = "X",
     F9_12_FINSTAT_METHOD_ACC_CASH_X  = "",
+    F9_12_FINSTAT_METHOD_ACC_OTH_X   = "",
+    F9_12_FINSTAT_COMPILE_X          = "false",
+    F9_12_FINSTAT_AUDIT_X            = "true",
+    F9_12_FINSTAT_AUDIT_COMMITTEE_X  = "true",
     # Schedule M
     SM_01_REVIEW_PROCESS_UNUSUAL_X   = "",
     stringsAsFactors = FALSE
   )
 }
+
+gi_cols <- c("GI_REVIEW_AUDIT", "GI_AUDIT", "GI_AUDIT_CMTE", "GI_ACCRUAL", "GI_INDEP_MAJOR",
+             "GI_MINUTES_BOARD", "GI_MINUTES_CMTE", "GI_990_BOARD", "GI_COI",
+             "GI_COI_DISCLOSE", "GI_COI_MONITOR", "GI_WHISTLE", "GI_RETENTION",
+             "GI_COMP_CEO", "GI_COMP_OTH", "GI_990_WEB")
 
 feature_cols <- c("P12_LINE_1", "P4_LINE_12", "P4_LINE_28", "P4_LINE_29_30",
                   "P6_LINE_1", "P6_LINE_11A", "P6_LINE_15A", "P6_LINE_18",

@@ -40,13 +40,60 @@ Here we outline the procedure employed to generate governance scores through fac
 
 We use the 2018 990 efile data as our training data for this model.
 
-## Known issues with the current model
+## The 2023 model (current default)
 
-This article documents how the shipped factor model (`data/factor-objects.rda`)
-was trained. Auditing it against the 2023 filing population turned up four
-problems. They are being addressed by refitting the model on 2023 data; until
-then, use `total.score` with care. The code below is left as it was run, so it
-remains a record of how the shipped model was produced.
+Since version 0.1.0, `get_scores()` uses a model refit on the full population
+of 501(c)(3) organizations that e-filed a full Form 990 for tax year 2023
+(about 271,000 organizations). The fitting script is
+`data-raw/fit-model-2023.R`, and the parameters ship as `gov_model_2023`.
+
+- **Items.** 16 binary practice items built by `get_features()` (the `GI_*`
+  columns):
+  - financial assurance: review or audit, audit, audit committee, accrual
+    accounting;
+  - board independence;
+  - minutes of board and committee meetings;
+  - Form 990 reviewed by the board;
+  - conflict-of-interest policy, annual disclosure and monitoring;
+  - whistleblower and document retention policies;
+  - pay-setting process for the CEO and for other officers;
+  - Form 990 posted on the organization's website.
+
+  Reported risk events (insider transactions, loans, family ties, management
+  companies, asset diversions) are returned as separate `RISK_*` indicators.
+  They are not index items: they correlate weakly with one another and
+  *positively* with practices, because larger organizations both adopt more
+  practices and have more to disclose.
+- **Model.** A bifactor two-parameter logistic item response model. A general
+  governance factor (`gov_score`) is estimated alongside four specific
+  factors that absorb the strong dependence among nested items (for example,
+  conflict-of-interest disclosure can only be reported with a written policy):
+  financial assurance, minutes, written policies, and compensation.
+  - Fit: RMSEA .038, CFI .99.
+  - Most of the shared variance runs through the general factor:
+    omega-hierarchical .81, and ECV — the general factor's share of the common
+    variance — .64. A single total score is therefore defensible.
+- **Comparisons with simpler scores.**
+  - `gov_score` correlates about .96 with `gov_count`, the simple number of
+    practices reported, which is returned alongside it.
+  - It correlates .68 with the legacy `total.score`.
+- **Stability over time.** Item parameters are fixed at their 2023 values,
+  so scores for other years are on the same scale. The items show no
+  meaningful differential item functioning across tax years 2021–2024.
+- **Caution when comparing sizes.** Three financial-assurance items (audit,
+  review or audit, accrual) function somewhat differently by organization size,
+  reflecting legal and funder audit thresholds.
+
+The rest of this article documents the original 2018 model, which remains
+available as `get_scores(features, model = "legacy-2018")`.
+
+## Known issues with the legacy 2018 model
+
+This section and the rest of the article document how the 2018 factor model
+(`data/factor-objects.rda`) was trained. Auditing it against the 2023 filing
+population turned up four problems, which led to the 2023 refit. The code below
+is left as it was run, so it remains a record of how the legacy model was
+produced.
 
 1. **The training sample excludes fully independent boards.** Step 3 keeps
    only filers with `P6_LINE_1A > P6_LINE_1B`, i.e. at least one voting member

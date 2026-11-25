@@ -1,72 +1,150 @@
 #' Calculate Governance Scores
 #'
-#' This function takes a data.frame of features appends 6 factor scores
-#' along with a total score.
+#' Scores organizations on the nonprofit governance index. By default
+#' (\code{model = "2023"}) the function applies the 2023 anchor model: a
+#' bifactor item response model fit to all 501(c)(3) full Form 990 filers in
+#' tax year 2023. It appends a general governance score, four specific-factor
+#' scores, and a simple count of practices. The original 2018 six-factor model
+#' remains available as \code{model = "legacy-2018"}.
 #'
-#' @param feature.matrix A matrix containing responses to questions for organizations.
-#' Output from `get_features` function.
-#' Rows represent each organization, and must contain columns that represent responses
-#' to the following questions:
-#' "P12_LINE_1", "P4_LINE_12", "P4_LINE_28", "P4_LINE_29_30", "P6_LINE_1", "P6_LINE_11A",
-#' "P6_LINE_15A", "P6_LINE_18", "P6_LINE_2", "P6_LINE_3", "P6_LINE_8A", "P6_LINE_12_13_14".
-#' See \code{vignette("making-gov-scores", package = "governance")} for details on these features.
+#' @param feature.matrix A data.frame of features, the output of
+#'   \code{\link{get_features}}. For \code{model = "2023"} it must contain the
+#'   16 \code{GI_*} item columns; for \code{model = "legacy-2018"} the 12 legacy
+#'   features (\code{"P12_LINE_1"}, \code{"P4_LINE_12"}, ...).
+#' @param model Which scoring model to apply: \code{"2023"} (default) or
+#'   \code{"legacy-2018"}.
+#' @param missing,impute,scores.by.hand Used only by \code{model = "legacy-2018"};
+#'   passed to \code{psych::factor.scores} as in earlier versions. With
+#'   \code{missing = FALSE}, rows with \code{NA} features are dropped.
 #'
-#' @param missing From psych::factor.scores. If missing is TRUE, missing items
-#' are imputed using either the median or mean. If missing is FALSE, the default,
-#' scores are found based upon the mean of the available items for each subject.
-#' If missing is FALSE, input rows with NA values will not be included in the output.
+#' @return The input data frame with appended columns.
 #'
-#' @param impute From psych::factor.scores. If missing == TRUE, then missing data
-#' can be imputed using "median" or "mean". The number of missing by subject is
-#' reported. If impute = "none", missing data are not scored.
-#' Median is the default for our usage because all of our feature values are binary.
+#' For \code{model = "2023"}:
+#' \describe{
+#'   \item{gov_score}{General governance score (EAP estimate of the general
+#'     factor). On the latent scale, 2023 501(c)(3) filers have mean 0 and
+#'     SD 1. Higher means more of the recommended practices.}
+#'   \item{gov_score_se}{Standard error of \code{gov_score}.}
+#'   \item{gov_s_finance, gov_s_minutes, gov_s_policy, gov_s_comp}{Specific-factor
+#'     scores for financial assurance, meeting minutes, written policies, and
+#'     compensation process. These are \emph{residual} dimensions, orthogonal
+#'     to \code{gov_score}: a positive value means the organization does
+#'     more in that area than its general score predicts. They are not
+#'     standalone subscales.}
+#'   \item{gov_count}{Number of the 16 practices present (0--16), a transparent
+#'     alternative that correlates about .96 with \code{gov_score}.}
+#'   \item{gov_n_items}{Number of the 16 items answered. Rows with no answered
+#'     items get \code{NA} scores.}
+#' }
 #'
-#' @param scores.by.hand If FALSE, psych::factor.scores is used to calculate features scores.
-#' If TRUE, manual calculations are used to calculate the factors scores. This option
-#' should only be used if `features.matrix` has no missing values AND is not of full rank
-#' (i.e. at least one column is all 0's or 1's).
-#' See Appendix of See \code{vignette("making-gov-scores", package = "governance")} for
-#' details on this calculation.
+#' For \code{model = "legacy-2018"}: six factor scores and \code{total.score},
+#' as in earlier versions of the package.
 #'
-#' @return A data frame with the original `features.matrix` input data and
-#' appended 6 factor scores along with a total score.
+#' @details
+#' \strong{2023 model.} The model has a general factor and four specific
+#' factors (testlets) that absorb the strong dependence among nested items:
+#' \itemize{
+#'   \item financial assurance: review/audit, audit, audit committee, accrual;
+#'   \item minutes: board and committee minutes;
+#'   \item written policies: conflict-of-interest policy, disclosure,
+#'     monitoring, whistleblower, retention;
+#'   \item compensation: CEO and other-officer pay process.
+#' }
+#' Board independence, Form 990 review by the board, and posting the 990 online
+#' load on the general factor only. Item parameters are fixed at their 2023
+#' values (\code{\link{gov_model_2023}}), so scores for other tax years are on
+#' the 2023 scale and can be compared over time; the items show no meaningful
+#' differential functioning across tax years 2021--2024. Missing items are
+#' handled by the IRT model (scores use the answered items). Scores are
+#' expected a posteriori (EAP) estimates computed with \code{mirt::fscores}.
 #'
-#' @details This function generates factor scores for observations in the input
-#' `feature.matrix` from pre-loaded factor model ( in `data/factor-objects.Rdata`)
+#' Three financial-assurance items (audit, review or audit, accrual) show
+#' moderate differential item functioning by organization size: at the same
+#' general level, larger organizations are more likely to be audited, in part
+#' because of legal and funder audit thresholds. Keep this in mind when
+#' comparing organizations of very different size.
 #'
-#' **Known limitation.** `total.score` is the unweighted sum of six orthogonal
-#' factor scores. Because some factors load negatively on features coded
-#' 1 = good practice, the implied weights on `P6_LINE_3`, `P6_LINE_2`,
-#' `P4_LINE_29_30` and `P4_LINE_28` are negative: reporting those practices
-#' lowers the total score. The model was also trained on a sample that excluded
-#' fully independent boards. See "Known issues" in
-#' \code{vignette("making-gov-scores", package = "governance")}. A refit on 2023
-#' data is planned.
+#' \strong{Legacy model.} The 2018 model has known problems, including negative
+#' implied weights on several good-practice features and a training sample that
+#' excluded fully independent boards. It is kept for reproducing earlier work.
+#' See "Known issues" in \code{vignette("making-gov-scores", package = "governance")}.
 #'
-#' @references
-#' Factor objects are loaded from "governance/pkg-funcs/factor-objects.Rdata".
-#'
-#' @seealso
-#' \code{\link{get_features}} for formatting `feature.matrix`.
-#'
+#' @seealso \code{\link{get_features}}, \code{\link{gov_model_2023}}.
 #'
 #' @examples
-#' # get data
 #' data("dat_example", package = "governance")
 #' set.seed(57)
-#' keep_rows <- sample(1:nrow(dat_example), 200)
-#' dat_example <- dat_example[keep_rows, ]
-#'
-#' # get features
+#' dat_example <- dat_example[sample(seq_len(nrow(dat_example)), 200), ]
 #' features_example <- get_features(dat_example)
 #'
-#' # get scores
+#' # 2023 index (default)
 #' scores_example <- get_scores(features_example)
+#' summary(scores_example$gov_score)
+#'
+#' # legacy 2018 model
+#' legacy <- get_scores(features_example, model = "legacy-2018")
 #'
 #' @export
+get_scores <- function(feature.matrix, model = c("2023", "legacy-2018"),
+                       missing = TRUE, impute = "median", scores.by.hand = FALSE) {
+  model <- match.arg(model)
+  if (model == "legacy-2018") {
+    return(.get_scores_legacy(feature.matrix, missing = missing, impute = impute,
+                              scores.by.hand = scores.by.hand))
+  }
+  .get_scores_2023(feature.matrix)
+}
 
 
-get_scores <- function(feature.matrix, missing = TRUE, impute = "median", scores.by.hand = FALSE){
+.get_scores_2023 <- function(feature.matrix) {
+  if (!requireNamespace("mirt", quietly = TRUE)) {
+    stop("The 'mirt' package is required for model = \"2023\". ",
+         "Install it with install.packages(\"mirt\").", call. = FALSE)
+  }
+  m <- governance::gov_model_2023
+  feature.matrix <- as.data.frame(feature.matrix)
+  miss <- setdiff(m$items, names(feature.matrix))
+  if (length(miss)) {
+    stop("feature.matrix is missing the 2023 index items: ", paste(miss, collapse = ", "),
+         ". Build features with get_features().", call. = FALSE)
+  }
+  X <- as.data.frame(lapply(feature.matrix[, m$items], function(v) as.numeric(as.character(v))))
+  bad <- vapply(X, function(v) any(!is.na(v) & !(v %in% c(0, 1))), logical(1))
+  if (any(bad)) {
+    stop("2023 index items must be 0, 1, or NA: ", paste(m$items[bad], collapse = ", "),
+         call. = FALSE)
+  }
+
+  n_items <- rowSums(!is.na(X))
+  count <- rowSums(X, na.rm = TRUE)
+  out <- data.frame(gov_score = rep(NA_real_, nrow(X)), gov_score_se = NA_real_,
+                    gov_s_finance = NA_real_, gov_s_minutes = NA_real_,
+                    gov_s_policy = NA_real_, gov_s_comp = NA_real_)
+  ok <- n_items > 0
+  if (any(ok)) {
+    # Two anchor rows guarantee both response categories for every item, which
+    # mirt needs to rebuild the model; their scores are discarded.
+    anchor <- as.data.frame(matrix(c(0, 1), nrow = 2, ncol = length(m$items),
+                                   dimnames = list(NULL, m$items)))
+    Y <- rbind(anchor, X[ok, , drop = FALSE])
+    fixed <- mirt::bfactor(Y, m$spec, pars = m$values, TOL = NaN, verbose = FALSE)
+    sc <- mirt::fscores(fixed, method = "EAP", QMC = TRUE, full.scores.SE = TRUE)
+    sc <- sc[-(1:2), , drop = FALSE]
+    out$gov_score[ok]     <- sc[, 1]
+    out$gov_score_se[ok]  <- sc[, ncol(sc) / 2 + 1]
+    out$gov_s_finance[ok] <- sc[, 2]
+    out$gov_s_minutes[ok] <- sc[, 3]
+    out$gov_s_policy[ok]  <- sc[, 4]
+    out$gov_s_comp[ok]    <- sc[, 5]
+  }
+  out$gov_count   <- ifelse(ok, count, NA_real_)
+  out$gov_n_items <- n_items
+  cbind(feature.matrix, out)
+}
+
+
+# Legacy 2018 six-factor model ----------------------------------------------
+.get_scores_legacy <- function(feature.matrix, missing = TRUE, impute = "median", scores.by.hand = FALSE){
   ### Function to read in new data, and return appended scores.
 
   ### Inputs

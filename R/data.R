@@ -63,3 +63,28 @@
 #' All data used to generate \code{\link{model6}}.
 #' Contains raw 990 data, features, and factor scores.
 "dat.2018"
+#' 2023 Governance Index Model
+#'
+#' @description
+#' Item parameters of the 2023 anchor model used by
+#' \code{get_scores(model = "2023")}: a bifactor two-parameter logistic item
+#' response model (\code{mirt::bfactor}) fit to the 16 \code{GI_*} practice
+#' items for every 501(c)(3) organization that e-filed a full Form 990 for tax
+#' year 2023. Fitting code: \code{data-raw/fit-model-2023.R} in the package
+#' source.
+#'
+#' @format A list with elements:
+#' \describe{
+#'   \item{values}{parameter table from \code{mirt::mod2values()}, used to rebuild
+#'     the model with fixed parameters when scoring}
+#'   \item{spec}{testlet assignment of each item (1 financial assurance,
+#'     2 minutes, 3 written policies, 4 compensation, \code{NA} general only)}
+#'   \item{items}{item names, in model order}
+#'   \item{factors}{names of the score columns, in factor order}
+#'   \item{year, n}{anchor tax year and number of organizations}
+#'   \item{logLik, BIC}{fit statistics}
+#'   \item{loadings}{standardized loadings on the general and specific factors}
+#'   \item{item_means}{share of 2023 filers reporting each practice}
+#'   \item{mirt_version, fitted}{mirt version used and date fitted}
+#' }
+"gov_model_2023"

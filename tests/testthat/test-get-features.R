@@ -64,6 +64,44 @@ test_that("without F9_04_AFS_CONSOL_X, P4_LINE_12 falls back to line 12a with a 
   raw <- make_raw(2)
   raw$F9_04_AFS_IND_X <- c("true", "false")
   raw$F9_04_AFS_CONSOL_X <- NULL
-  expect_message(f <- get_features(raw), "F9_04_AFS_CONSOL_X")
+  msgs <- character()
+  f <- withCallingHandlers(get_features(raw), message = function(m) {
+    msgs <<- c(msgs, conditionMessage(m)); invokeRestart("muffleMessage")
+  })
+  expect_true(any(grepl("line 12a only", msgs)))
   expect_equal(f$P4_LINE_12, c(1, 0))
+})
+
+test_that("get_features appends the 16 index items and 5 risk indicators", {
+  f <- get_features(make_raw(1))
+  expect_true(all(gi_cols %in% names(f)))
+  expect_equal(unname(unlist(f[1, gi_cols])), rep(1, 16))
+  risks <- c("RISK_INSIDER_BIZ", "RISK_LOAN", "RISK_FAM_TIES", "RISK_MGMT_CO", "RISK_DIVERSION")
+  expect_equal(unname(unlist(f[1, risks])), rep(0, 5))
+})
+
+test_that("COI sub-items are 0 without a policy and NA when blank", {
+  raw <- make_raw(3)
+  raw$F9_06_POLICY_COI_X <- c("true", "false", "")
+  raw$F9_06_POLICY_COI_DISCLOSURE_X <- c("false", "", "")
+  f <- get_features(raw)
+  expect_equal(f$GI_COI, c(1, 0, NA))
+  expect_equal(f$GI_COI_DISCLOSE, c(0, 0, NA))
+})
+
+test_that("audit committee is 0 when there is no review or audit", {
+  raw <- make_raw(2)
+  raw$F9_12_FINSTAT_AUDIT_X <- "false"; raw$F9_12_FINSTAT_COMPILE_X <- "false"
+  raw$F9_04_AFS_IND_X <- "false"; raw$F9_04_AFS_CONSOL_X <- "false"
+  raw$F9_12_FINSTAT_AUDIT_COMMITTEE_X <- c("", "true")
+  f <- get_features(raw)
+  expect_equal(f$GI_REVIEW_AUDIT, c(0, 0))
+  expect_equal(f$GI_AUDIT_CMTE, c(0, 0))
+})
+
+test_that("missing 2023 fields give a message, not an error", {
+  raw <- make_raw(1)
+  raw$F9_12_FINSTAT_AUDIT_COMMITTEE_X <- NULL
+  expect_message(f <- get_features(raw), "F9_12_FINSTAT_AUDIT_COMMITTEE_X")
+  expect_true(is.na(f$GI_AUDIT_CMTE) || f$GI_AUDIT_CMTE == 0)
 })

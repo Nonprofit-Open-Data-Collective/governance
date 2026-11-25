@@ -60,21 +60,23 @@ features_example |>
 
 ## Step 3: Calculate the scores
 
-`get_scores()` applies the pre-fit factor model and appends six factor scores
-plus a `total.score`.
+`get_scores()` applies the 2023 governance index model and appends a general
+governance score (`gov_score`, on a scale where 2023 501(c)(3) filers have mean
+0 and SD 1), its standard error, four specific-factor scores, and `gov_count`,
+the number of the 16 recommended practices the organization reports.
 
 ```{r}
 scores_example <- get_scores(features_example)
 
 scores_example |>
-  select(ORG_EIN, total.score) |>
+  select(ORG_EIN, gov_score, gov_score_se, gov_count) |>
   head()
 ```
 
 ```{r, fig.width=6, fig.height=4}
-hist(scores_example$total.score,
+hist(scores_example$gov_score,
      main = "Distribution of Governance Scores",
-     xlab = "Total Score")
+     xlab = "Governance score")
 ```
 
 See `vignette("governance-workflow")` for a fuller walk-through and

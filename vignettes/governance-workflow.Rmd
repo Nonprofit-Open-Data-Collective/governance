@@ -76,23 +76,27 @@ ggplot(rates, aes(x = reorder(feature, rate), y = rate)) +
 
 ## Step 3: Calculate the scores
 
-`get_scores()` applies the pre-fit factor model and appends six factor scores
-and a `total.score`.
+`get_scores()` applies the 2023 governance index model and appends a general
+governance score (`gov_score`, on a scale where 2023 501(c)(3) filers have mean
+0 and SD 1), its standard error, four specific-factor scores, and `gov_count`,
+the number of the 16 recommended practices the organization reports.
+The original 2018 model is still available with
+`get_scores(features, model = "legacy-2018")`.
 
 ```{r}
 scores_example <- get_scores(features_example)
 
 scores_example |>
-  select(ORG_EIN, total.score) |>
+  select(ORG_EIN, gov_score, gov_score_se, gov_count) |>
   head()
 ```
 
 ```{r, fig.width=6, fig.height=4}
-ggplot(scores_example, aes(x = total.score)) +
+ggplot(scores_example, aes(x = gov_score)) +
   geom_histogram(bins = 30) +
   labs(
     title = "Distribution of Governance Scores",
-    x = "Total Score", y = "Count"
+    x = "Governance score", y = "Count"
   )
 ```
 
@@ -119,8 +123,8 @@ bmf$EIN <- str_pad(gsub("\\D", "", bmf$EIN), 9, pad = "0")
 plot_data <- scores_example |>
   left_join(bmf, by = c("ORG_EIN" = "EIN"))
 
-ggplot(plot_data, aes(x = log(ASSETS), y = total.score)) +
+ggplot(plot_data, aes(x = log(ASSETS), y = gov_score)) +
   geom_point(alpha = 0.4) +
   labs(title = "Governance Scores vs. Total Assets",
-       x = "log(Total Assets)", y = "Total Governance Score")
+       x = "log(Total Assets)", y = "Governance score")
 ```

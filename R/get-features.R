@@ -90,6 +90,33 @@
 #' \code{F9_04_AFS_CONSOL_X} is not supplied, a message is shown and line 12a alone
 #' is used.
 #'
+#' @section 2023 index items:
+#' \code{get_features()} also appends the 16 practice items used by the 2023
+#' governance index (\code{model = "2023"} in \code{\link{get_scores}}), coded
+#' 1 when the practice is present, 0 when absent, and \code{NA} when the
+#' question was left blank:
+#' \describe{
+#'   \item{GI_REVIEW_AUDIT}{financial statements compiled, reviewed, or audited (XII-2a/2b, IV-12a/b)}
+#'   \item{GI_AUDIT}{financial statements audited (XII-2b, IV-12a/b)}
+#'   \item{GI_AUDIT_CMTE}{audit committee oversees the audit or review (XII-2c; 0 if no review or audit)}
+#'   \item{GI_ACCRUAL}{accrual accounting (XII-1)}
+#'   \item{GI_INDEP_MAJOR}{at least half of voting members are independent (VI-1a/1b)}
+#'   \item{GI_MINUTES_BOARD, GI_MINUTES_CMTE}{meetings of the board and of committees documented (VI-8a/8b)}
+#'   \item{GI_990_BOARD}{Form 990 provided to the board before filing (VI-11a)}
+#'   \item{GI_COI, GI_COI_DISCLOSE, GI_COI_MONITOR}{written conflict-of-interest policy; annual disclosure; monitoring (VI-12a/b/c; b and c are 0 without a policy)}
+#'   \item{GI_WHISTLE, GI_RETENTION}{whistleblower and document retention policies (VI-13, VI-14)}
+#'   \item{GI_COMP_CEO, GI_COMP_OTH}{independent pay-setting process for the CEO and for other officers (VI-15a/15b)}
+#'   \item{GI_990_WEB}{Form 990 posted on the organization's own website (VI-18)}
+#' }
+#' It also appends five risk indicators, coded 1 when the event is reported:
+#' \code{RISK_INSIDER_BIZ} (IV-28a/b/c), \code{RISK_LOAN} (IV-26),
+#' \code{RISK_FAM_TIES} (VI-2), \code{RISK_MGMT_CO} (VI-3) and
+#' \code{RISK_DIVERSION} (VI-5). They are not part of the index, because they
+#' record disclosures and exposures rather than practices, but are useful
+#' alongside it. The extra raw fields these items need are retrieved by
+#' \code{\link{get_governance_data}}; any that are absent are treated as blank,
+#' with a message.
+#'
 #' @return
 #' A data.frame appended with features needed to run the \code{\link{get_scores}} function.
 #'
@@ -380,6 +407,15 @@ get_features <- function(dat){
   # consistent 9-digit EIN regardless of how it arrived (integer with dropped
   # leading zeros, or a formatted "EIN-.." string).
   dat_return$ORG_EIN <- .pad_ein(dat_return$ORG_EIN)
+
+  ### 2023 index items and risk indicators ---------------------------------
+  missing_gi <- setdiff(.gi_fields, colnames(dat_orig))
+  if (length(missing_gi)) {
+    message("Fields used by the 2023 index are missing and treated as blank: ",
+            paste(missing_gi, collapse = ", "),
+            ". Retrieve them with get_governance_data() for full scores.")
+  }
+  dat_return <- cbind(dat_return, .gi_build(dat_orig))
 
   ### Return  ---------------------------------------------
   return(dat_return)

@@ -38,6 +38,10 @@
   "SM_01_REVIEW_PROCESS_UNUSUAL_X"
 )
 
+# Union of the legacy feature inputs and the 2023 index items (.gi_fields,
+# defined in gov-items.R; collation puts that file first).
+.all_gov_fields <- function() unique(c(.gov_fields, .gi_fields))
+
 #' Import raw 990 governance fields via the panel990 package
 #'
 #' Builds the input to \code{\link{get_features}} from the IRS efile archive
@@ -125,7 +129,7 @@ get_governance_data <- function(
 
   panel <- panel990::panelize(
     sfw = sfw, tables = .gov_tables, years = years, source = source,
-    columns = c(.gov_keys, .gov_fields), bmf = FALSE,
+    columns = c(.gov_keys, .all_gov_fields()), bmf = FALSE,
     cache = cache, path = path, verbose = verbose
   )
 

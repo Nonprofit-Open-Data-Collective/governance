@@ -78,7 +78,7 @@ test_that("get_governance_scores runs the full pipeline", {
   scores <- get_governance_scores(
     years = 2022, source = panel990::data_source(root = root, format = "csv"), verbose = FALSE
   )
-  expect_true("total.score" %in% names(scores))
+  expect_true("gov_score" %in% names(scores))
   expect_gt(nrow(scores), 0)
 })
 
