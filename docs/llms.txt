@@ -18,7 +18,6 @@ and
 ## Installation
 
 ``` r
-
 devtools::install_github( 'nonprofit-open-data-collective/governance' )
 ```
 
@@ -37,7 +36,6 @@ applies to **full 990 filers only** (not 990EZ).
 handles the retrieval, the full-990 filter, and the merge:
 
 ``` r
-
 # remotes::install_github("Nonprofit-Open-Data-Collective/panel990")
 dat <- get_governance_data(years = 2022)          # one row per filing, ready for get_features()
 scores <- get_governance_scores(years = 2022)     # or the whole pipeline in one call
@@ -52,7 +50,6 @@ sample of raw 2022 fields) so you can try the workflow without
 downloading anything:
 
 ``` r
-
 data("dat_example", package = "governance")
 
 set.seed(57)
@@ -62,14 +59,12 @@ dat_example <- dat_example[sample(seq_len(nrow(dat_example)), 200), ]
 ### Step 2: Build the feature matrix
 
 ``` r
-
 features_example <- get_features(dat_example)
 ```
 
 ### Step 3: Calculate the scores
 
 ``` r
-
 scores_example <- get_scores(features_example)
 ```
 

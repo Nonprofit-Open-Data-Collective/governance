@@ -1,7 +1,6 @@
 # The Legacy 2018 Model
 
 ``` r
-
 library( data.table )
 library( tidyverse )
 library( polycor )
@@ -16,7 +15,6 @@ six-factor model fit to tax year 2018 data. That model is still
 available for reproducing earlier work:
 
 ``` r
-
 get_scores( features, model = "legacy-2018" )
 ```
 
@@ -213,7 +211,6 @@ we are interested in using as the “base-line” for a governance index. In
 our case, we use the 2018 data.
 
 ``` r
-
 years = 2018
 ```
 
@@ -225,7 +222,6 @@ for a comprehensive data dictionary.
 ### Part IV
 
 ``` r
-
 ### Part IV
 
 #initialize data
@@ -257,7 +253,6 @@ dat_all_4 <-
 ### Part VI
 
 ``` r
-
 ### Part VI 
 
 #initialize data
@@ -335,7 +330,6 @@ dat_all_6 <-
 ### Part XII
 
 ``` r
-
 ### Part XII
 
 #initialize data
@@ -358,7 +352,6 @@ dat_all_12 <-
 ### Schedule M
 
 ``` r
-
 #initialize data
 dat_M <-  vector(mode = "list", length = length(years))
 #get columns I want 
@@ -385,7 +378,6 @@ dat_all_M <-
 [`data-raw/dat-train-raw.rda`](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-raw.rda).
 
 ``` r
-
 save(dat_all_4, dat_all_6, dat_all_12, dat_all_M,
      file = "data-raw/dat-train-raw.rda")
 ```
@@ -399,7 +391,6 @@ To keep this article reproducible offline, we load that saved copy of
 the raw 2018 data:
 
 ``` r
-
 # This article is built with the committed training data present (pkgdown, or a
 # source checkout). When it is unavailable -- e.g. R CMD check rebuilds vignettes
 # from the tarball, which excludes data-raw/ -- the remaining chunks are skipped
@@ -430,7 +421,6 @@ communal “yes/no” response (or other if appropriate) according to the
 | 12A, 12B, 28A, 28B, 28C, 29, 30 | `P4_LINE_12A`, …, `P4_LINE_30` | `"yes"`, `"no"` |
 
 ``` r
-
 #remove any unwanted years that may have accidentally appeared
 dat_all_4 <-
   dat_all_4 %>% 
@@ -457,7 +447,6 @@ dat_all_4 <-
 | 1, Schedule O | `P6_SCHEDULE_O` | `"X"` if Schedule O explains Part VI line 1; `NA` otherwise |
 
 ``` r
-
 #remove any unwanted years that may have accidentally appeared
 dat_all_6 <-
   dat_all_6 %>% 
@@ -501,7 +490,6 @@ why `P12_LINE_2B` is later found to be perfectly correlated with
 `P12_LINE_2A`.
 
 ``` r
-
 #remove any unwanted years that may have accidentally appeared
 dat_all_12 <-
   dat_all_12 %>% 
@@ -573,7 +561,6 @@ dat_all_12 <-
 | 31   | `PM_LINE_31` | `"yes"`, `"no"`, `NA` (Schedule M not filed) |
 
 ``` r
-
 #remove any unwanted years that may have accidentally appeared
 dat_all_M <-
   dat_all_M %>% 
@@ -597,7 +584,6 @@ consideration. Complete responses are required for training our factor
 model.
 
 ``` r
-
 
 #merge 
 #filter out all EZ's
@@ -641,7 +627,6 @@ practices. i.e.
 | `P12_LINE_3A`, `3B` | yes/no | 1 = 3a no, or 3a and 3b yes; 0 = 3a yes and 3b no |
 
 ``` r
-
 #For P6_LINE_1B / P6_LINE_1A >= 0.625
 indep_members_threshold <- 0.5 #this is ~ the median value for this data set
 
@@ -757,7 +742,6 @@ design_mat <- design_mat[, -(1:5)]
 [`data-raw/dat-train-wrangled.rda`](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-wrangled.rda).
 
 ``` r
-
 save(design_mat, 
      design_mat_ID,
      file = "data-raw/dat-train-wrangled.rda")
@@ -779,7 +763,6 @@ We first start with some basic exploratory data analysis to see the
 general structure of our features.
 
 ``` r
-
 tab_list <- design_mat %>%
   map( function(x) as.data.frame(table(x) ))
 
@@ -839,7 +822,6 @@ Let’s remove the features from our analysis that contain less that 2% in
 either the 0 or 1 class.
 
 ``` r
-
 ### Remove factors where less than 2% in either class 
 ### This was as small as we could make it in this data set without the correlation matrix being singular
 ### Remove P12_Line_2B because it is perfectly correlated with 2A
@@ -863,7 +845,6 @@ features. Let’s explore some of these more to decide which ones we want
 to keep in our analysis.
 
 ``` r
-
 # make as factor
 design_mat_keep <- sapply(design_mat[, ..vars_keep], as.factor) #note the ..vars_keep. the ".." is deliberalty needed in datatable package updates 
 
@@ -887,7 +868,6 @@ ggcorrplot(corr_mat$correlations,
 Let’s look at which features have a correlation of over 0.90.
 
 ``` r
-
 dat_cor <- as.data.frame(corr_mat$correlations)
 dat_cor$var1 <- rownames(dat_cor) 
 
@@ -924,7 +904,6 @@ you have documented policies?
 - P6_Line_12A = Whether have a written conflict of interest policy (y/n)
 
 ``` r
-
 ## All 3 are very correlated
 design_mat %>% 
   select(P6_LINE_13, P6_LINE_14, P6_LINE_12A) %>%
@@ -998,7 +977,6 @@ organization.
   than the governing body?
 
 ``` r
-
 design_mat %>% 
   select(P6_LINE_7A, P6_LINE_7B) %>%
   mutate_all(as.factor) %>%
@@ -1042,7 +1020,6 @@ neither.
   key employees?
 
 ``` r
-
 design_mat %>% 
   select(P6_LINE_15A, P6_LINE_15B) %>%
   mutate(P6_LINE_15A = as.factor(P6_LINE_15A),
@@ -1077,7 +1054,6 @@ Similar to above, both items tell a similar sentiment.
 - 8b.Whether documented the meetings by each committee (y/n)
 
 ``` r
-
 design_mat %>% 
   select(P6_LINE_8A, P6_LINE_8B) %>%
   mutate(P6_LINE_8A = as.factor(P6_LINE_8A),
@@ -1106,7 +1082,6 @@ design_mat <-
 Let’s look at our new correlation structure.
 
 ``` r
-
 #### Trying the Correlations Again without the problematic variables
 
 #updated the variables to keep
@@ -1144,7 +1119,6 @@ with!
 [`data-raw/dat-train-final.rda`](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/dat-train-final.rda).
 
 ``` r
-
 save(design_mat2, 
      design_mat_ID,
      file = "data-raw/dat-train-final.rda")
@@ -1194,7 +1168,6 @@ governance practice)
 | `P12_LINE_3` | Less than 2% in the 0 category |
 
 ``` r
-
 #make the features matrix
 features2 <-  matrix( 
   as.numeric(design_mat2), ncol = ncol(design_mat2)) 
@@ -1223,7 +1196,6 @@ We choose to use 6 factors based on the plot below and after testing the
 interpretability of our results.
 
 ``` r
-
 fa.parallel(rho2, 
             fm="mle", 
             fa="fa", 
@@ -1243,7 +1215,6 @@ Once we have decided we will use 6 factors, we run the factor analysis
 model.
 
 ``` r
-
 set.seed(98435)
 model6 = fa(features2, nfactor=6, cor="poly", fm="mle", rotate = "equamax")
 #> Loading required namespace: GPArotation
@@ -1300,7 +1271,6 @@ we wish to use when calculating our factor scores.
   (but see Known issue 3).
 
 ``` r
-
 scores <- factor.scores(features2, #data to caluculate scores on 
                         model6,  #model object 
                         rho = polychoric(features2)$rho, #polychoric correlation
@@ -1322,7 +1292,6 @@ hist(all.dat$total.score,
 object in `data/factor-objects.rda`.
 
 ``` r
-
 dat.2018 <- cbind(design_mat_ID, all.dat)
 save(dat.2018,
      features2,
@@ -1354,7 +1323,6 @@ We demonstrate how factor scores can be calculated for a new data set.
 First, we generate new data.
 
 ``` r
-
 #make new data that "somewhat" resembles the original data
 N <- 100
 new.data <- matrix(NA, ncol = ncol(features2), nrow = N)
@@ -1372,7 +1340,6 @@ It is important to use the correlation structure of the original data,
 interpretable.
 
 ``` r
-
 new.scores<- factor.scores(new.data,  #new data 
                         model6, #model object 
                         rho = rho2, #polychoric corrlations of original data
@@ -1412,7 +1379,6 @@ Let,
   scales the $`D`$ matrix in its calculation).
 
 ``` r
-
 # from above: 
 # scores <- factor.scores(features2, 
 #                         model6, 
@@ -1433,7 +1399,7 @@ sum(abs((D %*% W) - S))
 
 #W = C^(-1) L so lets check  ||C^(-1) L - W|| ~=0
 sum(abs(solve(C) %*% L - W))
-#> [1] 1.216317e-14
+#> [1] 1.291725e-14
 ```
 
 If we were to get new data, this is how we would get the new scores. It
@@ -1441,7 +1407,6 @@ is important to use the correlation matrix of the original data set so
 that the score results are interpretable.
 
 ``` r
-
 scaled.mean <- attr(data.scaled, "scaled:center")
 scaled.sd <- attr(data.scaled, "scaled:scale")
 
@@ -1472,7 +1437,6 @@ the `factor.scores` function to have more control over which correlation
 matrix is used.
 
 ``` r
-
 ## Default scores 
 S.defult <- model6$scores
 
@@ -1486,13 +1450,13 @@ C.poly <- rho2
 S.poly <- D %*% solve(C.poly) %*% L
 # show that ||S.polychoric - factor.scores output|| ~= 0
 sum(abs(scores$scores - S.poly)) #approx 0
-#> [1] 2.51248e-10
+#> [1] 2.529046e-10
 
 ## What the `fa` funciton gives us
 S.pearson <- D %*% solve(C.pearson) %*% L
 # show that ||S.default - fa output|| ~=0 
 sum(abs(S.defult - S.pearson)) #approx 0
-#> [1] 1.290677e-10
+#> [1] 1.315959e-10
 
 #But S.poly =/= S.pearson
 sum(abs(S.defult - S.poly))

@@ -62,7 +62,15 @@ For `model = "2023"`:
   written policies, and compensation process. These are *residual*
   dimensions, orthogonal to `gov_score`: a positive value means the
   organization does more in that area than its general score predicts.
-  They are not standalone subscales.
+  They are not standalone subscales, and they are much less reliable
+  than `gov_score` (empirical reliability among 2023 filers: finance
+  .57, compensation .48, minutes .41, policy .29, vs .83 for
+  `gov_score`). Only `gov_s_finance` carries substantial variance of its
+  own. **Do not use `gov_s_policy`**: the written-policy items are the
+  core of `gov_score`, and the policy factor has almost no variance of
+  its own (omega-hierarchical \< .01); it only contrasts the
+  conflict-of-interest items with the whistleblower and retention
+  policies. It is returned for completeness.
 
 - gov_count:
 
@@ -131,7 +139,7 @@ features_example <- get_features(dat_example)
 scores_example <- get_scores(features_example)
 summary(scores_example$gov_score)
 #>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-#> -1.944843 -0.847470  0.006912  0.007729  0.754730  1.692338 
+#> -1.944843 -0.847470  0.006912  0.007729  0.754730  1.692339 
 
 # legacy 2018 model
 legacy <- get_scores(features_example, model = "legacy-2018")

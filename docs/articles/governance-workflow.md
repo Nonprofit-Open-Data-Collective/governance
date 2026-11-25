@@ -1,7 +1,6 @@
 # Governance Workflow
 
 ``` r
-
 library( governance )
 library( dplyr )
 library( ggplot2 )
@@ -18,7 +17,6 @@ see
 [`vignette("download-data")`](https://nonprofit-open-data-collective.github.io/governance/articles/download-data.md).
 
 ``` r
-
 data( "dat_example", package = "governance" )
 
 set.seed( 57 )
@@ -38,7 +36,6 @@ returns the input with three groups of columns appended.
 | 12 `P*_LINE_*` features | Features of the 2018 model | `get_scores( model = "legacy-2018" )` |
 
 ``` r
-
 features <- get_features( dat_example )
 ```
 
@@ -70,7 +67,6 @@ Practices differ a great deal in how common they are. Nearly every filer
 documents board meetings; fewer than one in ten posts its 990 online.
 
 ``` r
-
 rates <-
   features |>
   summarise( across(starts_with("GI_"), \(x) mean(x, na.rm = TRUE)) ) |>
@@ -95,7 +91,6 @@ with organization size, so they correlate *positively* with good
 practice. Report them alongside the score.
 
 ``` r
-
 features |>
   summarise( across(starts_with("RISK_"), \(x) mean(x, na.rm = TRUE)) ) |>
   tidyr::pivot_longer( everything(), names_to = "indicator", values_to = "share" ) |>
@@ -113,7 +108,6 @@ features |>
 ## Step 2: Calculate the scores
 
 ``` r
-
 scores <- get_scores( features )
 ```
 
@@ -126,7 +120,7 @@ appends eight columns.
 | `gov_score_se` | Standard error of `gov_score`. |
 | `gov_s_finance` | Financial-assurance specific factor (audit, review, audit committee, accrual). |
 | `gov_s_minutes` | Minutes specific factor (board and committee minutes). |
-| `gov_s_policy` | Written-policies specific factor (conflict of interest, whistleblower, retention). |
+| `gov_s_policy` | Written-policies specific factor (conflict of interest, whistleblower, retention). **Not recommended**; see below. |
 | `gov_s_comp` | Compensation specific factor (CEO and other-officer pay process). |
 | `gov_count` | Number of the 16 practices reported (0–16). |
 | `gov_n_items` | Number of the 16 items answered. |
@@ -137,8 +131,26 @@ that area than its general score predicts. They are not standalone
 subscales: an organization with a high `gov_s_finance` and a low
 `gov_score` is one that is audited but has few other practices.
 
-``` r
+The specific factors are also much less reliable than `gov_score`. Among
+2023 filers the empirical reliability of the scores is:
 
+| Score | Reliability | Use |
+|----|----|----|
+| `gov_score` | .83 | Main score. |
+| `gov_s_finance` | .57 | The one subscore with substantial variance of its own; report it alongside `gov_score`. |
+| `gov_s_comp` | .48 | Supplementary (two items). |
+| `gov_s_minutes` | .41 | Supplementary (two items). |
+| `gov_s_policy` | .29 | Do not use. |
+
+**Do not use `gov_s_policy`.** The written-policy items are the core of
+`gov_score`, so the policy factor has almost no variance of its own
+(omega-hierarchical \< .01). Its loadings only contrast the
+conflict-of-interest items with the whistleblower and retention
+policies. The column is returned for completeness. For simple
+domain-level measures, use the share of practices adopted in each domain
+instead. Those shares are not residuals, so they move with `gov_score`.
+
+``` r
 ggplot( scores, aes(x = gov_score) ) +
   geom_histogram( bins = 30, fill = "#1696d2" ) +
   labs( x = "Governance score", y = "Organizations" )
@@ -155,7 +167,6 @@ about governance, every score has a standard error, and the scale is
 anchored to 2023 so it does not drift as practices spread.
 
 ``` r
-
 ggplot( scores, aes(x = gov_count, y = gov_score) ) +
   geom_jitter( width = 0.2, alpha = 0.3 ) +
   labs( x = "Practices reported (gov_count)", y = "gov_score" )
@@ -174,7 +185,6 @@ discriminate. Treat differences smaller than about two standard errors
 as noise, especially at the top and bottom.
 
 ``` r
-
 scores |>
   mutate( quintile = ntile(gov_score, 5) ) |>
   group_by( quintile ) |>
@@ -197,7 +207,6 @@ their standard errors are larger. Rows that answered none of the 16
 items get `NA` scores.
 
 ``` r
-
 table( items_answered = scores$gov_n_items ) |>
   knitr::kable( col.names = c("Items answered", "Organizations") )
 ```
@@ -223,7 +232,6 @@ File](https://nccs.urban.org/nccs/catalogs/catalog-bmf.html) on
 large file.
 
 ``` r
-
 bmf_url <- paste0( "https://nccsdata.s3.us-east-1.amazonaws.com/",
                    "bmf/unified/v1.2/UNIFIED_BMF_V1.2.csv" )
 
@@ -242,6 +250,5 @@ practices. See
 [`vignette("legacy-2018-model")`](https://nonprofit-open-data-collective.github.io/governance/articles/legacy-2018-model.md).
 
 ``` r
-
 legacy <- get_scores( features, model = "legacy-2018" )
 ```

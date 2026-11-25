@@ -2206,27 +2206,27 @@ loadings.</p>
 <ul>
 <li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
 = the Design matrix
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mrow><mi>n</mi><mi>x</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{n x 12}</annotation></semantics></math></p></li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi>ℝ</mi><mrow><mi>n</mi><mi>x</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{n x 12}</annotation></semantics></math></p></li>
 <li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>D</mi><mi>S</mi></msub><annotation encoding="application/x-tex">D_S</annotation></semantics></math>
 = Design matrix with columns centered at 0 and scaled to have 1 sd
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mrow><mi>n</mi><mi>x</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{n x 12}</annotation></semantics></math></p></li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi>ℝ</mi><mrow><mi>n</mi><mi>x</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{n x 12}</annotation></semantics></math></p></li>
 <li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>
 = observed correlation matrix
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mrow><mn>12</mn><mi>x</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{12 x 12}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi>ℝ</mi><mrow><mn>12</mn><mi>x</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{12 x 12}</annotation></semantics></math>
 . In our example, this is the polychoric correlation.</p></li>
 <li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
 = factor loading matrix
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mrow><mn>12</mn><mi>x</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{12 x 6}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi>ℝ</mi><mrow><mn>12</mn><mi>x</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{12 x 6}</annotation></semantics></math>
 . This is calculated from the <code>fa</code> function.</p></li>
 <li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>=</mo><msup><mi>C</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mi>L</mi></mrow><annotation encoding="application/x-tex">W = C^{-1}L</annotation></semantics></math>
 = matrix of weights
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
 ’s in the regression model)
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mrow><mn>12</mn><mi>x</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{12 x 6}</annotation></semantics></math></p></li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi>ℝ</mi><mrow><mn>12</mn><mi>x</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{12 x 6}</annotation></semantics></math></p></li>
 <li>
 <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><msub><mi>D</mi><mi>s</mi></msub><mi>W</mi></mrow><annotation encoding="application/x-tex">S = D_s W</annotation></semantics></math>
 = matrix of scores
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mrow><mi>n</mi><mi>x</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{n x 6}</annotation></semantics></math></p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><msup><mi>ℝ</mi><mrow><mi>n</mi><mi>x</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\in \mathbb{R}^{n x 6}</annotation></semantics></math></p>
 <p>Thus if
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>D</mi><mi>s</mi><mo>*</mo></msubsup><annotation encoding="application/x-tex">D_s^*</annotation></semantics></math>
 is a new (scaled) design matrix using the same scaling mean and sd as
@@ -2260,7 +2260,7 @@ matrix in its calculation).</p>
 <span></span>
 <span><span class="co">#W = C^(-1) L so lets check  ||C^(-1) L - W|| ~=0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/solve-methods.html" class="external-link">solve</a></span><span class="op">(</span><span class="va">C</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">L</span> <span class="op">-</span> <span class="va">W</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.216317e-14</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 1.291725e-14</span></span></code></pre></div>
 <p>If we were to get new data, this is how we would get the new scores.
 It is important to use the correlation matrix of the original data set
 so that the score results are interpretable.</p>
@@ -2314,13 +2314,13 @@ have more control over which correlation matrix is used.</p>
 <span><span class="va">S.poly</span> <span class="op">&lt;-</span> <span class="va">D</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/solve-methods.html" class="external-link">solve</a></span><span class="op">(</span><span class="va">C.poly</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">L</span></span>
 <span><span class="co"># show that ||S.polychoric - factor.scores output|| ~= 0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">scores</span><span class="op">$</span><span class="va">scores</span> <span class="op">-</span> <span class="va">S.poly</span><span class="op">)</span><span class="op">)</span> <span class="co">#approx 0</span></span>
-<span><span class="co">#&gt; [1] 2.51248e-10</span></span>
+<span><span class="co">#&gt; [1] 2.529046e-10</span></span>
 <span></span>
 <span><span class="co">## What the `fa` funciton gives us</span></span>
 <span><span class="va">S.pearson</span> <span class="op">&lt;-</span> <span class="va">D</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/solve-methods.html" class="external-link">solve</a></span><span class="op">(</span><span class="va">C.pearson</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">L</span></span>
 <span><span class="co"># show that ||S.default - fa output|| ~=0 </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">S.defult</span> <span class="op">-</span> <span class="va">S.pearson</span><span class="op">)</span><span class="op">)</span> <span class="co">#approx 0</span></span>
-<span><span class="co">#&gt; [1] 1.290677e-10</span></span>
+<span><span class="co">#&gt; [1] 1.315959e-10</span></span>
 <span></span>
 <span><span class="co">#But S.poly =/= S.pearson</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">S.defult</span> <span class="op">-</span> <span class="va">S.poly</span><span class="op">)</span><span class="op">)</span></span>

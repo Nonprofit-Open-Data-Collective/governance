@@ -1,5 +1,17 @@
 # Changelog
 
+## governance (development version)
+
+### Documentation
+
+- [`get_scores()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_scores.md)
+  and the vignettes now report how reliable the specific-factor scores
+  are and advise against using `gov_s_policy`. That factor has almost no
+  variance of its own (omega-hierarchical \< .01), because the
+  written-policy items are the core of the general score.
+  `gov_s_finance` is the one subscore recommended alongside `gov_score`.
+  No scores change.
+
 ## governance 0.1.0
 
 ### Breaking changes

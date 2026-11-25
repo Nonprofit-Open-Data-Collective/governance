@@ -22,7 +22,6 @@ the one-call path and the underlying `panel990` workflow for when you
 want more control. Install `panel990` first:
 
 ``` r
-
 remotes::install_github( "Nonprofit-Open-Data-Collective/panel990" )
 ```
 
@@ -54,7 +53,6 @@ needed columns, and merges them to one row per filing — ready for
 [`get_features()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_features.md).
 
 ``` r
-
 library( governance )
 
 # raw fields for one tax year, full 990 filers only
@@ -72,7 +70,6 @@ values), or read tables you have already downloaded by pointing the
 source at a directory:
 
 ``` r
-
 scores <- get_governance_scores( years = 2023, eins = "EIN-43-2031361" )
 
 # tables already on disk
@@ -94,7 +91,6 @@ built-in sample-frame alias mapping to the `RETURN_TYPE` column, so
 `form_type = "990"` keeps only `RETURN_TYPE == "990"`.
 
 ``` r
-
 library( panel990 )
 
 gov_tables <- c( "F9-P04-T00-REQUIRED-SCHEDULES",
@@ -214,7 +210,6 @@ To reproduce that population, add the header and Part I tables and
 filter on the 501(c)(3) checkbox:
 
 ``` r
-
 tables <- c( "F9-P00-T00-HEADER", "F9-P01-T00-SUMMARY", gov_tables )
 
 panel <-

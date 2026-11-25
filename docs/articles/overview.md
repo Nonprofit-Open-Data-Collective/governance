@@ -175,7 +175,10 @@ general score predicts, which echoes the size effect on audits discussed
 in
 [`vignette("making-gov-scores")`](https://nonprofit-open-data-collective.github.io/governance/articles/making-gov-scores.md).
 Minutes and written policies show no size pattern beyond the general
-score.
+score. The written-policies factor has almost no variance of its own and
+should not be used as a subscore. It appears here only for completeness
+(see
+[`vignette("governance-workflow")`](https://nonprofit-open-data-collective.github.io/governance/articles/governance-workflow.md)).
 
 | Size        | Financial assurance | Minutes | Written policies | Compensation |
 |:------------|--------------------:|--------:|-----------------:|-------------:|
@@ -277,7 +280,6 @@ example, with a scored data frame `scores` that has an `expenses`
 column:
 
 ``` r
-
 breaks <- c( -Inf, 1e5, 5e5, 2e6, 1e7, 4e7, Inf )
 labels <- c( "<$100k", "$100k-500k", "$500k-2m", "$2m-10m", "$10m-40m", "$40m+" )
 

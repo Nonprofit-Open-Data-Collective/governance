@@ -9,6 +9,7 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set( collapse = TRUE, comment = "#>" )
+options( knitr.kable.NA = "" )   # blank cells, e.g. suppressed loadings
 ```
 
 ```{r setup, message = FALSE, warning = FALSE}

@@ -119,7 +119,15 @@ scores for financial assurance, meeting minutes, written policies, and
 compensation process. These are <em>residual</em> dimensions, orthogonal
 to <code>gov_score</code>: a positive value means the organization does
 more in that area than its general score predicts. They are not
-standalone subscales.</p></dd>
+standalone subscales, and they are much less reliable than
+<code>gov_score</code> (empirical reliability among 2023 filers: finance .57,
+compensation .48, minutes .41, policy .29, vs .83 for
+<code>gov_score</code>). Only <code>gov_s_finance</code> carries substantial
+variance of its own. <strong>Do not use <code>gov_s_policy</code></strong>: the
+written-policy items are the core of <code>gov_score</code>, and the policy
+factor has almost no variance of its own (omega-hierarchical &lt; .01);
+it only contrasts the conflict-of-interest items with the whistleblower
+and retention policies. It is returned for completeness.</p></dd>
 
 <dt>gov_count</dt>
 <dd><p>Number of the 16 practices present (0–16), a transparent
@@ -174,7 +182,7 @@ See "Known issues" in <code><a href="../articles/legacy-2018-model.html">vignett
 <span class="r-in"><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu">get_scores</span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">scores_example</span><span class="op">$</span><span class="va">gov_score</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -1.944843 -0.847470  0.006912  0.007729  0.754730  1.692338 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -1.944843 -0.847470  0.006912  0.007729  0.754730  1.692339 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># legacy 2018 model</span></span></span>
 <span class="r-in"><span><span class="va">legacy</span> <span class="op">&lt;-</span> <span class="fu">get_scores</span><span class="op">(</span><span class="va">features_example</span>, model <span class="op">=</span> <span class="st">"legacy-2018"</span><span class="op">)</span></span></span>

@@ -1,7 +1,6 @@
 # Getting Started
 
 ``` r
-
 library( governance )
 library( dplyr )
 ```
@@ -41,7 +40,6 @@ The package also ships `dat_example`, a 5,000-organization sample of raw
 2022 fields, so you can try the workflow without downloading anything.
 
 ``` r
-
 data( "dat_example", package = "governance" )
 
 # a 200-organization subset keeps the examples fast
@@ -59,7 +57,6 @@ left blank. It also adds five `RISK_*` disclosure indicators and the 12
 features used by the older 2018 model.
 
 ``` r
-
 features <- get_features( dat_example )
 
 # share of organizations reporting each practice
@@ -96,7 +93,6 @@ specific-factor scores and `gov_count`, the number of the 16 practices
 the organization reports.
 
 ``` r
-
 scores <- get_scores( features )
 
 vars <- c( "ORG_NAME_L1", "gov_score", "gov_score_se", "gov_count" )
@@ -116,7 +112,6 @@ scores[ , vars ] |>
 | 3673 | GROW WELLNESS FOUNDATION | -1.94 | 0.65 | 0 |
 
 ``` r
-
 hist( scores$gov_score,
       main = "Governance scores, 200 example organizations",
       xlab = "gov_score (0 = average 2023 filer)" )

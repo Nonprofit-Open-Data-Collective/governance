@@ -1,7 +1,6 @@
 # Making Governance Scores
 
 ``` r
-
 library( governance )
 library( dplyr )
 library( ggplot2 )
@@ -128,7 +127,6 @@ recommendation and is the item used.
 ## 3. Coding the 16 items
 
 ``` r
-
 data( "dat_example", package = "governance" )
 
 features <- get_features( dat_example )
@@ -151,7 +149,6 @@ defined for every organization. The cross tab shows the structure: no
 organization reports disclosure without a policy.
 
 ``` r
-
 table( policy = features$GI_COI, disclosure = features$GI_COI_DISCLOSE ) |>
   knitr::kable()
 ```
@@ -176,7 +173,6 @@ The items differ widely in how common they are. Prevalence in the
 example sample is close to the 2023 population.
 
 ``` r
-
 prevalence <- data.frame(
   item       = items,
   example    = colMeans( features[ , items ], na.rm = TRUE ),
@@ -213,7 +209,6 @@ association. Tetrachoric correlations estimate the correlation between
 the continuous propensities that underlie each yes/no answer.
 
 ``` r
-
 tet <- psych::tetrachoric( features[ , items ] )
 
 ggcorrplot::ggcorrplot( tet$rho, hc.order = TRUE, type = "lower",
@@ -255,7 +250,6 @@ organizations).
 The three-factor solution replicates on the example sample:
 
 ``` r
-
 efa <- psych::fa( tet$rho, nfactors = 3, n.obs = nrow(features),
                   rotate = "oblimin", fm = "minres" )
 
@@ -267,22 +261,22 @@ knitr::kable( loadings, digits = 2 )
 
 |                  |  MR1 |  MR2 |  MR3 |
 |:-----------------|-----:|-----:|-----:|
-| GI_REVIEW_AUDIT  |   NA | 1.02 |   NA |
-| GI_AUDIT         |   NA | 0.99 |   NA |
-| GI_AUDIT_CMTE    |   NA | 0.93 |   NA |
-| GI_ACCRUAL       |   NA | 0.64 |   NA |
-| GI_INDEP_MAJOR   |   NA |   NA | 0.49 |
-| GI_MINUTES_BOARD |   NA |   NA | 0.96 |
-| GI_MINUTES_CMTE  |   NA |   NA | 0.93 |
-| GI_990_BOARD     | 0.42 |   NA |   NA |
-| GI_COI           | 1.01 |   NA |   NA |
-| GI_COI_DISCLOSE  | 1.00 |   NA |   NA |
-| GI_COI_MONITOR   | 0.98 |   NA |   NA |
-| GI_WHISTLE       | 0.86 |   NA |   NA |
-| GI_RETENTION     | 0.80 |   NA |   NA |
-| GI_COMP_CEO      | 0.67 |   NA |   NA |
-| GI_COMP_OTH      | 0.62 |   NA |   NA |
-| GI_990_WEB       | 0.36 |   NA |   NA |
+| GI_REVIEW_AUDIT  |      | 1.02 |      |
+| GI_AUDIT         |      | 0.99 |      |
+| GI_AUDIT_CMTE    |      | 0.93 |      |
+| GI_ACCRUAL       |      | 0.64 |      |
+| GI_INDEP_MAJOR   |      |      | 0.49 |
+| GI_MINUTES_BOARD |      |      | 0.96 |
+| GI_MINUTES_CMTE  |      |      | 0.93 |
+| GI_990_BOARD     | 0.42 |      |      |
+| GI_COI           | 1.01 |      |      |
+| GI_COI_DISCLOSE  | 1.00 |      |      |
+| GI_COI_MONITOR   | 0.98 |      |      |
+| GI_WHISTLE       | 0.86 |      |      |
+| GI_RETENTION     | 0.80 |      |      |
+| GI_COMP_CEO      | 0.67 |      |      |
+| GI_COMP_OTH      | 0.62 |      |      |
+| GI_990_WEB       | 0.36 |      |      |
 
 Two more checks support a single ordered scale. A Mokken scale analysis
 places all 16 items in one scale (H = .56, a strong scale): practices
@@ -333,11 +327,22 @@ and the 990 posted online load on the general factor only.
 | Written policies | COI policy, disclosure, monitoring, whistleblower, retention | `gov_s_policy` |
 | Compensation | CEO pay process, other-officer pay process | `gov_s_comp` |
 
+The specific factors differ in how much they measure on their own. The
+share of each subscale’s variance that belongs to its specific factor
+(omega-hierarchical for the subscale) is .46 for financial assurance,
+.50 for compensation and .76 for minutes, but under .01 for written
+policies. The policy loadings are small and change sign (about +.23 on
+the three conflict-of-interest items and -.24 on whistleblower and
+retention). The written policies are the core of the general factor, so
+their specific factor is only a contrast within the bundle and should
+not be used as a subscore. Financial assurance is the most useful
+subscore (score reliability .57). The other three are less reliable (.29
+to .48).
+
 Fit to all 271,116 organizations: M2 RMSEA .038, SRMSR .040, CFI .992.
 The standardized loadings are stored in `gov_model_2023`:
 
 ``` r
-
 L <- as.data.frame( gov_model_2023$loadings )
 names( L ) <- c( "General", "Finance", "Minutes", "Policy", "Comp" )
 L[ L == 0 ] <- NA
@@ -347,22 +352,22 @@ knitr::kable( L, digits = 2 )
 
 |                  | General | Finance | Minutes | Policy | Comp |
 |:-----------------|--------:|--------:|--------:|-------:|-----:|
-| GI_REVIEW_AUDIT  |    0.68 |    0.73 |      NA |     NA |   NA |
-| GI_AUDIT         |    0.70 |    0.71 |      NA |     NA |   NA |
-| GI_AUDIT_CMTE    |    0.70 |    0.69 |      NA |     NA |   NA |
-| GI_ACCRUAL       |    0.63 |    0.46 |      NA |     NA |   NA |
-| GI_INDEP_MAJOR   |    0.47 |      NA |      NA |     NA |   NA |
-| GI_MINUTES_BOARD |    0.58 |      NA |    0.78 |     NA |   NA |
-| GI_MINUTES_CMTE  |    0.35 |      NA |    0.93 |     NA |   NA |
-| GI_990_BOARD     |    0.50 |      NA |      NA |     NA |   NA |
-| GI_COI           |    0.97 |      NA |      NA |   0.23 |   NA |
-| GI_COI_DISCLOSE  |    0.97 |      NA |      NA |   0.24 |   NA |
-| GI_COI_MONITOR   |    0.96 |      NA |      NA |   0.24 |   NA |
-| GI_WHISTLE       |    0.96 |      NA |      NA |  -0.23 |   NA |
-| GI_RETENTION     |    0.93 |      NA |      NA |  -0.25 |   NA |
-| GI_COMP_CEO      |    0.73 |      NA |      NA |     NA | 0.62 |
-| GI_COMP_OTH      |    0.63 |      NA |      NA |     NA | 0.76 |
-| GI_990_WEB       |    0.49 |      NA |      NA |     NA |   NA |
+| GI_REVIEW_AUDIT  |    0.68 |    0.73 |         |        |      |
+| GI_AUDIT         |    0.70 |    0.71 |         |        |      |
+| GI_AUDIT_CMTE    |    0.70 |    0.69 |         |        |      |
+| GI_ACCRUAL       |    0.63 |    0.46 |         |        |      |
+| GI_INDEP_MAJOR   |    0.47 |         |         |        |      |
+| GI_MINUTES_BOARD |    0.58 |         |    0.78 |        |      |
+| GI_MINUTES_CMTE  |    0.35 |         |    0.93 |        |      |
+| GI_990_BOARD     |    0.50 |         |         |        |      |
+| GI_COI           |    0.97 |         |         |   0.23 |      |
+| GI_COI_DISCLOSE  |    0.97 |         |         |   0.24 |      |
+| GI_COI_MONITOR   |    0.96 |         |         |   0.24 |      |
+| GI_WHISTLE       |    0.96 |         |         |  -0.23 |      |
+| GI_RETENTION     |    0.93 |         |         |  -0.25 |      |
+| GI_COMP_CEO      |    0.73 |         |         |        | 0.62 |
+| GI_COMP_OTH      |    0.63 |         |         |        | 0.76 |
+| GI_990_WEB       |    0.49 |         |         |        |      |
 
 The written-policy items carry the most information about the general
 factor (loadings .93 to .97), followed by the pay-setting and
@@ -377,7 +382,6 @@ policies is a recognizable pattern.
 assignment (`spec`), fit statistics and the date fitted.
 
 ``` r
-
 str( gov_model_2023[ c("year", "n", "logLik", "BIC", "mirt_version", "fitted") ] )
 #> List of 6
 #>  $ year        : int 2023
@@ -411,7 +415,6 @@ The weighting is easy to see with made-up response patterns. Each
 organization below reports exactly eight practices.
 
 ``` r
-
 none <- setNames( as.list(rep(0, 16)), items )
 
 # eight practices from the policy and pay-setting items
@@ -431,17 +434,17 @@ patterns$pattern <- c( "No practices", "Eight: policies", "Eight: process", "All
 scored <- get_scores( patterns )
 
 vars <- c( "pattern", "gov_count", "gov_score", "gov_score_se",
-           "gov_s_finance", "gov_s_policy" )
+           "gov_s_finance", "gov_s_minutes" )
 
 knitr::kable( scored[ , vars ], digits = 2 )
 ```
 
-| pattern         | gov_count | gov_score | gov_score_se | gov_s_finance | gov_s_policy |
-|:----------------|----------:|----------:|-------------:|--------------:|-------------:|
-| No practices    |         0 |     -1.94 |         0.65 |         -0.17 |         0.02 |
-| Eight: policies |         8 |      0.29 |         0.26 |         -1.21 |        -0.45 |
-| Eight: process  |         8 |     -0.65 |         0.27 |          1.18 |        -0.28 |
-| All 16          |        16 |      1.69 |         0.66 |          0.31 |        -0.02 |
+| pattern         | gov_count | gov_score | gov_score_se | gov_s_finance | gov_s_minutes |
+|:----------------|----------:|----------:|-------------:|--------------:|--------------:|
+| No practices    |         0 |     -1.94 |         0.65 |         -0.17 |         -1.16 |
+| Eight: policies |         8 |      0.29 |         0.26 |         -1.21 |         -2.14 |
+| Eight: process  |         8 |     -0.65 |         0.27 |          1.18 |          0.35 |
+| All 16          |        16 |      1.69 |         0.66 |          0.31 |          0.10 |
 
 The organization with the eight written-policy items scores well above
 the one with eight board-process items, because the policy items are
