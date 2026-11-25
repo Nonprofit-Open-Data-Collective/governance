@@ -15,7 +15,7 @@ The factor scores from factor model \code{\link{model6}} of the  \code{\link{fea
 These are NOT the scores from \code{model6}, but are rather the factor scores calculated
 using the \code{psych::facotor.scores} function using polychoric correlations
 \code{\link{rho2}} and \code{method == "Thurstone"}. See step 6 of
-\code{vignette("making-gov-scores", package = "governance")} for detailed
+\code{vignette("legacy-2018-model", package = "governance")} for detailed
 information on how this was generated.
 }
 \keyword{datasets}

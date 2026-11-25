@@ -84,7 +84,7 @@ comparing organizations of very different size.
 \strong{Legacy model.} The 2018 model has known problems, including negative
 implied weights on several good-practice features and a training sample that
 excluded fully independent boards. It is kept for reproducing earlier work.
-See "Known issues" in \code{vignette("making-gov-scores", package = "governance")}.
+See "Known issues" in \code{vignette("legacy-2018-model", package = "governance")}.
 }
 \examples{
 data("dat_example", package = "governance")

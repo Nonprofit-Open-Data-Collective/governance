@@ -63,11 +63,16 @@ scores_example <- get_scores(features_example)
 `get_scores()` appends a general governance score (`gov_score`) with its
 standard error, four specific-factor scores, and `gov_count`, the number of the
 16 recommended practices reported. The original 2018 model is available with
-`get_scores(features, model = "legacy-2018")`. See the
-[Governance Workflow vignette](https://nonprofit-open-data-collective.github.io/governance/articles/governance-workflow.html)
-for a fuller walk-through and the
-[Making Governance Scores vignette](https://nonprofit-open-data-collective.github.io/governance/articles/making-gov-scores.html)
-for the methodology.
+`get_scores(features, model = "legacy-2018")`.
+
+## Learn more
+
+- [Governance Across the Sector](https://nonprofit-open-data-collective.github.io/governance/articles/overview.html):
+  how practices and scores vary by size, subsector, state and year.
+- [Governance Workflow](https://nonprofit-open-data-collective.github.io/governance/articles/governance-workflow.html):
+  every column the package adds, and how to read it.
+- [Making Governance Scores](https://nonprofit-open-data-collective.github.io/governance/articles/making-gov-scores.html):
+  how the items were chosen and the model fit and validated.
 
 ## Citing the package
 

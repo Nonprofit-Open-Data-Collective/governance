@@ -30,6 +30,23 @@
 * `data-raw/fit-model-2023.R` reproduces the shipped model from the efile
   archive.
 
+## Documentation
+
+* New article, "Governance Across the Sector" (`vignette("overview")`):
+  practice prevalence and governance scores for every 501(c)(3) full-990 filer,
+  broken out by size, subsector, state and organization age, with risk
+  disclosures and change from 2021 to 2024. Its summary tables are built by
+  `data-raw/make-overview-data.R`.
+* "Making Governance Scores" now documents the 2023 index: population and data
+  preparation, item selection and coding, dimensionality, the model comparison,
+  scoring and validation (invariance and predictive validity).
+* The derivation of the 2018 model and its known issues moved to a new article,
+  "The Legacy 2018 Model", with its tables rebuilt and several descriptions
+  corrected.
+* "Getting Started" and "Governance Workflow" describe the 16 `GI_*` items, the
+  `RISK_*` indicators and every column `get_scores()` adds. "Getting 990 Data"
+  lists every field the 2023 items read.
+
 ## Fixes
 
 * `get_features()`: audited financial statements (`P4_LINE_12`) now count

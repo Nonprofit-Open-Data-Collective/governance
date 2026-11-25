@@ -3,7 +3,7 @@
 #' @description
 #' Factor model object from \code{\link{features2}} data set using polychoric
 #' correlations from \code{\link{rho2}}. This is the output of the `psych::fa` function.
-#' This model has 12 features and 6 factors. See \code{vignette("making-gov-scores", package = "governance")}
+#' This model has 12 features and 6 factors. See \code{vignette("legacy-2018-model", package = "governance")}
 #' for a detailed description of how and why this model was chosen.
 #'
 #' Most notable internal objects include
@@ -19,7 +19,7 @@
 #'
 #' @description
 #' Training data used to generate factor model \code{\link{model6}}.
-#' See Step 5 of \code{vignette("making-gov-scores", package = "governance")} for detailed description of each of these features.
+#' See Step 5 of \code{vignette("legacy-2018-model", package = "governance")} for detailed description of each of these features.
 #'
 "features2"
 
@@ -37,7 +37,7 @@
 #' These are NOT the scores from `model6`, but are rather the factor scores calculated
 #' using the `psych::facotor.scores` function using polychoric correlations
 #' \code{\link{rho2}} and `method == "Thurstone"`. See step 6 of
-#' \code{vignette("making-gov-scores", package = "governance")} for detailed
+#' \code{vignette("legacy-2018-model", package = "governance")} for detailed
 #' information on how this was generated.
 #'
 "scores"

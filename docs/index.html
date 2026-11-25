@@ -14,8 +14,8 @@
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Governance Scores for Nonprofits">
-<meta name="description" content="Calculates governance scores for nonprofits using factor analysis.">
-<meta property="og:description" content="Calculates governance scores for nonprofits using factor analysis.">
+<meta name="description" content="Calculates a nonprofit governance index from IRS Form 990 efile data using a bifactor item response model anchored to the 2023 filing population.">
+<meta property="og:description" content="Calculates a nonprofit governance index from IRS Form 990 efile data using a bifactor item response model anchored to the 2023 filing population.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,9 +38,13 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-guides">
-<li><a class="dropdown-item" href="articles/download-data.html">Getting 990 Data with panel990</a></li>
+<li><a class="dropdown-item" href="articles/overview.html">Governance Across the Sector</a></li>
     <li><a class="dropdown-item" href="articles/governance-workflow.html">Governance Workflow</a></li>
+    <li><a class="dropdown-item" href="articles/download-data.html">Getting 990 Data with panel990</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Methodology</h6></li>
     <li><a class="dropdown-item" href="articles/making-gov-scores.html">Making Governance Scores</a></li>
+    <li><a class="dropdown-item" href="articles/legacy-2018-model.html">The Legacy 2018 Model</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
@@ -70,7 +74,7 @@
 <div class="page-header"><h1 id="governance-doi">governance <a href="https://doi.org/10.5281/zenodo.10781067" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.10781067.svg" alt="DOI"></a>
 <a class="anchor" aria-label="anchor" href="#governance-doi"></a>
 </h1></div>
-<p>R package for creating a nonprofit governance index score from IRS Form 990 efile data. It normalizes the governance and management fields of the 990 into a binary feature matrix, then scores them against a factor model derived empirically from the full filing population for benchmarking.</p>
+<p>R package for creating a nonprofit governance index score from IRS Form 990 efile data. It normalizes the governance and management fields of the 990 into a binary feature matrix, then scores them with an item response model fit to the full population of 501(c)(3) Form 990 filers for tax year 2023, so scores from any year are on a common, benchmarked scale.</p>
 <p><strong>governance scores; it does not download data.</strong> Retrieving and assembling the 990 efile tables is handled by the companion <a href="https://github.com/Nonprofit-Open-Data-Collective/panel990" class="external-link">panel990</a> package, which <code>governance</code> calls for you through <code><a href="reference/get_governance_data.html">get_governance_data()</a></code> and <code><a href="reference/get_governance_scores.html">get_governance_scores()</a></code>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -109,8 +113,20 @@
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="reference/get_scores.html">get_scores()</a></code> appends six factor scores and a <code>total.score</code>. See the <a href="https://nonprofit-open-data-collective.github.io/governance/articles/governance-workflow.html">Governance Workflow vignette</a> for a fuller walk-through and the <a href="https://nonprofit-open-data-collective.github.io/governance/articles/making-gov-scores.html">Making Governance Scores vignette</a> for the methodology.</p>
+<p><code><a href="reference/get_scores.html">get_scores()</a></code> appends a general governance score (<code>gov_score</code>) with its standard error, four specific-factor scores, and <code>gov_count</code>, the number of the 16 recommended practices reported. The original 2018 model is available with <code>get_scores(features, model = "legacy-2018")</code>.</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="learn-more">Learn more<a class="anchor" aria-label="anchor" href="#learn-more"></a>
+</h2>
+<ul>
+<li>
+<a href="https://nonprofit-open-data-collective.github.io/governance/articles/overview.html">Governance Across the Sector</a>: how practices and scores vary by size, subsector, state and year.</li>
+<li>
+<a href="https://nonprofit-open-data-collective.github.io/governance/articles/governance-workflow.html">Governance Workflow</a>: every column the package adds, and how to read it.</li>
+<li>
+<a href="https://nonprofit-open-data-collective.github.io/governance/articles/making-gov-scores.html">Making Governance Scores</a>: how the items were chosen and the model fit and validated.</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="citing-the-package">Citing the package<a class="anchor" aria-label="anchor" href="#citing-the-package"></a>

@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +36,13 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-guides">
-<li><a class="dropdown-item" href="../articles/download-data.html">Getting 990 Data with panel990</a></li>
+<li><a class="dropdown-item" href="../articles/overview.html">Governance Across the Sector</a></li>
     <li><a class="dropdown-item" href="../articles/governance-workflow.html">Governance Workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/download-data.html">Getting 990 Data with panel990</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Methodology</h6></li>
     <li><a class="dropdown-item" href="../articles/making-gov-scores.html">Making Governance Scores</a></li>
+    <li><a class="dropdown-item" href="../articles/legacy-2018-model.html">The Legacy 2018 Model</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
@@ -71,10 +75,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Governance Workflow</h1>
-                        <h4 data-toc-skip class="author">Olivia
-Beck</h4>
             
-            <h4 data-toc-skip class="date">2026-11-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/HEAD/vignettes/governance-workflow.Rmd" class="external-link"><code>vignettes/governance-workflow.Rmd</code></a></small>
       <div class="d-none name"><code>governance-workflow.Rmd</code></div>
@@ -83,131 +84,411 @@ Beck</h4>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Nonprofit-Open-Data-Collective/governance" class="external-link">governance</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="governance-workflow">Governance Workflow<a class="anchor" aria-label="anchor" href="#governance-workflow"></a>
-</h2>
-<p>This vignette walks through the full path from raw 990 fields to
-governance scores and shows a few ways to explore the results.</p>
-<div class="section level3">
-<h3 id="step-1-get-input-data">Step 1: Get input data<a class="anchor" aria-label="anchor" href="#step-1-get-input-data"></a>
-</h3>
-<p><code><a href="../reference/get_features.html">get_features()</a></code> consumes raw 990 efile fields from Part
-IV, Part VI, Part XII, and Schedule M. In production these come from the
-companion <a href="https://github.com/Nonprofit-Open-Data-Collective/panel990" class="external-link">panel990</a>
-package via <code>get_governance_data(years = 2022)</code>; see
-<code><a href="../articles/download-data.html">vignette("download-data")</a></code> for the field list, the required
-tables, and the full-990 filter. Here we use the bundled example, a
-5,000-organization sample of raw 2022 fields.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span> <span class="va"><a href="https://github.com/Nonprofit-Open-Data-Collective/governance" class="external-link">governance</a></span> <span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span> <span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span> <span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span> <span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span> <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_theme.html" class="external-link">theme_set</a></span><span class="op">(</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">)</span></span></code></pre></div>
+<p>This article walks through the path from raw 990 fields to governance
+scores and explains each column the package adds. It uses the bundled
+<code>dat_example</code>, a 5,000-organization sample of raw 2022
+fields. In practice the data come from
+<code><a href="../reference/get_governance_data.html">get_governance_data()</a></code>; see
+<code><a href="../articles/download-data.html">vignette("download-data")</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dat_example"</span>, package <span class="op">=</span> <span class="st">"governance"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span> <span class="st">"dat_example"</span>, package <span class="op">=</span> <span class="st">"governance"</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">57</span><span class="op">)</span></span>
-<span><span class="va">dat_example</span> <span class="op">&lt;-</span> <span class="va">dat_example</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat_example</span><span class="op">)</span><span class="op">)</span>, <span class="fl">200</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="step-2-build-the-feature-matrix">Step 2: Build the feature matrix<a class="anchor" aria-label="anchor" href="#step-2-build-the-feature-matrix"></a>
-</h3>
-<p><code><a href="../reference/get_features.html">get_features()</a></code> cleans the raw fields and appends 12
-binary governance features. Blank or missing yes/no responses are
-treated as <code>0</code> regardless of how the source encoded them
-(<code>NA</code> or <code>""</code>), so results do not depend on how
-the tables were read.</p>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span> <span class="fl">57</span> <span class="op">)</span></span>
+<span><span class="va">rows</span>        <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat_example</span><span class="op">)</span>, <span class="fl">1000</span> <span class="op">)</span></span>
+<span><span class="va">dat_example</span> <span class="op">&lt;-</span> <span class="va">dat_example</span><span class="op">[</span> <span class="va">rows</span>, <span class="op">]</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="step-1-code-the-practice-items">Step 1: Code the practice items<a class="anchor" aria-label="anchor" href="#step-1-code-the-practice-items"></a>
+</h2>
+<p><code><a href="../reference/get_features.html">get_features()</a></code> returns the input with three groups of
+columns appended.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Columns</th>
+<th>What they are</th>
+<th>Used by</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>16 <code>GI_*</code> items</td>
+<td>Recommended practices, 1 = present</td>
+<td>the 2023 index (default)</td>
+</tr>
+<tr class="even">
+<td>5 <code>RISK_*</code> indicators</td>
+<td>Reported risk events or exposures, 1 = reported</td>
+<td>not scored; reported alongside</td>
+</tr>
+<tr class="odd">
+<td>12 <code>P*_LINE_*</code> features</td>
+<td>Features of the 2018 model</td>
+<td><code>get_scores( model = "legacy-2018" )</code></td>
+</tr>
+</tbody>
+</table>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">features_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat_example</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">features_example</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ORG_EIN</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"P6_"</span><span class="op">)</span>, <span class="va">P12_LINE_1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        ORG_EIN P6_LINE_1 P6_LINE_11A P6_LINE_12_13_14 P6_LINE_15A P6_LINE_18</span></span>
-<span><span class="co">#&gt; 849  521314461         1           1                1           1          0</span></span>
-<span><span class="co">#&gt; 2532 832563658         1           0                0           0          1</span></span>
-<span><span class="co">#&gt; 2699 870470748         0           1                1           1          0</span></span>
-<span><span class="co">#&gt; 2478 752538361         1           1                0           0          0</span></span>
-<span><span class="co">#&gt; 531  650144766         1           0                0           0          0</span></span>
-<span><span class="co">#&gt; 3673 883636365         0           0                0           0          0</span></span>
-<span><span class="co">#&gt;      P6_LINE_2 P6_LINE_3 P6_LINE_8A P12_LINE_1</span></span>
-<span><span class="co">#&gt; 849          1         1          1          1</span></span>
-<span><span class="co">#&gt; 2532         1         1          1          1</span></span>
-<span><span class="co">#&gt; 2699         1         1          1          1</span></span>
-<span><span class="co">#&gt; 2478         0         1          1          0</span></span>
-<span><span class="co">#&gt; 531          0         1          1          1</span></span>
-<span><span class="co">#&gt; 3673         1         1          0          0</span></span></code></pre></div>
-<p>Each feature is an indicator of a good-governance practice. We can
-look at how common each practice is in the sample:</p>
+<code class="sourceCode R"><span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span> <span class="va">dat_example</span> <span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="practice-items">Practice items<a class="anchor" aria-label="anchor" href="#practice-items"></a>
+</h3>
+<p>Each <code>GI_*</code> item records one practice. A blank answer is
+<code>NA</code>, not 0, and the scoring model uses whichever items an
+organization answered.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Item</th>
+<th>Form 990 line</th>
+<th>Practice</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>GI_REVIEW_AUDIT</code></td>
+<td>XII-2a/2b, IV-12a/b</td>
+<td>Financial statements compiled, reviewed or audited</td>
+</tr>
+<tr class="even">
+<td><code>GI_AUDIT</code></td>
+<td>XII-2b, IV-12a/b</td>
+<td>Financial statements audited by an independent accountant</td>
+</tr>
+<tr class="odd">
+<td><code>GI_AUDIT_CMTE</code></td>
+<td>XII-2c</td>
+<td>A committee oversees the audit or review (0 if no review or
+audit)</td>
+</tr>
+<tr class="even">
+<td><code>GI_ACCRUAL</code></td>
+<td>XII-1</td>
+<td>Accrual accounting</td>
+</tr>
+<tr class="odd">
+<td><code>GI_INDEP_MAJOR</code></td>
+<td>VI-1a/1b</td>
+<td>At least half of voting members are independent</td>
+</tr>
+<tr class="even">
+<td><code>GI_MINUTES_BOARD</code></td>
+<td>VI-8a</td>
+<td>Board meetings documented</td>
+</tr>
+<tr class="odd">
+<td><code>GI_MINUTES_CMTE</code></td>
+<td>VI-8b</td>
+<td>Committee meetings documented</td>
+</tr>
+<tr class="even">
+<td><code>GI_990_BOARD</code></td>
+<td>VI-11a</td>
+<td>Form 990 given to the board before filing</td>
+</tr>
+<tr class="odd">
+<td><code>GI_COI</code></td>
+<td>VI-12a</td>
+<td>Written conflict-of-interest policy</td>
+</tr>
+<tr class="even">
+<td><code>GI_COI_DISCLOSE</code></td>
+<td>VI-12b</td>
+<td>Annual disclosure of interests (0 without a policy)</td>
+</tr>
+<tr class="odd">
+<td><code>GI_COI_MONITOR</code></td>
+<td>VI-12c</td>
+<td>Policy monitored and enforced (0 without a policy)</td>
+</tr>
+<tr class="even">
+<td><code>GI_WHISTLE</code></td>
+<td>VI-13</td>
+<td>Written whistleblower policy</td>
+</tr>
+<tr class="odd">
+<td><code>GI_RETENTION</code></td>
+<td>VI-14</td>
+<td>Written document retention and destruction policy</td>
+</tr>
+<tr class="even">
+<td><code>GI_COMP_CEO</code></td>
+<td>VI-15a</td>
+<td>Independent pay-setting process for the top executive</td>
+</tr>
+<tr class="odd">
+<td><code>GI_COMP_OTH</code></td>
+<td>VI-15b</td>
+<td>Independent pay-setting process for other officers</td>
+</tr>
+<tr class="even">
+<td><code>GI_990_WEB</code></td>
+<td>VI-18</td>
+<td>Form 990 posted on the organization’s own website</td>
+</tr>
+</tbody>
+</table>
+<p>Practices differ a great deal in how common they are. Nearly every
+filer documents board meetings; fewer than one in ten posts its 990
+online.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">feature_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P12_LINE_1"</span>, <span class="st">"P4_LINE_12"</span>, <span class="st">"P4_LINE_28"</span>, <span class="st">"P4_LINE_29_30"</span>,</span>
-<span>                  <span class="st">"P6_LINE_1"</span>, <span class="st">"P6_LINE_11A"</span>, <span class="st">"P6_LINE_15A"</span>, <span class="st">"P6_LINE_18"</span>,</span>
-<span>                  <span class="st">"P6_LINE_2"</span>, <span class="st">"P6_LINE_3"</span>, <span class="st">"P6_LINE_8A"</span>, <span class="st">"P6_LINE_12_13_14"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">rates</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">features</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"GI_"</span><span class="op">)</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"item"</span>, values_to <span class="op">=</span> <span class="st">"share"</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="va">rates</span> <span class="op">&lt;-</span> <span class="va">features_example</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">feature_cols</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">.x</span> <span class="op">==</span> <span class="fl">1</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"feature"</span>, values_to <span class="op">=</span> <span class="st">"rate"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">rates</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">feature</span>, <span class="va">rate</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">rate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Share of organizations passing each governance feature"</span>,</span>
-<span>       x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="st">"Share == 1"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span> <span class="va">rates</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">share</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">item</span>, <span class="va">share</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span> fill <span class="op">=</span> <span class="st">"#1696d2"</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span> labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html" class="external-link">percent</a></span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span> x <span class="op">=</span> <span class="st">"Share of organizations reporting the practice"</span>, y <span class="op">=</span> <span class="cn">NULL</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="governance-workflow_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level3">
-<h3 id="step-3-calculate-the-scores">Step 3: Calculate the scores<a class="anchor" aria-label="anchor" href="#step-3-calculate-the-scores"></a>
+<h3 id="risk-indicators">Risk indicators<a class="anchor" aria-label="anchor" href="#risk-indicators"></a>
 </h3>
-<p><code><a href="../reference/get_scores.html">get_scores()</a></code> applies the pre-fit factor model and
-appends six factor scores and a <code>total.score</code>.</p>
+<p>The <code>RISK_*</code> columns record events that good governance is
+meant to manage: business transactions with insiders (IV-28a/b/c), loans
+to insiders (IV-26), family or business ties among officers (VI-2), use
+of a management company (VI-3) and asset diversions (VI-5). They are not
+part of the index. They are disclosures, not practices, and they rise
+with organization size, so they correlate <em>positively</em> with good
+practice. Report them alongside the score.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">scores_example</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ORG_EIN</span>, <span class="va">total.score</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        ORG_EIN total.score</span></span>
-<span><span class="co">#&gt; 849  521314461  1.84480679</span></span>
-<span><span class="co">#&gt; 2532 832563658  1.41783202</span></span>
-<span><span class="co">#&gt; 2699 870470748 -0.08681385</span></span>
-<span><span class="co">#&gt; 2478 752538361 -0.27424699</span></span>
-<span><span class="co">#&gt; 531  650144766  0.60652413</span></span>
-<span><span class="co">#&gt; 3673 883636365 -5.00061728</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">features</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"RISK_"</span><span class="op">)</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"indicator"</span>, values_to <span class="op">=</span> <span class="st">"share"</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">3</span> <span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">indicator</th>
+<th align="right">share</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">RISK_INSIDER_BIZ</td>
+<td align="right">0.053</td>
+</tr>
+<tr class="even">
+<td align="left">RISK_LOAN</td>
+<td align="right">0.024</td>
+</tr>
+<tr class="odd">
+<td align="left">RISK_FAM_TIES</td>
+<td align="right">0.136</td>
+</tr>
+<tr class="even">
+<td align="left">RISK_MGMT_CO</td>
+<td align="right">0.058</td>
+</tr>
+<tr class="odd">
+<td align="left">RISK_DIVERSION</td>
+<td align="right">0.001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level2">
+<h2 id="step-2-calculate-the-scores">Step 2: Calculate the scores<a class="anchor" aria-label="anchor" href="#step-2-calculate-the-scores"></a>
+</h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">scores_example</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">total.score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Distribution of Governance Scores"</span>,</span>
-<span>    x <span class="op">=</span> <span class="st">"Total Score"</span>, y <span class="op">=</span> <span class="st">"Count"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="governance-workflow_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="576"></p>
+<code class="sourceCode R"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span> <span class="va">features</span> <span class="op">)</span></span></code></pre></div>
+<p><code><a href="../reference/get_scores.html">get_scores()</a></code> appends eight columns.</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Column</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>gov_score</code></td>
+<td>General governance score. 0 is the average 2023 filer; one unit is
+one SD of the latent factor among 2023 filers.</td>
+</tr>
+<tr class="even">
+<td><code>gov_score_se</code></td>
+<td>Standard error of <code>gov_score</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>gov_s_finance</code></td>
+<td>Financial-assurance specific factor (audit, review, audit committee,
+accrual).</td>
+</tr>
+<tr class="even">
+<td><code>gov_s_minutes</code></td>
+<td>Minutes specific factor (board and committee minutes).</td>
+</tr>
+<tr class="odd">
+<td><code>gov_s_policy</code></td>
+<td>Written-policies specific factor (conflict of interest,
+whistleblower, retention).</td>
+</tr>
+<tr class="even">
+<td><code>gov_s_comp</code></td>
+<td>Compensation specific factor (CEO and other-officer pay
+process).</td>
+</tr>
+<tr class="odd">
+<td><code>gov_count</code></td>
+<td>Number of the 16 practices reported (0–16).</td>
+</tr>
+<tr class="even">
+<td><code>gov_n_items</code></td>
+<td>Number of the 16 items answered.</td>
+</tr>
+</tbody>
+</table>
+<p>The specific factors are <em>residuals</em>. They are uncorrelated
+with <code>gov_score</code>, and a positive value means the organization
+does more in that area than its general score predicts. They are not
+standalone subscales: an organization with a high
+<code>gov_s_finance</code> and a low <code>gov_score</code> is one that
+is audited but has few other practices.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span> <span class="va">scores</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gov_score</span><span class="op">)</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span> bins <span class="op">=</span> <span class="fl">30</span>, fill <span class="op">=</span> <span class="st">"#1696d2"</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span> x <span class="op">=</span> <span class="st">"Governance score"</span>, y <span class="op">=</span> <span class="st">"Organizations"</span> <span class="op">)</span></span></code></pre></div>
+<p><img src="governance-workflow_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="576"></p>
+<div class="section level3">
+<h3 id="score-or-count">Score or count?<a class="anchor" aria-label="anchor" href="#score-or-count"></a>
+</h3>
+<p><code>gov_count</code> is a transparent alternative: the number of
+practices reported. It correlates about .96 with <code>gov_score</code>.
+The model-based score adds three things: practices are weighted by how
+much they reveal about governance, every score has a standard error, and
+the scale is anchored to 2023 so it does not drift as practices
+spread.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span> <span class="va">scores</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gov_count</span>, y <span class="op">=</span> <span class="va">gov_score</span><span class="op">)</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span> width <span class="op">=</span> <span class="fl">0.2</span>, alpha <span class="op">=</span> <span class="fl">0.3</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span> x <span class="op">=</span> <span class="st">"Practices reported (gov_count)"</span>, y <span class="op">=</span> <span class="st">"gov_score"</span> <span class="op">)</span></span></code></pre></div>
+<p><img src="governance-workflow_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="576"></p>
+<p>The vertical spread at each count shows the weighting at work. Two
+organizations that report eight practices can differ by a full unit,
+depending on <em>which</em> eight.</p>
 </div>
 <div class="section level3">
-<h3 id="joining-external-data-optional">Joining external data (optional)<a class="anchor" aria-label="anchor" href="#joining-external-data-optional"></a>
+<h3 id="precision">Precision<a class="anchor" aria-label="anchor" href="#precision"></a>
 </h3>
-<p>Governance scores are most useful alongside other organizational
-characteristics. You can join the scores to the NCCS <a href="https://nccs.urban.org/nccs/catalogs/catalog-bmf.html" class="external-link">Business
-Master File (BMF)</a> on <code>ORG_EIN</code> to relate governance to
-size, sector, or geography. The snippet below is illustrative (not run
-here, as it downloads a large file):</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Unified BMF (single file across years)</span></span>
-<span><span class="va">bmf_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span>  <span class="st">"https://nccsdata.s3.us-east-1.amazonaws.com/"</span>,</span>
-<span>  <span class="st">"bmf/unified/v1.2/UNIFIED_BMF_V1.2.csv"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">bmf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="va">bmf_url</span><span class="op">)</span></span>
-<span><span class="va">bmf</span><span class="op">$</span><span class="va">EIN</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_pad.html" class="external-link">str_pad</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\\D"</span>, <span class="st">""</span>, <span class="va">bmf</span><span class="op">$</span><span class="va">EIN</span><span class="op">)</span>, <span class="fl">9</span>, pad <span class="op">=</span> <span class="st">"0"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="va">scores_example</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">bmf</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ORG_EIN"</span> <span class="op">=</span> <span class="st">"EIN"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">plot_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">ASSETS</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">total.score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Governance Scores vs. Total Assets"</span>,</span>
-<span>       x <span class="op">=</span> <span class="st">"log(Total Assets)"</span>, y <span class="op">=</span> <span class="st">"Total Governance Score"</span><span class="op">)</span></span></code></pre></div>
+<p>Scores are least precise at the ends of the scale, where few items
+discriminate. Treat differences smaller than about two standard errors
+as noise, especially at the top and bottom.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">scores</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span> quintile <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/ntile.html" class="external-link">ntile</a></span><span class="op">(</span><span class="va">gov_score</span>, <span class="fl">5</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span> <span class="va">quintile</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span> mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">gov_score</span><span class="op">)</span>, mean_se <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">gov_score_se</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">2</span> <span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">quintile</th>
+<th align="right">mean_score</th>
+<th align="right">mean_se</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">-1.27</td>
+<td align="right">0.51</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">-0.72</td>
+<td align="right">0.30</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">-0.08</td>
+<td align="right">0.19</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0.50</td>
+<td align="right">0.30</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">1.14</td>
+<td align="right">0.53</td>
+</tr>
+</tbody>
+</table>
 </div>
+<div class="section level3">
+<h3 id="missing-answers">Missing answers<a class="anchor" aria-label="anchor" href="#missing-answers"></a>
+</h3>
+<p>Rows with blank answers are still scored from the items they did
+answer; their standard errors are larger. Rows that answered none of the
+16 items get <code>NA</code> scores.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span> items_answered <span class="op">=</span> <span class="va">scores</span><span class="op">$</span><span class="va">gov_n_items</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Items answered"</span>, <span class="st">"Organizations"</span><span class="op">)</span> <span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">Items answered</th>
+<th align="right">Organizations</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">14</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">15</td>
+<td align="right">22</td>
+</tr>
+<tr class="odd">
+<td align="left">16</td>
+<td align="right">977</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level2">
+<h2 id="comparing-organizations">Comparing organizations<a class="anchor" aria-label="anchor" href="#comparing-organizations"></a>
+</h2>
+<p>Size is the strongest predictor of almost every practice, partly
+because audits are required above state and federal thresholds. Compare
+organizations of similar size, or adjust for size in a model.
+<code><a href="../articles/overview.html">vignette("overview")</a></code> shows the size gradient across the
+whole sector.</p>
+<p>To relate scores to size, sector or location, join them to the NCCS
+<a href="https://nccs.urban.org/nccs/catalogs/catalog-bmf.html" class="external-link">Business
+Master File</a> on <code>ORG_EIN</code>. The snippet below is not run
+here because it downloads a large file.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bmf_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span> <span class="st">"https://nccsdata.s3.us-east-1.amazonaws.com/"</span>,</span>
+<span>                   <span class="st">"bmf/unified/v1.2/UNIFIED_BMF_V1.2.csv"</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">bmf</span>     <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span> <span class="va">bmf_url</span> <span class="op">)</span></span>
+<span><span class="va">bmf</span><span class="op">$</span><span class="va">EIN</span> <span class="op">&lt;-</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_pad.html" class="external-link">str_pad</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\\D"</span>, <span class="st">""</span>, <span class="va">bmf</span><span class="op">$</span><span class="va">EIN</span><span class="op">)</span>, <span class="fl">9</span>, pad <span class="op">=</span> <span class="st">"0"</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">joined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span> <span class="va">scores</span>, <span class="va">bmf</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ORG_EIN"</span> <span class="op">=</span> <span class="st">"EIN"</span><span class="op">)</span> <span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="the-legacy-2018-model">The legacy 2018 model<a class="anchor" aria-label="anchor" href="#the-legacy-2018-model"></a>
+</h2>
+<p>Earlier versions of the package scored organizations with a
+six-factor model fit to 2018 data. It is kept for reproducing earlier
+work, but it has known problems, including negative weights on several
+good practices. See <code><a href="../articles/legacy-2018-model.html">vignette("legacy-2018-model")</a></code>.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">legacy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span> <span class="va">features</span>, model <span class="op">=</span> <span class="st">"legacy-2018"</span> <span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

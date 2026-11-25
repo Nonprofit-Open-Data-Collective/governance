@@ -28,6 +28,7 @@ Suggests:
     testthat (>= 3.0.0),
     data.table,
     ggplot2,
+    scales,
     readr,
     stringr,
     polycor,

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,9 +18,13 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/governance.html">Get started</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-guides"><li><a class="dropdown-item" href="../articles/download-data.html">Getting 990 Data with panel990</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-guides"><li><a class="dropdown-item" href="../articles/overview.html">Governance Across the Sector</a></li>
     <li><a class="dropdown-item" href="../articles/governance-workflow.html">Governance Workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/download-data.html">Getting 990 Data with panel990</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Methodology</h6></li>
     <li><a class="dropdown-item" href="../articles/making-gov-scores.html">Making Governance Scores</a></li>
+    <li><a class="dropdown-item" href="../articles/legacy-2018-model.html">The Legacy 2018 Model</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -46,6 +50,55 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.0" id="governance-010">governance 0.1.0<a class="anchor" aria-label="anchor" href="#governance-010"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-0-1-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/get_scores.html">get_scores()</a></code> now applies the <strong>2023 governance index model</strong> by default. It is a bifactor item response model fit to all 501(c)(3) full Form 990 filers for tax year 2023, and returns:
+<ul><li>
+<code>gov_score</code>, with its standard error <code>gov_score_se</code>;</li>
+<li>four specific-factor scores (<code>gov_s_finance</code>, <code>gov_s_minutes</code>, <code>gov_s_policy</code>, <code>gov_s_comp</code>);</li>
+<li>
+<code>gov_count</code> (number of the 16 practices reported) and <code>gov_n_items</code>.</li>
+</ul>
+Item parameters are fixed at 2023 values (<code>gov_model_2023</code>), so scores from other years share the 2023 scale. The previous six-factor model and its <code>total.score</code> are still available with <code>get_scores(x, model = "legacy-2018")</code>.</li>
+<li>
+<code>mirt</code> is now a dependency.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/get_features.html">get_features()</a></code> also returns the 16 <code>GI_*</code> practice items used by the 2023 model. They add the audit committee (Part XII line 2c), compilation or review, committee minutes, and the pay process for other officers, and keep the conflict-of-interest disclosure and monitoring items separate.</li>
+<li>
+<code><a href="../reference/get_features.html">get_features()</a></code> also returns five <code>RISK_*</code> indicators: insider transactions, loans to insiders, family or business ties, management company, and asset diversion.</li>
+<li>Missing fields used only by the 2023 items produce a message, not an error.</li>
+<li>
+<code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> retrieves the additional fields, and <code>dat_example</code> includes them.</li>
+<li>
+<code>data-raw/fit-model-2023.R</code> reproduces the shipped model from the efile archive.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-1-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-1-0"></a></h3>
+<ul><li>New article, “Governance Across the Sector” (<code><a href="../articles/overview.html">vignette("overview")</a></code>): practice prevalence and governance scores for every 501(c)(3) full-990 filer, broken out by size, subsector, state and organization age, with risk disclosures and change from 2021 to 2024. Its summary tables are built by <code>data-raw/make-overview-data.R</code>.</li>
+<li>“Making Governance Scores” now documents the 2023 index: population and data preparation, item selection and coding, dimensionality, the model comparison, scoring and validation (invariance and predictive validity).</li>
+<li>The derivation of the 2018 model and its known issues moved to a new article, “The Legacy 2018 Model”, with its tables rebuilt and several descriptions corrected.</li>
+<li>“Getting Started” and “Governance Workflow” describe the 16 <code>GI_*</code> items, the <code>RISK_*</code> indicators and every column <code><a href="../reference/get_scores.html">get_scores()</a></code> adds. “Getting 990 Data” lists every field the 2023 items read.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="fixes-0-1-0">Fixes<a class="anchor" aria-label="anchor" href="#fixes-0-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/get_features.html">get_features()</a></code>: audited financial statements (<code>P4_LINE_12</code>) now count consolidated audits (Part IV line 12b, <code>F9_04_AFS_CONSOL_X</code>) as well as separate audits (line 12a), matching how the factor model was trained. Previously organizations audited only on a consolidated basis scored 0. <code>F9_04_AFS_CONSOL_X</code> is optional: without it, a message is shown and line 12a alone is used. <code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> now retrieves the field, and <code>dat_example</code> includes it.</li>
+<li>Documented four known issues with the shipped factor model in the “Making Governance Scores” vignette and in <code><a href="../reference/get_scores.html">?get_scores</a></code>:
+<ul><li>the training sample excluded fully independent boards;</li>
+<li>a coding bug zeroed out the audit-committee item (Part XII line 2c);</li>
+<li>
+<code>total.score</code> puts negative implied weights on several good-practice features;</li>
+<li>six factors over-fit 12 binary items. These motivated the 2023 refit.</li>
+</ul></li>
+<li>Retrieval tests now read the local fixture tables as CSV, since <code>panel990</code> defaults to parquet sources.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.1.0000" id="governance-0010000">governance 0.0.1.0000<a class="anchor" aria-label="anchor" href="#governance-0010000"></a></h2>
 <ul><li><p>Added <code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> and <code><a href="../reference/get_governance_scores.html">get_governance_scores()</a></code> to import IRS 990 efile tables through the companion <a href="https://github.com/Nonprofit-Open-Data-Collective/panel990" class="external-link">panel990</a> package and assemble the input to <code><a href="../reference/get_features.html">get_features()</a></code> (Parts IV, VI, XII and Schedule M), merged to one row per filing. Retrieval uses <code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">panel990::panelize()</a></code> with a sample frame that restricts the data to full 990 filers (<code>RETURN_TYPE == "990"</code>) via the SFW <code>form_type</code> filter.</p></li>
 <li><p>Fixed a Part XII normalization bug where the accounting-method “other” case was detected with <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code> on a free-text field that reads as <code>""</code> (not <code>NA</code>) from <code><a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link">data.table::fread</a></code>, causing every filer to be labeled “other” and <code>P12_LINE_1</code> to collapse to 0. Accrual is now detected correctly.</p></li>
@@ -59,7 +112,8 @@
 <li><p>Refreshed the vignettes, README, and pkgdown reference index.</p></li>
 <li><p>Initial CRAN submission.</p></li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

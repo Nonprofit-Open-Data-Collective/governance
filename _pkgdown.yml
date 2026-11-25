@@ -10,21 +10,33 @@ navbar:
     guides:
       text: Guides
       menu:
-      - text: Getting 990 Data with panel990
-        href: articles/download-data.html
+      - text: Governance Across the Sector
+        href: articles/overview.html
       - text: Governance Workflow
         href: articles/governance-workflow.html
+      - text: Getting 990 Data with panel990
+        href: articles/download-data.html
+      - text: -------
+      - text: Methodology
       - text: Making Governance Scores
         href: articles/making-gov-scores.html
+      - text: The Legacy 2018 Model
+        href: articles/legacy-2018-model.html
 
 articles:
   - title: "Guides"
     desc: >
-      These vignettes provide detailed information on governance score calculations.
+      Using the governance index and what it shows about the sector.
     contents:
-      - download-data
+      - overview
       - governance-workflow
+      - download-data
+  - title: "Methodology"
+    desc: >
+      How the 2023 index was built and validated, and the model it replaced.
+    contents:
       - making-gov-scores
+      - legacy-2018-model
 
 reference:
   - title: "Data import"
@@ -38,9 +50,13 @@ reference:
       - get_features
       - get_scores
   - title: "Data"
-    desc: "Bundled example data and the fitted factor model."
+    desc: "Bundled example data and the fitted models."
     contents:
       - dat_example
+      - gov_model_2023
+  - title: "Legacy 2018 model"
+    desc: "Objects behind get_scores(model = \"legacy-2018\")."
+    contents:
       - dat.2018
       - features2
       - model6
