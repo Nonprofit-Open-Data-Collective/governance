@@ -1,8 +1,10 @@
-# 2023 Governance Index Model
+# 2023 Bifactor Measurement Model
 
-Item parameters of the 2023 anchor model used by
-`get_scores(model = "2023")`: a bifactor two-parameter logistic item
-response model
+Item parameters of the 2023 bifactor measurement model used by
+`get_scores(model = "2023")` for `gov_score_bf` and the `gov_s_*`
+subscores (the governance index itself comes from
+[`gov_index_2023`](https://nonprofit-open-data-collective.github.io/governance/reference/gov_index_2023.md)):
+a bifactor two-parameter logistic item response model
 ([`mirt::bfactor`](https://philchalmers.github.io/mirt/reference/bfactor.html))
 fit to the 16 `GI_*` practice items for every 501(c)(3) organization
 that e-filed a full Form 990 for tax year 2023. Fitting code:

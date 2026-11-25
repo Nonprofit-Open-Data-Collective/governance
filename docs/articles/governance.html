@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,9 +95,12 @@ recommended practice and combines them into a single governance index,
 <code>gov_score</code>.</p>
 <p>The index comes from an item response model fit to every 501(c)(3)
 organization that e-filed a full Form 990 for tax year 2023 (about
-271,000 organizations). Its parameters are fixed, so a score from any
-year is on the same scale: 0 is the average 2023 filer, and one unit is
-one standard deviation of governance among 2023 filers.</p>
+271,000 organizations). It is reported on a scale like a standardized
+test score: 100 is the average 2023 filer and 15 points is one standard
+deviation, so 115 is one standard deviation above average. The scale
+runs from about 67 (none of the 16 practices) to about 128 (all 16), and
+adding a practice never lowers a score. The parameters are fixed, so a
+score from any year is on the same scale.</p>
 <p>The workflow has two steps:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -218,9 +221,10 @@ features used by the older 2018 model.</p>
 <div class="section level2">
 <h2 id="step-3-calculate-the-scores">Step 3: Calculate the scores<a class="anchor" aria-label="anchor" href="#step-3-calculate-the-scores"></a>
 </h2>
-<p><code><a href="../reference/get_scores.html">get_scores()</a></code> appends the governance score and its
-standard error, four specific-factor scores and <code>gov_count</code>,
-the number of the 16 practices the organization reports.</p>
+<p><code><a href="../reference/get_scores.html">get_scores()</a></code> appends the governance index and its
+standard error, scores from the bifactor measurement model, and
+<code>gov_count</code>, the number of the 16 practices the organization
+reports.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span> <span class="va">features</span> <span class="op">)</span></span>
 <span></span>
@@ -248,43 +252,43 @@ the number of the 16 practices the organization reports.</p>
 <tr class="odd">
 <td align="left">849</td>
 <td align="left">BLUE RIDGE WOMENS CENTER INC</td>
-<td align="right">0.85</td>
-<td align="right">0.44</td>
+<td align="right">113.69</td>
+<td align="right">7.40</td>
 <td align="right">12</td>
 </tr>
 <tr class="even">
 <td align="left">2532</td>
 <td align="left">SPECTRUM THEATRE ENSEMBLE</td>
-<td align="right">-0.72</td>
-<td align="right">0.30</td>
+<td align="right">91.29</td>
+<td align="right">5.52</td>
 <td align="right">7</td>
 </tr>
 <tr class="odd">
 <td align="left">2699</td>
 <td align="left">WESTERN INSTITUTE FOR VETERANS RESEARCH</td>
-<td align="right">1.03</td>
-<td align="right">0.51</td>
+<td align="right">117.71</td>
+<td align="right">8.48</td>
 <td align="right">14</td>
 </tr>
 <tr class="even">
 <td align="left">2478</td>
 <td align="left">Spida Inc</td>
-<td align="right">0.13</td>
-<td align="right">0.20</td>
+<td align="right">100.23</td>
+<td align="right">3.52</td>
 <td align="right">10</td>
 </tr>
 <tr class="odd">
 <td align="left">531</td>
 <td align="left">Oak School of Delray Beach Inc</td>
-<td align="right">-1.00</td>
-<td align="right">0.43</td>
+<td align="right">84.97</td>
+<td align="right">7.39</td>
 <td align="right">4</td>
 </tr>
 <tr class="even">
 <td align="left">3673</td>
 <td align="left">GROW WELLNESS FOUNDATION</td>
-<td align="right">-1.94</td>
-<td align="right">0.65</td>
+<td align="right">67.33</td>
+<td align="right">11.30</td>
 <td align="right">0</td>
 </tr>
 </tbody>
@@ -292,7 +296,7 @@ the number of the 16 practices the organization reports.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span> <span class="va">scores</span><span class="op">$</span><span class="va">gov_score</span>,</span>
 <span>      main <span class="op">=</span> <span class="st">"Governance scores, 200 example organizations"</span>,</span>
-<span>      xlab <span class="op">=</span> <span class="st">"gov_score (0 = average 2023 filer)"</span> <span class="op">)</span></span></code></pre></div>
+<span>      xlab <span class="op">=</span> <span class="st">"gov_score (100 = average 2023 filer)"</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="governance_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="576"></p>
 </div>
 <div class="section level2">

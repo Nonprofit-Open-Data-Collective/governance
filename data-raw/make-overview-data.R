@@ -147,7 +147,7 @@ overview <- list(
   scores_by_age  = score_summary(p23[ !is.na(age_band) ], "age_band"),
   count_dist     = p23[ !is.na(gov_count), .N, keyby = gov_count ],
   score_hist     = p23[ !is.na(gov_score),
-                        .N, keyby = .(bin = floor(gov_score * 4) / 4) ],
+                        .N, keyby = .(bin = floor(gov_score / 2.5) * 2.5) ],   # 2.5-point bins (index scale)
   se_by_decile   = p23[ !is.na(gov_score),
                         .(gov_mean = mean(gov_score), se_mean = mean(gov_score_se)),
                         keyby = .(decile = cut(rank(gov_score, ties.method = "first"),

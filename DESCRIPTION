@@ -1,6 +1,6 @@
 Package: governance
 Title: Governance Scores for Nonprofits
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Olivia", "Beck", , "obeck@urban.org", role = c("aut", "cre")),
     person("Jesse", "Lecy", , "jlecy@urban.org", role = c("aut")),

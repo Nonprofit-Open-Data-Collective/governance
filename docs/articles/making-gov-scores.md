@@ -296,9 +296,9 @@ Four ways of combining the items were compared on the 2023 data:
 | Count of practices | Transparent | Treats every practice as equally informative; no standard error |
 | Factor scores from an EFA | Familiar | Assumes continuous items; the tetrachoric matrix is not positive definite |
 | Unidimensional 2PL IRT | Built for binary items; standard errors | Ignores the nesting; conflict-of-interest slopes blow up |
-| **Bifactor 2PL IRT** | General score plus specific factors that absorb the nesting | More complex to estimate |
+| Bifactor 2PL IRT | General score plus specific factors that absorb the nesting | More complex; scores can fall when a practice is added |
 
-Fit of the two IRT models (40,000-organization subsample; M2
+Fit of the two binary-item IRT models (40,000-organization subsample; M2
 statistics):
 
 | Model                            | RMSEA | SRMSR | CFI  | BIC     |
@@ -310,15 +310,104 @@ In the unidimensional model the conflict-of-interest discriminations
 reach 36, 31 and 11, a sign of local dependence: answering yes to
 disclosure is nearly determined by answering yes to the policy. The
 bifactor model gives these nested items a shared specific factor, which
-absorbs the dependence, and fits far better. It is the model used.
+absorbs the dependence, and fits far better. Its general factor carries
+most of the common variance (omega-hierarchical .81), so a single score
+is justified.
 
-## 7. The 2023 model
+**Why the published score is not the bifactor score.** In a
+multidimensional model, a “yes” on one item can *lower* an
+organization’s estimate on another dimension (Hooker, Finkelman and
+Schwartzman 2009, *Psychometrika* 74: 419–442). In the bifactor model,
+switching on committee minutes lowered the general score for 58 percent
+of the 2023 organizations that lacked them, because the two-item minutes
+factor took the credit for board minutes. Ten of the 16 practices
+lowered it for at least some organizations. A score that can fall when a
+board adopts a recommended practice is not usable as a published score.
 
-The model is a bifactor two-parameter logistic item response model
-([`mirt::bfactor()`](https://philchalmers.github.io/mirt/reference/bfactor.html)).
-Every item loads on the general factor. Thirteen items also load on one
-of four specific factors; board independence, the 990 given to the board
-and the 990 posted online load on the general factor only.
+The index therefore uses a **graded response model** with one dimension.
+Each bundle of nested practices is scored as one ordinal item, which
+absorbs most of the dependence the testlets modeled. With one dimension
+and positive slopes, adding a practice can only raise the score.
+
+| Model (all 2023 filers) | RMSEA | SRMSR | CFI | r with bifactor general | Reliability | Can a practice lower the score? |
+|----|----|----|----|----|----|----|
+| Bifactor 2PL | .038 | .040 | .992 | 1 | .83 | Yes (10 of 16 practices) |
+| Graded, bundled items (the index) | .081 | .060 | .953 | .99 | .82 | No |
+
+The graded model fits less closely; the remaining misfit comes mostly
+from the written policies, which are adopted together more often than
+one factor implies. Scores from the two models are nearly identical in
+rank order, so the choice matters for how a score moves when a practice
+is added, not for where organizations stand.
+
+## 7. The 2023 models
+
+### The index model
+
+`gov_index_2023` holds the graded response model behind `gov_score`. Its
+ten items are:
+
+| Item                 | Practices                               | Categories |
+|----------------------|-----------------------------------------|------------|
+| Financial assurance  | review or audit, audit, audit committee | 0–3        |
+| Accrual accounting   | accrual                                 | 0/1        |
+| Independent board    | majority independent                    | 0/1        |
+| Minutes              | board minutes, committee minutes        | 0–2        |
+| 990 to board         | 990 provided to board                   | 0/1        |
+| Conflict of interest | policy, annual disclosure, monitoring   | 0–3        |
+| Whistleblower        | whistleblower policy                    | 0/1        |
+| Document retention   | retention policy                        | 0/1        |
+| Pay-setting process  | CEO, other officers                     | 0–2        |
+| 990 online           | posted on own website                   | 0/1        |
+
+A bundled item’s category is the number of its practices an organization
+reports. Item parameters, in IRT form (slope `a` and category thresholds
+on the latent scale):
+
+``` r
+knitr::kable( gov_index_2023$coef[ , c("a", "b", "b1", "b2", "b3") ], digits = 2 )
+```
+
+|           |    a |     b |    b1 |    b2 |    b3 |
+|:----------|-----:|------:|------:|------:|------:|
+| assurance | 1.72 |       |  0.03 |  0.18 |  0.56 |
+| accrual   | 1.50 | -0.44 |       |       |       |
+| indep     | 0.92 | -2.53 |       |       |       |
+| minutes   | 0.80 |       | -3.63 | -2.31 |       |
+| f990      | 0.96 | -1.11 |       |       |       |
+| coi       | 3.44 |       | -0.43 | -0.31 | -0.12 |
+| whistle   | 8.02 |  0.08 |       |       |       |
+| retention | 5.49 |  0.01 |       |       |       |
+| pay       | 1.61 |       |  0.28 |  0.91 |       |
+| web990    | 0.95 |  2.84 |       |       |       |
+
+The whistleblower and retention policies have by far the steepest
+slopes, and with the conflict-of-interest item they decide where most
+organizations fall in the middle of the scale. Board independence,
+minutes and the 990 review are reported by most filers, so their
+thresholds sit near the bottom. Posting the 990 online is rare even
+among the best-governed organizations.
+
+``` r
+str( gov_index_2023[ c("year", "n", "mu", "sd", "fit", "mirt_version", "fitted") ] )
+#> List of 7
+#>  $ year        : int 2023
+#>  $ n           : int 271116
+#>  $ mu          : num -0.000548
+#>  $ sd          : num 0.905
+#>  $ fit         : Named num [1:5] 0.0807 0.0597 0.9528 0.9393 0.8186
+#>   ..- attr(*, "names")= chr [1:5] "RMSEA" "SRMSR" "CFI" "TLI" ...
+#>  $ mirt_version: chr "1.48"
+#>  $ fitted      : Date[1:1], format: "2026-11-25"
+```
+
+### The bifactor model
+
+`gov_model_2023` holds the bifactor model behind `gov_score_bf` and the
+`gov_s_*` columns. Every item loads on the general factor. Thirteen
+items also load on one of four specific factors; board independence, the
+990 given to the board and the 990 posted online load on the general
+factor only.
 
 | Specific factor | Items | Score column |
 |----|----|----|
@@ -340,7 +429,7 @@ subscore (score reliability .57). The other three are less reliable (.29
 to .48).
 
 Fit to all 271,116 organizations: M2 RMSEA .038, SRMSR .040, CFI .992.
-The standardized loadings are stored in `gov_model_2023`:
+The standardized loadings:
 
 ``` r
 L <- as.data.frame( gov_model_2023$loadings )
@@ -369,50 +458,35 @@ knitr::kable( L, digits = 2 )
 | GI_COMP_OTH      |    0.63 |         |         |        | 0.76 |
 | GI_990_WEB       |    0.49 |         |         |        |      |
 
-The written-policy items carry the most information about the general
-factor (loadings .93 to .97), followed by the pay-setting and
-financial-assurance items (.63 to .73). Committee minutes, board
-independence and the two 990 items load .35 to .50; they are common or
-rare practices that say less about an organization’s overall governance.
-The policy items have small specific loadings of opposite sign: having
-the conflict-of-interest items but not the whistleblower and retention
-policies is a recognizable pattern.
-
-`gov_model_2023` also stores the item parameters (`values`), the factor
-assignment (`spec`), fit statistics and the date fitted.
-
-``` r
-str( gov_model_2023[ c("year", "n", "logLik", "BIC", "mirt_version", "fitted") ] )
-#> List of 6
-#>  $ year        : int 2023
-#>  $ n           : int 271116
-#>  $ logLik      : num -1563799
-#>  $ BIC         : num 3128161
-#>  $ mirt_version: chr "1.48"
-#>  $ fitted      : Date[1:1], format: "2026-11-24"
-```
-
 ## 8. Scoring
 
 [`get_scores()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_scores.md)
-rebuilds the model with every parameter fixed at its 2023 value and
+rebuilds both models with every parameter fixed at its 2023 value and
 computes expected a posteriori (EAP) scores with
 [`mirt::fscores()`](https://philchalmers.github.io/mirt/reference/fscores.html).
-Fixed parameters have three consequences:
+The index is placed on a scale with mean 100 and standard deviation 15
+among 2023 filers:
 
-- **A common scale.** The 2023 population has mean 0 and standard
-  deviation 1 on the latent general factor, and a score from 2021 or
-  2024 is on the same scale. If practices spread, scores rise; the scale
-  does not re-center each year. (The EAP estimates themselves have a
-  standard deviation of about 0.9 in 2023, because each estimate is
-  pulled toward the mean in proportion to its uncertainty.)
+`gov_score = 100 + 15 * (theta - mu) / sd`,
+
+where `mu` and `sd` (stored in `gov_index_2023`) are the mean and
+standard deviation of the 2023 EAP estimates. Fixed parameters and
+constants have three consequences:
+
+- **A common scale.** 100 is the average 2023 filer and 115 is one
+  standard deviation above it, and a score from 2021 or 2024 is on the
+  same scale. If practices spread, scores rise; the scale does not
+  re-center each year.
 - **Weighting.** Practices that carry more information count for more,
   so two organizations with the same count can have different scores.
 - **Standard errors and missing items.** Every score has a standard
-  error. Missing items are skipped, which widens the standard error.
+  error, in index points. Missing items are skipped, which widens the
+  standard error.
 
-The weighting is easy to see with made-up response patterns. Each
-organization below reports exactly eight practices.
+The scale runs from about 67 (none of the 16 practices) to about 128
+(all 16). The weighting is easy to see with made-up response patterns.
+Each organization in the middle two rows reports exactly eight
+practices.
 
 ``` r
 none <- setNames( as.list(rep(0, 16)), items )
@@ -433,42 +507,52 @@ patterns$pattern <- c( "No practices", "Eight: policies", "Eight: process", "All
 
 scored <- get_scores( patterns )
 
-vars <- c( "pattern", "gov_count", "gov_score", "gov_score_se",
-           "gov_s_finance", "gov_s_minutes" )
+vars <- c( "pattern", "gov_count", "gov_score", "gov_score_se", "gov_score_bf" )
 
-knitr::kable( scored[ , vars ], digits = 2 )
+knitr::kable( scored[ , vars ], digits = 1 )
 ```
 
-| pattern         | gov_count | gov_score | gov_score_se | gov_s_finance | gov_s_minutes |
-|:----------------|----------:|----------:|-------------:|--------------:|--------------:|
-| No practices    |         0 |     -1.94 |         0.65 |         -0.17 |         -1.16 |
-| Eight: policies |         8 |      0.29 |         0.26 |         -1.21 |         -2.14 |
-| Eight: process  |         8 |     -0.65 |         0.27 |          1.18 |          0.35 |
-| All 16          |        16 |      1.69 |         0.66 |          0.31 |          0.10 |
+| pattern         | gov_count | gov_score | gov_score_se | gov_score_bf |
+|:----------------|----------:|----------:|-------------:|-------------:|
+| No practices    |         0 |      67.3 |         11.3 |         -1.9 |
+| Eight: policies |         8 |     106.6 |          4.8 |          0.3 |
+| Eight: process  |         8 |      92.9 |          5.1 |         -0.6 |
+| All 16          |        16 |     128.3 |         10.9 |          1.7 |
 
 The organization with the eight written-policy items scores well above
 the one with eight board-process items, because the policy items are
-more discriminating. The specific-factor scores show *where* each
-pattern departs from what its general score predicts.
+more discriminating.
 
-Scores are most precise in the middle of the scale. In 2023 the mean
-standard error is about .20 in the middle deciles and about .6 in the
-top and bottom deciles, where few items discriminate: almost every
-organization documents its meetings, and almost none posts its 990
-online.
+**What a practice is worth.** Switching on each practice an organization
+lacked (for a random sample of 20,000 2023 filers) and rescoring gives
+the points it adds. The written policies add the most: a whistleblower
+policy about 12 points on average, a retention policy about 10, and each
+conflict-of-interest item about 7. Most other practices add 2 to 4
+points, and the two minutes items less than 2. Gains are largest for
+organizations that start low, and no practice lowered any organization’s
+score.
+
+**Precision.** Scores are most precise in the middle of the scale. In
+2023 the standard error is about 4 points in the middle deciles and
+about 10 points in the top and bottom deciles, where few items
+discriminate: almost every organization documents its meetings, and
+almost none posts its 990 online.
 
 ## 9. Validity
 
 **Agreement with simpler scores.**
 
-- `gov_score` correlates .955 with `gov_count` (Spearman .959).
-- It correlates .68 with the legacy `total.score`. A quarter of filers
-  sit two or more quintiles apart on the two scores.
+- `gov_score` correlates .96 with `gov_count` and .99 with the bifactor
+  general factor `gov_score_bf`.
+- It correlates .70 with the legacy `total.score`. About a quarter of
+  filers sit two or more quintiles apart on the two scores.
 
 **Size gradient.** Governance practices rise with organization size. The
-Spearman correlation with log expenses is .57 for `gov_score`, .62 for
+Spearman correlation with log expenses is .58 for `gov_score`, .62 for
 the count and .41 for the legacy score, which under-states the gradient
-because of its negative weights on the risk items.
+because of its negative weights on the risk items. Mean `gov_score`
+rises from about 90 among organizations with expenses under \$100,000 to
+about 119 among those above \$40 million.
 
 **Invariance.** Before comparing groups, each item was tested for
 differential item functioning (DIF): whether organizations at the same
@@ -486,23 +570,23 @@ Year invariance is what justifies fixing the parameters at 2023 values
 and scoring other years with them. The size DIF is uniform: at the same
 overall level of governance, larger organizations are more likely to be
 audited and to use accrual accounting, which fits state audit thresholds
-and the federal single-audit requirement. Dropping the three flagged
-items shrinks the gap between the largest and smallest organizations
-from 1.93 to 1.78 standard deviations and leaves the order of the size
-bands unchanged. Keep this in mind when comparing organizations of very
-different size.
+and the federal single-audit requirement. Scoring without the
+financial-assurance items shrinks the gap between the largest and
+smallest organizations from about 28 to about 26 points and leaves the
+order of the size bands unchanged. Keep this in mind when comparing
+organizations of very different size.
 
-**Predictive validity.** 2023 scores (standardized) were used to predict
-2024 outcomes for the same organization, controlling for log expenses,
-government revenue share, age, subsector and state (253,416
-organizations matched in 2024).
+**Predictive validity.** 2023 scores (standardized, so coefficients are
+per 15 index points) were used to predict 2024 outcomes for the same
+organization, controlling for log expenses, government revenue share,
+age, subsector and state (253,416 organizations matched in 2024).
 
 | 2024 outcome | Base rate | `gov_score` | `gov_count` | legacy score |
 |----|----|----|----|----|
-| No full 990 filed (logit) | 6.5% | −0.27\*\*\* | −0.35\*\*\* | −0.21\*\*\* |
-| Contribution growth (log points) | – | +0.018\*\*\* | +0.022\*\*\* | +0.006\*\*\* |
-| New insider transaction or loan (logit) | 1.25% | +0.12\*\*\* | +0.11\*\*\* | +0.19\*\*\* |
-| New asset diversion (logit) | 0.06% | +0.15 | +0.09 | −0.01 |
+| No full 990 filed (logit) | 6.5% | −0.29\*\*\* | −0.35\*\*\* | −0.21\*\*\* |
+| Contribution growth (log points) | – | +0.019\*\*\* | +0.022\*\*\* | +0.006\*\*\* |
+| New insider transaction or loan (logit) | 1.25% | +0.11\*\*\* | +0.11\*\*\* | +0.19\*\*\* |
+| New asset diversion (logit) | 0.06% | +0.14 | +0.09 | −0.01 |
 
 Better-governed organizations are much more likely to file a full 990
 again and see faster contribution growth; the legacy score is about a
@@ -513,8 +597,22 @@ report these transactions. This is another reason to treat the risk
 items as disclosures rather than as evidence of poor governance. Asset
 diversions are too rare to say anything.
 
-## 10. Limitations
+## 10. Interpretation and limitations
 
+- **100 is the average 2023 filer, not a standard.** The scale is
+  norm-referenced to 501(c)(3) organizations that file the full Form
+  990, which are larger and more formalized than charities as a whole.
+- **Ceiling and floor.** The index cannot exceed about 128, the score
+  for all 16 practices, which 2.4 percent of 2023 filers reach. Unlike
+  scales on which a mean of 100 and SD of 15 suggest room in both tails,
+  no organization can score two standard deviations above the mean.
+  About 2 percent report no practices and score 67.
+- **A lumpy distribution.** Common response patterns produce spikes; the
+  largest, at about 122, is the 7.7 percent of filers that report every
+  practice except posting the 990 online.
+- **Policy weight.** Because the written policies discriminate most
+  sharply, the index weights them heavily; in the middle of the scale it
+  is largely a measure of whether an organization has the policy bundle.
 - **The 990 sees only some of governance.** It records whether policies
   exist, not whether they are followed, and nothing about board
   engagement, strategy or evaluation.
@@ -523,18 +621,15 @@ diversions are too rare to say anything.
   practice.
 - **Size.** Capacity drives adoption. Compare organizations of similar
   size, or adjust for size, and note the size DIF in the audit items.
-- **Ceiling and floor.** The items cluster in the middle of the
-  difficulty range, so the index separates well-governed organizations
-  from one another less precisely than it separates them from poorly
-  governed ones.
 
-## Reproducing the model
+## Reproducing the models
 
-`data-raw/fit-model-2023.R` downloads the 2023 tables with panel990,
-applies the population rules above, builds the items with
+`data-raw/fit-model-2023.R` and `data-raw/fit-index-2023.R` download the
+2023 tables with panel990, apply the population rules above, build the
+items with
 [`get_features()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_features.md)
-and fits the model. Its log-likelihood matches the published anchor
-model (−1,563,799.07), and
-[`get_scores()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_scores.md)
-reproduces the anchor model’s scores to within 1e-14. The script takes
-about 15 minutes, most of it model fitting.
+and fit the bifactor and index models. The bifactor log-likelihood
+matches the published anchor model (−1,563,799.07). The index model
+reproduces the scores used in the accompanying paper exactly. Each
+script takes about 15 minutes, most of it reading the tables (the index
+model fits in under two minutes).

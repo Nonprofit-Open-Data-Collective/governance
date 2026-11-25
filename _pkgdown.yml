@@ -53,6 +53,7 @@ reference:
     desc: "Bundled example data and the fitted models."
     contents:
       - dat_example
+      - gov_index_2023
       - gov_model_2023
   - title: "Legacy 2018 model"
     desc: "Objects behind get_scores(model = \"legacy-2018\")."

@@ -61,12 +61,10 @@ This article describes how governance practices vary across the U.S. nonprofit
 sector. It covers every 501(c)(3) organization that e-filed a full Form 990 for
 tax years 2021 to 2024: **`r num(pop23$n)` organizations in 2023**. Each was
 scored with `get_features()` and `get_scores()`, so the results are on the
-index scale described in `vignette("making-gov-scores")`. The scale is set so
-that 2023 filers have mean 0 and standard deviation 1 on the underlying
-(latent) governance factor; the estimated scores average
-`r round(pop23$gov_mean, 2)` with a standard deviation of
-`r round(pop23$gov_sd, 2)`, slightly less than 1 because each estimate is pulled
-toward the mean in proportion to its uncertainty.
+index scale described in `vignette("making-gov-scores")`: 2023 filers have a
+mean of 100 and a standard deviation of 15, so 115 is one standard deviation
+above the average 2023 filer. Scores run from about 67 (none of the 16
+practices) to about 128 (all 16).
 
 The figures come from summary tables built by
 [`data-raw/make-overview-data.R`](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/make-overview-data.R)
@@ -115,19 +113,21 @@ ggplot( ov$count_dist, aes(x = gov_count, y = N / sum(N)) ) +
 ```
 
 ```{r, fig.height = 3.5}
-ggplot( ov$score_hist, aes(x = bin + 0.125, y = N / sum(N)) ) +
-  geom_col( fill = blue, width = 0.23 ) +
+ggplot( ov$score_hist, aes(x = bin + 1.25, y = N / sum(N)) ) +
+  geom_col( fill = blue, width = 2.3 ) +
+  geom_vline( xintercept = 100, linetype = 2, colour = "grey50" ) +
   scale_y_continuous( labels = scales::percent ) +
-  labs( x = "gov_score (bins of 0.25)", y = "Share of 2023 filers" )
+  labs( x = "gov_score (2.5-point bins; 100 = average 2023 filer)", y = "Share of 2023 filers" )
 ```
 
 The score distribution is lumpy, not bell-shaped, because the index is built
 from 16 yes/no items: many organizations share the same response pattern and so
-the same score. The tallest spike, just above −1.25, is organizations that
-report only the near-universal practices, such as minutes and an independent
-board. The cluster around 1.3 is organizations that report every practice except
-posting the 990 online. Scores at the top and bottom are the least precise
-(mean standard error about 0.6, against 0.2 in the middle).
+the same score. The spikes around 80 and 83 are organizations that report only
+the near-universal practices, such as minutes, an independent board and the
+board's review of the 990. The tallest spike, at about 122, is organizations
+that report every practice except posting the 990 online. Scores at the top and
+bottom are the least precise (mean standard error about 10 points, against
+about 4 in the middle).
 
 ## Size
 
@@ -141,9 +141,9 @@ organization goes from about 6 practices to about 14.
 ```{r}
 sz |>
   transmute( Size = size, Organizations = num(n),
-             `Mean score` = round(gov_mean, 2),
-             `25th pct` = round(gov_p25, 2), Median = round(gov_median, 2),
-             `75th pct` = round(gov_p75, 2),
+             `Mean score` = round(gov_mean, 1),
+             `25th pct` = round(gov_p25, 1), Median = round(gov_median, 1),
+             `75th pct` = round(gov_p75, 1),
              `Mean practices` = round(count_mean, 1) ) |>
   knitr::kable( align = "lrrrrrr" )
 ```
@@ -157,7 +157,7 @@ ggplot( sz, aes(y = size) ) +
   labs( x = "gov_score: median and interquartile range", y = "Total expenses" )
 ```
 
-In the three largest size bands the 75th percentile is the same, 1.31: at least
+In the three largest size bands the 75th percentile is the same, about 122: at least
 a quarter of those organizations report every practice except posting the 990
 online. The index has little room to separate organizations at the top.
 
@@ -200,8 +200,8 @@ sub <- ov$scores_by_subsector |> arrange( desc(gov_adj) )
 
 sub |>
   transmute( Subsector = subsector, Organizations = num(n),
-             `Mean score` = round(gov_mean, 2),
-             `Size-adjusted` = round(gov_adj, 2),
+             `Mean score` = round(gov_mean, 1),
+             `Size-adjusted` = round(gov_adj, 1),
              `Mean practices` = round(count_mean, 1) ) |>
   knitr::kable( align = "lrrrr" )
 ```
@@ -209,33 +209,34 @@ sub |>
 ```{r, fig.height = 4.5}
 sub_long <- bind_rows(
   data.frame( subsector = sub$subsector, value = sub$gov_mean, kind = "Raw mean" ),
-  data.frame( subsector = sub$subsector, value = sub$gov_adj,  kind = "Size-adjusted" )
+  data.frame( subsector = sub$subsector, value = 100 + sub$gov_adj,  kind = "Size-adjusted" )
 )
 sub_long$subsector <- factor( sub_long$subsector, levels = rev(sub$subsector) )
 
 ggplot( sub_long, aes(x = value, y = subsector, colour = kind, shape = kind) ) +
-  geom_vline( xintercept = 0, colour = "grey70" ) +
+  geom_vline( xintercept = 100, colour = "grey70" ) +
   geom_point( size = 3 ) +
   scale_colour_manual( values = c(`Raw mean` = "#a2d4ec", `Size-adjusted` = blue),
                        name = NULL ) +
   scale_shape_manual( values = c(`Raw mean` = 1, `Size-adjusted` = 16), name = NULL ) +
-  labs( x = "Mean gov_score", y = NULL ) +
+  labs( x = "Mean gov_score (size-adjusted: 100 + size-adjusted difference)", y = NULL ) +
   theme( legend.position = "top" )
 ```
 
 Much of the raw difference between subsectors is size. Hospitals and
-universities have the highest raw means (about 0.8 and 0.7) because they are
+universities have the highest raw means (about 114 and 111) because they are
 large; compared with organizations of the same size they are only slightly
-above average. After adjusting for size, public and societal benefit and
-health organizations score highest, and religion-related organizations score
-lowest by a wide margin (a quarter of a point below organizations of the same
-size). Read the "Unclassified" row with care: about one in six filers has no
-usable NTEE code in the Business Master File.
+above average. After adjusting for size, health, hospitals, and public and
+societal benefit organizations score highest (about 1.5 points above
+organizations of the same size), and religion-related organizations score
+lowest by a wide margin (about 4 points below). Read the "Unclassified" row with
+care: about one in six filers has no usable NTEE code in the Business Master
+File.
 
 ## Geography
 
-Size-adjusted state means span about half a point, from New Hampshire and the
-District of Columbia at the top to Utah and North Dakota at the bottom: much less
+Size-adjusted state means span about 7 points, from New Hampshire and the
+District of Columbia at the top to North Dakota and Utah at the bottom: much less
 than the size gradient, and similar to the spread across subsectors. The table
 lists the five highest and lowest states; the chart shows every state.
 
@@ -244,8 +245,8 @@ st <- ov$scores_by_state |> arrange( desc(gov_adj) )
 
 st_tab <- st |>
   transmute( State = state, Organizations = num(n),
-             `Mean score` = round(gov_mean, 2),
-             `Size-adjusted` = round(gov_adj, 2) )
+             `Mean score` = round(gov_mean, 1),
+             `Size-adjusted` = round(gov_adj, 1) )
 
 knitr::kable( rbind(head(st_tab, 5), tail(st_tab, 5)), row.names = FALSE,
               align = "lrrr" )
@@ -258,7 +259,7 @@ ggplot( st, aes(x = gov_adj, y = state) ) +
   geom_vline( xintercept = 0, colour = "grey70" ) +
   geom_segment( aes(x = 0, xend = gov_adj, yend = state), colour = "#a2d4ec" ) +
   geom_point( colour = blue, size = 2 ) +
-  labs( x = "Size-adjusted mean gov_score", y = NULL ) +
+  labs( x = "Size-adjusted difference in gov_score (points)", y = NULL ) +
   theme( axis.text.y = element_text(size = 7) )
 ```
 
@@ -270,24 +271,24 @@ regional differences.
 ## Organization age
 
 Older organizations report more practices, and the gradient remains, smaller,
-after adjusting for size: organizations under five years old score about a tenth
-of a point below others of their size, and those over 40 years old about a tenth
+after adjusting for size: organizations under five years old score about 2
+points below others of their size, and those over 40 years old about 2 points
 above. Age is years since the IRS ruling date (or, where missing, the year of
 formation on the 990).
 
 ```{r}
 ov$scores_by_age |>
   transmute( Age = age_band, Organizations = num(n),
-             `Mean score` = round(gov_mean, 2),
-             `Size-adjusted` = round(gov_adj, 2),
+             `Mean score` = round(gov_mean, 1),
+             `Size-adjusted` = round(gov_adj, 1),
              `Mean practices` = round(count_mean, 1) ) |>
   knitr::kable( align = "lrrrr" )
 ```
 
 ## Specific factors
 
-The four specific-factor scores show where groups depart from what their
-general score predicts. They average zero by construction, so they are most
+The four specific-factor scores from the bifactor measurement model show where
+groups depart from what their general level of governance predicts. They average zero by construction, so they are most
 useful for comparing groups. Larger organizations do *more* financial assurance
 and have more pay-setting processes than their general score predicts, which
 echoes the size effect on audits discussed in `vignette("making-gov-scores")`.
@@ -341,8 +342,8 @@ years are directly comparable. Across the whole population, the mean score
 ```{r}
 ov$population |>
   transmute( `Tax year` = year, Organizations = num(n),
-             `Mean score` = round(gov_mean, 3),
-             SD = round(gov_sd, 2),
+             `Mean score` = round(gov_mean, 2),
+             SD = round(gov_sd, 1),
              `Mean practices` = round(count_mean, 2) ) |>
   knitr::kable( align = "lrrrr" )
 ```
@@ -391,8 +392,8 @@ bands; the largest organizations, already near the ceiling, barely changed.
 ```{r}
 ov$change_by_size |>
   transmute( `Size (2023)` = size, Organizations = num(n),
-             `Mean 2021` = round(gov_2021, 2), `Mean 2024` = round(gov_2024, 2),
-             Change = sprintf("%+.3f", d_gov),
+             `Mean 2021` = round(gov_2021, 1), `Mean 2024` = round(gov_2024, 1),
+             Change = sprintf("%+.2f", d_gov),
              `More practices` = pct(share_up),
              `Same` = pct(share_same),
              `Fewer` = pct(share_down) ) |>

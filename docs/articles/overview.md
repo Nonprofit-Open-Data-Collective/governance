@@ -8,12 +8,10 @@ full Form 990 for tax years 2021 to 2024: **271,116 organizations in
 and
 [`get_scores()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_scores.md),
 so the results are on the index scale described in
-[`vignette("making-gov-scores")`](https://nonprofit-open-data-collective.github.io/governance/articles/making-gov-scores.md).
-The scale is set so that 2023 filers have mean 0 and standard deviation
-1 on the underlying (latent) governance factor; the estimated scores
-average 0.02 with a standard deviation of 0.91, slightly less than 1
-because each estimate is pulled toward the mean in proportion to its
-uncertainty.
+[`vignette("making-gov-scores")`](https://nonprofit-open-data-collective.github.io/governance/articles/making-gov-scores.md):
+2023 filers have a mean of 100 and a standard deviation of 15, so 115 is
+one standard deviation above the average 2023 filer. Scores run from
+about 67 (none of the 16 practices) to about 128 (all 16).
 
 The figures come from summary tables built by
 [`data-raw/make-overview-data.R`](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/make-overview-data.R)
@@ -43,35 +41,36 @@ among organizations that do everything else.
 
 The score distribution is lumpy, not bell-shaped, because the index is
 built from 16 yes/no items: many organizations share the same response
-pattern and so the same score. The tallest spike, just above −1.25, is
+pattern and so the same score. The spikes around 80 and 83 are
 organizations that report only the near-universal practices, such as
-minutes and an independent board. The cluster around 1.3 is
-organizations that report every practice except posting the 990 online.
-Scores at the top and bottom are the least precise (mean standard error
-about 0.6, against 0.2 in the middle).
+minutes, an independent board and the board’s review of the 990. The
+tallest spike, at about 122, is organizations that report every practice
+except posting the 990 online. Scores at the top and bottom are the
+least precise (mean standard error about 10 points, against about 4 in
+the middle).
 
 ## Size
 
 Size is the strongest correlate of governance. The Spearman correlation
-between `gov_score` and log expenses is **0.57** (0.62 for the count).
-The average score rises by 1.7 points from organizations spending under
+between `gov_score` and log expenses is **0.58** (0.62 for the count).
+The average score rises by 28.5 points from organizations spending under
 \$100,000 to those spending \$40 million or more, and the typical
 organization goes from about 6 practices to about 14.
 
 | Size        | Organizations | Mean score | 25th pct | Median | 75th pct | Mean practices |
 |:------------|--------------:|-----------:|---------:|-------:|---------:|---------------:|
-| \<\$100k    |        38,532 |      -0.56 |    -1.15 |  -0.82 |    -0.02 |            5.7 |
-| \$100k-500k |        99,104 |      -0.37 |    -1.02 |  -0.37 |     0.20 |            6.8 |
-| \$500k-2m   |        69,951 |       0.15 |    -0.39 |   0.17 |     0.77 |            9.7 |
-| \$2m-10m    |        40,582 |       0.68 |     0.18 |   0.84 |     1.31 |           12.4 |
-| \$10m-40m   |        15,133 |       0.99 |     0.77 |   1.06 |     1.31 |           13.8 |
-| \$40m+      |         7,814 |       1.11 |     0.85 |   1.31 |     1.31 |           14.2 |
+| \<\$100k    |        38,532 |       90.3 |     80.2 |   87.8 |     99.2 |            5.7 |
+| \$100k-500k |        99,104 |       93.5 |     83.1 |   92.7 |    103.7 |            6.8 |
+| \$500k-2m   |        69,951 |      102.4 |     93.1 |  103.3 |    113.3 |            9.7 |
+| \$2m-10m    |        40,582 |      111.3 |    103.7 |  113.8 |    122.2 |           12.4 |
+| \$10m-40m   |        15,133 |      116.6 |    113.3 |  117.5 |    122.2 |           13.8 |
+| \$40m+      |         7,814 |      118.7 |    114.7 |  122.2 |    122.2 |           14.2 |
 
 ![](overview_files/figure-html/unnamed-chunk-6-1.png)
 
-In the three largest size bands the 75th percentile is the same, 1.31:
-at least a quarter of those organizations report every practice except
-posting the 990 online. The index has little room to separate
+In the three largest size bands the 75th percentile is the same, about
+122: at least a quarter of those organizations report every practice
+except posting the 990 online. The index has little room to separate
 organizations at the top.
 
 Practices rise with size, but not equally. Audits show the steepest
@@ -96,51 +95,51 @@ elsewhere.
 
 | Subsector | Organizations | Mean score | Size-adjusted | Mean practices |
 |:---|---:|---:|---:|---:|
-| Public & societal benefit | 26,891 | 0.06 | 0.10 | 9.0 |
-| Health (excl. hospitals) | 23,132 | 0.25 | 0.09 | 10.0 |
-| Hospitals | 3,713 | 0.81 | 0.08 | 12.8 |
-| Universities | 2,153 | 0.66 | 0.06 | 12.3 |
-| International | 5,992 | 0.04 | 0.04 | 8.8 |
-| Unclassified | 46,367 | 0.04 | 0.03 | 9.0 |
-| Arts, culture & humanities | 21,450 | -0.09 | 0.01 | 8.3 |
-| Mutual & membership benefit | 303 | -0.04 | 0.01 | 8.4 |
-| Environment & animals | 13,068 | -0.08 | -0.01 | 8.2 |
-| Human services | 81,188 | -0.01 | -0.01 | 8.7 |
-| Education (excl. universities) | 33,399 | -0.01 | -0.08 | 8.7 |
-| Religion-related | 13,460 | -0.44 | -0.25 | 6.3 |
+| Health (excl. hospitals) | 23,132 | 104.0 | 1.5 | 10.0 |
+| Hospitals | 3,713 | 113.7 | 1.5 | 12.8 |
+| Public & societal benefit | 26,891 | 100.6 | 1.5 | 9.0 |
+| Universities | 2,153 | 111.1 | 1.1 | 12.3 |
+| Unclassified | 46,367 | 100.7 | 0.6 | 9.0 |
+| International | 5,992 | 100.1 | 0.3 | 8.8 |
+| Arts, culture & humanities | 21,450 | 98.2 | 0.1 | 8.3 |
+| Human services | 81,188 | 99.7 | 0.0 | 8.7 |
+| Mutual & membership benefit | 303 | 98.9 | -0.1 | 8.4 |
+| Environment & animals | 13,068 | 98.2 | -0.3 | 8.2 |
+| Education (excl. universities) | 33,399 | 99.5 | -1.5 | 8.7 |
+| Religion-related | 13,460 | 92.1 | -4.3 | 6.3 |
 
 ![](overview_files/figure-html/unnamed-chunk-9-1.png)
 
 Much of the raw difference between subsectors is size. Hospitals and
-universities have the highest raw means (about 0.8 and 0.7) because they
+universities have the highest raw means (about 114 and 111) because they
 are large; compared with organizations of the same size they are only
-slightly above average. After adjusting for size, public and societal
-benefit and health organizations score highest, and religion-related
-organizations score lowest by a wide margin (a quarter of a point below
-organizations of the same size). Read the “Unclassified” row with care:
-about one in six filers has no usable NTEE code in the Business Master
-File.
+slightly above average. After adjusting for size, health, hospitals, and
+public and societal benefit organizations score highest (about 1.5
+points above organizations of the same size), and religion-related
+organizations score lowest by a wide margin (about 4 points below). Read
+the “Unclassified” row with care: about one in six filers has no usable
+NTEE code in the Business Master File.
 
 ## Geography
 
-Size-adjusted state means span about half a point, from New Hampshire
-and the District of Columbia at the top to Utah and North Dakota at the
+Size-adjusted state means span about 7 points, from New Hampshire and
+the District of Columbia at the top to North Dakota and Utah at the
 bottom: much less than the size gradient, and similar to the spread
 across subsectors. The table lists the five highest and lowest states;
 the chart shows every state.
 
 | State | Organizations | Mean score | Size-adjusted |
 |:------|--------------:|-----------:|--------------:|
-| NH    |         1,565 |       0.27 |          0.28 |
-| DC    |         3,785 |       0.50 |          0.22 |
-| NY    |        21,120 |       0.23 |          0.16 |
-| HI    |         1,459 |       0.14 |          0.13 |
-| MA    |         8,167 |       0.18 |          0.11 |
-| ID    |         1,281 |      -0.18 |         -0.14 |
-| AR    |         2,092 |      -0.18 |         -0.16 |
-| MS    |         1,599 |      -0.20 |         -0.17 |
-| ND    |         1,028 |      -0.20 |         -0.19 |
-| UT    |         1,786 |      -0.16 |         -0.20 |
+| NH    |         1,565 |      103.5 |           3.8 |
+| DC    |         3,785 |      108.0 |           3.6 |
+| NY    |        21,120 |      103.7 |           2.7 |
+| MA    |         8,167 |      103.1 |           2.1 |
+| HI    |         1,459 |      101.7 |           1.7 |
+| AR    |         2,092 |       97.0 |          -2.3 |
+| MS    |         1,599 |       96.8 |          -2.5 |
+| ID    |         1,281 |       96.6 |          -2.6 |
+| UT    |         1,786 |       97.1 |          -3.4 |
+| ND    |         1,028 |       96.1 |          -3.5 |
 
 ![](overview_files/figure-html/unnamed-chunk-11-1.png)
 
@@ -153,26 +152,26 @@ those rules from other regional differences.
 
 Older organizations report more practices, and the gradient remains,
 smaller, after adjusting for size: organizations under five years old
-score about a tenth of a point below others of their size, and those
-over 40 years old about a tenth above. Age is years since the IRS ruling
-date (or, where missing, the year of formation on the 990).
+score about 2 points below others of their size, and those over 40 years
+old about 2 points above. Age is years since the IRS ruling date (or,
+where missing, the year of formation on the 990).
 
 | Age       | Organizations | Mean score | Size-adjusted | Mean practices |
 |:----------|--------------:|-----------:|--------------:|---------------:|
-| \<5 years |        37,215 |      -0.30 |         -0.12 |            7.0 |
-| 5-9       |        37,818 |      -0.21 |         -0.11 |            7.6 |
-| 10-19     |        51,280 |      -0.08 |         -0.02 |            8.3 |
-| 20-39     |        87,029 |       0.08 |          0.05 |            9.2 |
-| 40+       |        57,682 |       0.35 |          0.10 |           10.6 |
+| \<5 years |        37,215 |       94.4 |          -2.1 |            7.0 |
+| 5-9       |        37,818 |       96.0 |          -2.0 |            7.6 |
+| 10-19     |        51,280 |       98.2 |          -0.6 |            8.3 |
+| 20-39     |        87,029 |      101.3 |           0.9 |            9.2 |
+| 40+       |        57,682 |      105.9 |           1.8 |           10.6 |
 
 ## Specific factors
 
-The four specific-factor scores show where groups depart from what their
-general score predicts. They average zero by construction, so they are
-most useful for comparing groups. Larger organizations do *more*
-financial assurance and have more pay-setting processes than their
-general score predicts, which echoes the size effect on audits discussed
-in
+The four specific-factor scores from the bifactor measurement model show
+where groups depart from what their general level of governance
+predicts. They average zero by construction, so they are most useful for
+comparing groups. Larger organizations do *more* financial assurance and
+have more pay-setting processes than their general score predicts, which
+echoes the size effect on audits discussed in
 [`vignette("making-gov-scores")`](https://nonprofit-open-data-collective.github.io/governance/articles/making-gov-scores.md).
 Minutes and written policies show no size pattern beyond the general
 score. The written-policies factor has almost no variance of its own and
@@ -219,10 +218,10 @@ number of practices.
 
 | Tax year | Organizations | Mean score |   SD | Mean practices |
 |:---------|--------------:|-----------:|-----:|---------------:|
-| 2021     |       251,937 |      0.039 | 0.90 |           9.00 |
-| 2022     |       262,487 |      0.023 | 0.90 |           8.89 |
-| 2023     |       271,116 |      0.015 | 0.91 |           8.82 |
-| 2024     |       274,931 |      0.015 | 0.91 |           8.79 |
+| 2021     |       251,937 |     100.42 | 14.9 |           9.00 |
+| 2022     |       262,487 |     100.14 | 15.0 |           8.89 |
+| 2023     |       271,116 |     100.00 | 15.0 |           8.82 |
+| 2024     |       274,931 |      99.98 | 15.0 |           8.79 |
 
 ![](overview_files/figure-html/unnamed-chunk-16-1.png)
 
@@ -235,7 +234,7 @@ population. The table below follows the 221,759 organizations that filed
 a full 990 in both 2021 and 2024.
 
 Among them, 20% reported more practices in 2024 than in 2021, 66% the
-same number and 14% fewer, and the mean score rose by 0.05. Continuing
+same number and 14% fewer, and the mean score rose by 0.76. Continuing
 organizations improved, so the falling population mean points to
 composition: the organizations entering the full-990 population report
 fewer practices than those leaving it. One possible reason: the
@@ -247,12 +246,12 @@ ceiling, barely changed.
 
 | Size (2023) | Organizations | Mean 2021 | Mean 2024 | Change | More practices | Same | Fewer |
 |:------------|--------------:|----------:|----------:|-------:|---------------:|-----:|------:|
-| \<\$100k    |        25,141 |     -0.53 |     -0.51 | +0.019 |            14% |  74% |   13% |
-| \$100k-500k |        72,573 |     -0.33 |     -0.28 | +0.048 |            20% |  66% |   15% |
-| \$500k-2m   |        63,260 |      0.14 |      0.20 | +0.064 |            24% |  60% |   16% |
-| \$2m-10m    |        38,502 |      0.66 |      0.71 | +0.049 |            21% |  65% |   14% |
-| \$10m-40m   |        14,649 |      0.98 |      1.01 | +0.023 |            15% |  73% |   12% |
-| \$40m+      |         7,634 |      1.11 |      1.11 | +0.003 |            10% |  79% |   11% |
+| \<\$100k    |        25,141 |      90.8 |      91.1 |  +0.30 |            14% |  74% |   13% |
+| \$100k-500k |        72,573 |      94.1 |      94.9 |  +0.76 |            20% |  66% |   15% |
+| \$500k-2m   |        63,260 |     102.1 |     103.2 |  +1.07 |            24% |  60% |   16% |
+| \$2m-10m    |        38,502 |     111.1 |     111.9 |  +0.80 |            21% |  65% |   14% |
+| \$10m-40m   |        14,649 |     116.5 |     116.8 |  +0.38 |            15% |  73% |   12% |
+| \$40m+      |         7,634 |     118.7 |     118.8 |  +0.07 |            10% |  79% |   11% |
 
 Year-to-year changes in a single organization’s count are common in both
 directions, and many are one practice, so individual changes are noisy.

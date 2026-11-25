@@ -112,12 +112,13 @@ scores <- get_scores( features )
 ```
 
 [`get_scores()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_scores.md)
-appends eight columns.
+appends nine columns.
 
 | Column | Meaning |
 |----|----|
-| `gov_score` | General governance score. 0 is the average 2023 filer; one unit is one SD of the latent factor among 2023 filers. |
-| `gov_score_se` | Standard error of `gov_score`. |
+| `gov_score` | The governance index. 100 is the average 2023 filer and 15 points is one standard deviation; it runs from about 67 (no practices) to about 128 (all 16). |
+| `gov_score_se` | Standard error of `gov_score`, in index points. |
+| `gov_score_bf` | General factor of the bifactor measurement model (latent scale, 2023 mean 0). This was `gov_score` in version 0.1.0; see below. |
 | `gov_s_finance` | Financial-assurance specific factor (audit, review, audit committee, accrual). |
 | `gov_s_minutes` | Minutes specific factor (board and committee minutes). |
 | `gov_s_policy` | Written-policies specific factor (conflict of interest, whistleblower, retention). **Not recommended**; see below. |
@@ -125,26 +126,40 @@ appends eight columns.
 | `gov_count` | Number of the 16 practices reported (0–16). |
 | `gov_n_items` | Number of the 16 items answered. |
 
+### The index and the bifactor scores
+
+`gov_score` comes from a graded response model in which each bundle of
+nested practices is one ordinal item (financial assurance,
+conflict-of-interest policy, minutes, pay-setting). With one dimension,
+reporting another practice can only raise an organization’s score. The
+`gov_score_bf` and `gov_s_*` columns come from a bifactor model with a
+general factor and four specific factors. That model describes how the
+items covary more closely, and its general factor correlates .99 with
+the index, but its scores can *fall* when a practice is added: in 2023
+data, adding committee minutes lowered `gov_score_bf` for most
+organizations that lacked them. Use `gov_score` as the score. Use the
+bifactor columns only for the subscores described next.
+
 The specific factors are *residuals*. They are uncorrelated with
-`gov_score`, and a positive value means the organization does more in
-that area than its general score predicts. They are not standalone
+`gov_score_bf`, and a positive value means the organization does more in
+that area than its general level predicts. They are not standalone
 subscales: an organization with a high `gov_s_finance` and a low
 `gov_score` is one that is audited but has few other practices.
 
-The specific factors are also much less reliable than `gov_score`. Among
+The specific factors are also much less reliable than the index. Among
 2023 filers the empirical reliability of the scores is:
 
 | Score | Reliability | Use |
 |----|----|----|
-| `gov_score` | .83 | Main score. |
+| `gov_score` | .82 | Main score (the index). |
 | `gov_s_finance` | .57 | The one subscore with substantial variance of its own; report it alongside `gov_score`. |
 | `gov_s_comp` | .48 | Supplementary (two items). |
 | `gov_s_minutes` | .41 | Supplementary (two items). |
 | `gov_s_policy` | .29 | Do not use. |
 
 **Do not use `gov_s_policy`.** The written-policy items are the core of
-`gov_score`, so the policy factor has almost no variance of its own
-(omega-hierarchical \< .01). Its loadings only contrast the
+the general factor, so the policy factor has almost no variance of its
+own (omega-hierarchical \< .01). Its loadings only contrast the
 conflict-of-interest items with the whistleblower and retention
 policies. The column is returned for completeness. For simple
 domain-level measures, use the share of practices adopted in each domain
@@ -153,7 +168,8 @@ instead. Those shares are not residuals, so they move with `gov_score`.
 ``` r
 ggplot( scores, aes(x = gov_score) ) +
   geom_histogram( bins = 30, fill = "#1696d2" ) +
-  labs( x = "Governance score", y = "Organizations" )
+  geom_vline( xintercept = 100, linetype = 2 ) +
+  labs( x = "Governance index (100 = average 2023 filer)", y = "Organizations" )
 ```
 
 ![](governance-workflow_files/figure-html/unnamed-chunk-7-1.png)
@@ -175,30 +191,35 @@ ggplot( scores, aes(x = gov_count, y = gov_score) ) +
 ![](governance-workflow_files/figure-html/unnamed-chunk-8-1.png)
 
 The vertical spread at each count shows the weighting at work. Two
-organizations that report eight practices can differ by a full unit,
-depending on *which* eight.
+organizations that report eight practices can differ by 10 points or
+more, depending on *which* eight. The written policies weigh most: in
+2023 a whistleblower or retention policy added about 10 to 12 points on
+average, a conflict-of-interest item about 7, and most other practices 1
+to 4.
 
 ### Precision
 
 Scores are least precise at the ends of the scale, where few items
-discriminate. Treat differences smaller than about two standard errors
-as noise, especially at the top and bottom.
+discriminate: the standard error is about 4 points in the middle of the
+2023 distribution and about 10 points at the top and bottom. Treat
+differences smaller than about two standard errors as noise, especially
+at the top and bottom.
 
 ``` r
 scores |>
   mutate( quintile = ntile(gov_score, 5) ) |>
   group_by( quintile ) |>
   summarise( mean_score = mean(gov_score), mean_se = mean(gov_score_se) ) |>
-  knitr::kable( digits = 2 )
+  knitr::kable( digits = 1 )
 ```
 
 | quintile | mean_score | mean_se |
 |---------:|-----------:|--------:|
-|        1 |      -1.27 |    0.51 |
-|        2 |      -0.72 |    0.30 |
-|        3 |      -0.08 |    0.19 |
-|        4 |       0.50 |    0.30 |
-|        5 |       1.14 |    0.53 |
+|        1 |       78.6 |     8.9 |
+|        2 |       88.7 |     6.3 |
+|        3 |       97.7 |     4.0 |
+|        4 |      107.9 |     5.2 |
+|        5 |      119.1 |     8.7 |
 
 ### Missing answers
 

@@ -1,16 +1,52 @@
 # Changelog
 
-## governance (development version)
+## governance 0.2.0
+
+### Breaking changes
+
+- `gov_score` is now the **governance index**: the score from a
+  unidimensional graded response model (`gov_index_2023`), reported on a
+  scale with mean 100 and standard deviation 15 among 2023 501(c)(3)
+  full-990 filers. It runs from about 67 (none of the 16 practices) to
+  about 128 (all 16), and `gov_score_se` is in index points.
+  - In the 2023 bifactor model, a score could *fall* when an
+    organization reported another practice. Adding committee minutes,
+    for example, lowered the general score for most organizations that
+    lacked them.
+  - The index model scores each bundle of nested practices as one
+    ordinal item: financial assurance, conflict-of-interest policy,
+    minutes, and pay-setting process. With one dimension, adding a
+    practice can only raise the score.
+  - It correlates .99 with the bifactor general score, and its
+    reliability is .82.
+- The bifactor general score from version 0.1.0 is still returned, as
+  `gov_score_bf`. The `gov_s_*` specific-factor scores are unchanged.
+  `get_scores(model = "2023")` now appends nine columns instead of
+  eight.
+
+### New features
+
+- `gov_index_2023`: parameters, item bundles, scaling constants and fit
+  of the index model, with fitting code in `data-raw/fit-index-2023.R`.
 
 ### Documentation
 
 - [`get_scores()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_scores.md)
-  and the vignettes now report how reliable the specific-factor scores
-  are and advise against using `gov_s_policy`. That factor has almost no
+  and the vignettes describe the index:
+  - its scale and how to interpret it;
+  - the points each practice adds;
+  - its precision and its limitations, including the ceiling at about
+    128.
+- Vignettes:
+  - “Making Governance Scores” explains why the published score is not
+    the bifactor score.
+  - The overview is rebuilt on the new scale.
+- [`get_scores()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_scores.md)
+  and the vignettes report how reliable the specific-factor scores are
+  and advise against using `gov_s_policy`. That factor has almost no
   variance of its own (omega-hierarchical \< .01), because the
-  written-policy items are the core of the general score.
-  `gov_s_finance` is the one subscore recommended alongside `gov_score`.
-  No scores change.
+  written-policy items are the core of the general factor.
+  `gov_s_finance` is the one subscore recommended alongside the index.
 
 ## governance 0.1.0
 

@@ -3,7 +3,7 @@
 \docType{data}
 \name{gov_model_2023}
 \alias{gov_model_2023}
-\title{2023 Governance Index Model}
+\title{2023 Bifactor Measurement Model}
 \format{
 A list with elements:
 \describe{
@@ -24,8 +24,10 @@ the model with fixed parameters when scoring}
 gov_model_2023
 }
 \description{
-Item parameters of the 2023 anchor model used by
-\code{get_scores(model = "2023")}: a bifactor two-parameter logistic item
+Item parameters of the 2023 bifactor measurement model used by
+\code{get_scores(model = "2023")} for \code{gov_score_bf} and the \code{gov_s_*}
+subscores (the governance index itself comes from \code{\link{gov_index_2023}}):
+a bifactor two-parameter logistic item
 response model (\code{mirt::bfactor}) fit to the 16 \code{GI_*} practice
 items for every 501(c)(3) organization that e-filed a full Form 990 for tax
 year 2023. Fitting code: \code{data-raw/fit-model-2023.R} in the package

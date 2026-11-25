@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -303,7 +303,7 @@ practice. Report them alongside the score.</p>
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span> <span class="va">features</span> <span class="op">)</span></span></code></pre></div>
-<p><code><a href="../reference/get_scores.html">get_scores()</a></code> appends eight columns.</p>
+<p><code><a href="../reference/get_scores.html">get_scores()</a></code> appends nine columns.</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -316,52 +316,73 @@ practice. Report them alongside the score.</p>
 <tbody>
 <tr class="odd">
 <td><code>gov_score</code></td>
-<td>General governance score. 0 is the average 2023 filer; one unit is
-one SD of the latent factor among 2023 filers.</td>
+<td>The governance index. 100 is the average 2023 filer and 15 points is
+one standard deviation; it runs from about 67 (no practices) to about
+128 (all 16).</td>
 </tr>
 <tr class="even">
 <td><code>gov_score_se</code></td>
-<td>Standard error of <code>gov_score</code>.</td>
+<td>Standard error of <code>gov_score</code>, in index points.</td>
 </tr>
 <tr class="odd">
+<td><code>gov_score_bf</code></td>
+<td>General factor of the bifactor measurement model (latent scale, 2023
+mean 0). This was <code>gov_score</code> in version 0.1.0; see
+below.</td>
+</tr>
+<tr class="even">
 <td><code>gov_s_finance</code></td>
 <td>Financial-assurance specific factor (audit, review, audit committee,
 accrual).</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>gov_s_minutes</code></td>
 <td>Minutes specific factor (board and committee minutes).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>gov_s_policy</code></td>
 <td>Written-policies specific factor (conflict of interest,
 whistleblower, retention). <strong>Not recommended</strong>; see
 below.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>gov_s_comp</code></td>
 <td>Compensation specific factor (CEO and other-officer pay
 process).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>gov_count</code></td>
 <td>Number of the 16 practices reported (0–16).</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>gov_n_items</code></td>
 <td>Number of the 16 items answered.</td>
 </tr>
 </tbody>
 </table>
+<div class="section level3">
+<h3 id="the-index-and-the-bifactor-scores">The index and the bifactor scores<a class="anchor" aria-label="anchor" href="#the-index-and-the-bifactor-scores"></a>
+</h3>
+<p><code>gov_score</code> comes from a graded response model in which
+each bundle of nested practices is one ordinal item (financial
+assurance, conflict-of-interest policy, minutes, pay-setting). With one
+dimension, reporting another practice can only raise an organization’s
+score. The <code>gov_score_bf</code> and <code>gov_s_*</code> columns
+come from a bifactor model with a general factor and four specific
+factors. That model describes how the items covary more closely, and its
+general factor correlates .99 with the index, but its scores can
+<em>fall</em> when a practice is added: in 2023 data, adding committee
+minutes lowered <code>gov_score_bf</code> for most organizations that
+lacked them. Use <code>gov_score</code> as the score. Use the bifactor
+columns only for the subscores described next.</p>
 <p>The specific factors are <em>residuals</em>. They are uncorrelated
-with <code>gov_score</code>, and a positive value means the organization
-does more in that area than its general score predicts. They are not
-standalone subscales: an organization with a high
+with <code>gov_score_bf</code>, and a positive value means the
+organization does more in that area than its general level predicts.
+They are not standalone subscales: an organization with a high
 <code>gov_s_finance</code> and a low <code>gov_score</code> is one that
 is audited but has few other practices.</p>
-<p>The specific factors are also much less reliable than
-<code>gov_score</code>. Among 2023 filers the empirical reliability of
-the scores is:</p>
+<p>The specific factors are also much less reliable than the index.
+Among 2023 filers the empirical reliability of the scores is:</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -376,8 +397,8 @@ the scores is:</p>
 <tbody>
 <tr class="odd">
 <td><code>gov_score</code></td>
-<td>.83</td>
-<td>Main score.</td>
+<td>.82</td>
+<td>Main score (the index).</td>
 </tr>
 <tr class="even">
 <td><code>gov_s_finance</code></td>
@@ -403,9 +424,9 @@ alongside <code>gov_score</code>.</td>
 </tbody>
 </table>
 <p><strong>Do not use <code>gov_s_policy</code>.</strong> The
-written-policy items are the core of <code>gov_score</code>, so the
-policy factor has almost no variance of its own (omega-hierarchical &lt;
-.01). Its loadings only contrast the conflict-of-interest items with the
+written-policy items are the core of the general factor, so the policy
+factor has almost no variance of its own (omega-hierarchical &lt; .01).
+Its loadings only contrast the conflict-of-interest items with the
 whistleblower and retention policies. The column is returned for
 completeness. For simple domain-level measures, use the share of
 practices adopted in each domain instead. Those shares are not
@@ -413,8 +434,10 @@ residuals, so they move with <code>gov_score</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span> <span class="va">scores</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gov_score</span><span class="op">)</span> <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span> bins <span class="op">=</span> <span class="fl">30</span>, fill <span class="op">=</span> <span class="st">"#1696d2"</span> <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span> x <span class="op">=</span> <span class="st">"Governance score"</span>, y <span class="op">=</span> <span class="st">"Organizations"</span> <span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span> xintercept <span class="op">=</span> <span class="fl">100</span>, linetype <span class="op">=</span> <span class="fl">2</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span> x <span class="op">=</span> <span class="st">"Governance index (100 = average 2023 filer)"</span>, y <span class="op">=</span> <span class="st">"Organizations"</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="governance-workflow_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="576"></p>
+</div>
 <div class="section level3">
 <h3 id="score-or-count">Score or count?<a class="anchor" aria-label="anchor" href="#score-or-count"></a>
 </h3>
@@ -430,21 +453,26 @@ spread.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span> x <span class="op">=</span> <span class="st">"Practices reported (gov_count)"</span>, y <span class="op">=</span> <span class="st">"gov_score"</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="governance-workflow_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="576"></p>
 <p>The vertical spread at each count shows the weighting at work. Two
-organizations that report eight practices can differ by a full unit,
-depending on <em>which</em> eight.</p>
+organizations that report eight practices can differ by 10 points or
+more, depending on <em>which</em> eight. The written policies weigh
+most: in 2023 a whistleblower or retention policy added about 10 to 12
+points on average, a conflict-of-interest item about 7, and most other
+practices 1 to 4.</p>
 </div>
 <div class="section level3">
 <h3 id="precision">Precision<a class="anchor" aria-label="anchor" href="#precision"></a>
 </h3>
 <p>Scores are least precise at the ends of the scale, where few items
-discriminate. Treat differences smaller than about two standard errors
-as noise, especially at the top and bottom.</p>
+discriminate: the standard error is about 4 points in the middle of the
+2023 distribution and about 10 points at the top and bottom. Treat
+differences smaller than about two standard errors as noise, especially
+at the top and bottom.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scores</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span> quintile <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/ntile.html" class="external-link">ntile</a></span><span class="op">(</span><span class="va">gov_score</span>, <span class="fl">5</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span> <span class="va">quintile</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span> mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">gov_score</span><span class="op">)</span>, mean_se <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">gov_score_se</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">2</span> <span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">1</span> <span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">quintile</th>
@@ -454,28 +482,28 @@ as noise, especially at the top and bottom.</p>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">-1.27</td>
-<td align="right">0.51</td>
+<td align="right">78.6</td>
+<td align="right">8.9</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">-0.72</td>
-<td align="right">0.30</td>
+<td align="right">88.7</td>
+<td align="right">6.3</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">-0.08</td>
-<td align="right">0.19</td>
+<td align="right">97.7</td>
+<td align="right">4.0</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">0.50</td>
-<td align="right">0.30</td>
+<td align="right">107.9</td>
+<td align="right">5.2</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">1.14</td>
-<td align="right">0.53</td>
+<td align="right">119.1</td>
+<td align="right">8.7</td>
 </tr>
 </tbody>
 </table>

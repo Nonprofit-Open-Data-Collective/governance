@@ -63,11 +63,13 @@
 #' All data used to generate \code{\link{model6}}.
 #' Contains raw 990 data, features, and factor scores.
 "dat.2018"
-#' 2023 Governance Index Model
+#' 2023 Bifactor Measurement Model
 #'
 #' @description
-#' Item parameters of the 2023 anchor model used by
-#' \code{get_scores(model = "2023")}: a bifactor two-parameter logistic item
+#' Item parameters of the 2023 bifactor measurement model used by
+#' \code{get_scores(model = "2023")} for \code{gov_score_bf} and the \code{gov_s_*}
+#' subscores (the governance index itself comes from \code{\link{gov_index_2023}}):
+#' a bifactor two-parameter logistic item
 #' response model (\code{mirt::bfactor}) fit to the 16 \code{GI_*} practice
 #' items for every 501(c)(3) organization that e-filed a full Form 990 for tax
 #' year 2023. Fitting code: \code{data-raw/fit-model-2023.R} in the package
@@ -88,3 +90,34 @@
 #'   \item{mirt_version, fitted}{mirt version used and date fitted}
 #' }
 "gov_model_2023"
+
+#' 2023 Governance Index Model
+#'
+#' @description
+#' Parameters of the model behind the governance index returned as
+#' \code{gov_score} by \code{get_scores(model = "2023")}: a unidimensional
+#' graded response model (\code{mirt::mirt}) fit to every 501(c)(3)
+#' organization that e-filed a full Form 990 for tax year 2023. The 16
+#' \code{GI_*} practices enter as ten items: nested practices are summed into
+#' ordinal items (financial assurance 0--3, conflict-of-interest policy 0--3,
+#' minutes 0--2, pay-setting process 0--2) and the other six are binary. The
+#' estimates are placed on a scale with mean 100 and SD 15 among 2023 filers.
+#' Fitting code: \code{data-raw/fit-index-2023.R} in the package source.
+#'
+#' @format A list with elements:
+#' \describe{
+#'   \item{values}{parameter table from \code{mirt::mod2values()}, used to rebuild
+#'     the model with fixed parameters when scoring}
+#'   \item{items, itemtype}{the ten index items, in model order, and their
+#'     item types (\code{"graded"} or \code{"2PL"})}
+#'   \item{bundles}{the \code{GI_*} practices summed into each item}
+#'   \item{mu, sd}{mean and standard deviation of the 2023 EAP estimates;
+#'     the index is \code{100 + 15 * (theta - mu) / sd}}
+#'   \item{year, n}{anchor tax year and number of organizations}
+#'   \item{fit}{limited-information fit (RMSEA, SRMSR, CFI, TLI) and empirical
+#'     reliability}
+#'   \item{coef}{item parameters in IRT form (slope \code{a}, thresholds)}
+#'   \item{mirt_version, fitted}{mirt version used and date fitted}
+#' }
+#' @seealso \code{\link{get_scores}}, \code{\link{gov_model_2023}}.
+"gov_index_2023"

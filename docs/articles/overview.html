@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,11 +88,10 @@ nonprofit sector. It covers every 501(c)(3) organization that e-filed a
 full Form 990 for tax years 2021 to 2024: <strong>271,116 organizations
 in 2023</strong>. Each was scored with <code><a href="../reference/get_features.html">get_features()</a></code> and
 <code><a href="../reference/get_scores.html">get_scores()</a></code>, so the results are on the index scale
-described in <code><a href="../articles/making-gov-scores.html">vignette("making-gov-scores")</a></code>. The scale is
-set so that 2023 filers have mean 0 and standard deviation 1 on the
-underlying (latent) governance factor; the estimated scores average 0.02
-with a standard deviation of 0.91, slightly less than 1 because each
-estimate is pulled toward the mean in proportion to its uncertainty.</p>
+described in <code><a href="../articles/making-gov-scores.html">vignette("making-gov-scores")</a></code>: 2023 filers
+have a mean of 100 and a standard deviation of 15, so 115 is one
+standard deviation above the average 2023 filer. Scores run from about
+67 (none of the 16 practices) to about 128 (all 16).</p>
 <p>The figures come from summary tables built by <a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/make-overview-data.R" class="external-link"><code>data-raw/make-overview-data.R</code></a>
 and saved with the vignette; nothing is downloaded when the article is
 built. Subsector and state come from the NCCS Business Master File; size
@@ -116,20 +115,21 @@ online is rare even among organizations that do everything else.</p>
 <p><img src="overview_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="672"></p>
 <p>The score distribution is lumpy, not bell-shaped, because the index
 is built from 16 yes/no items: many organizations share the same
-response pattern and so the same score. The tallest spike, just above
-−1.25, is organizations that report only the near-universal practices,
-such as minutes and an independent board. The cluster around 1.3 is
-organizations that report every practice except posting the 990 online.
-Scores at the top and bottom are the least precise (mean standard error
-about 0.6, against 0.2 in the middle).</p>
+response pattern and so the same score. The spikes around 80 and 83 are
+organizations that report only the near-universal practices, such as
+minutes, an independent board and the board’s review of the 990. The
+tallest spike, at about 122, is organizations that report every practice
+except posting the 990 online. Scores at the top and bottom are the
+least precise (mean standard error about 10 points, against about 4 in
+the middle).</p>
 </div>
 <div class="section level2">
 <h2 id="size">Size<a class="anchor" aria-label="anchor" href="#size"></a>
 </h2>
 <p>Size is the strongest correlate of governance. The Spearman
 correlation between <code>gov_score</code> and log expenses is
-<strong>0.57</strong> (0.62 for the count). The average score rises by
-1.7 points from organizations spending under $100,000 to those spending
+<strong>0.58</strong> (0.62 for the count). The average score rises by
+28.5 points from organizations spending under $100,000 to those spending
 $40 million or more, and the typical organization goes from about 6
 practices to about 14.</p>
 <table class="table">
@@ -155,64 +155,64 @@ practices to about 14.</p>
 <tr class="odd">
 <td align="left">&lt;$100k</td>
 <td align="right">38,532</td>
-<td align="right">-0.56</td>
-<td align="right">-1.15</td>
-<td align="right">-0.82</td>
-<td align="right">-0.02</td>
+<td align="right">90.3</td>
+<td align="right">80.2</td>
+<td align="right">87.8</td>
+<td align="right">99.2</td>
 <td align="right">5.7</td>
 </tr>
 <tr class="even">
 <td align="left">$100k-500k</td>
 <td align="right">99,104</td>
-<td align="right">-0.37</td>
-<td align="right">-1.02</td>
-<td align="right">-0.37</td>
-<td align="right">0.20</td>
+<td align="right">93.5</td>
+<td align="right">83.1</td>
+<td align="right">92.7</td>
+<td align="right">103.7</td>
 <td align="right">6.8</td>
 </tr>
 <tr class="odd">
 <td align="left">$500k-2m</td>
 <td align="right">69,951</td>
-<td align="right">0.15</td>
-<td align="right">-0.39</td>
-<td align="right">0.17</td>
-<td align="right">0.77</td>
+<td align="right">102.4</td>
+<td align="right">93.1</td>
+<td align="right">103.3</td>
+<td align="right">113.3</td>
 <td align="right">9.7</td>
 </tr>
 <tr class="even">
 <td align="left">$2m-10m</td>
 <td align="right">40,582</td>
-<td align="right">0.68</td>
-<td align="right">0.18</td>
-<td align="right">0.84</td>
-<td align="right">1.31</td>
+<td align="right">111.3</td>
+<td align="right">103.7</td>
+<td align="right">113.8</td>
+<td align="right">122.2</td>
 <td align="right">12.4</td>
 </tr>
 <tr class="odd">
 <td align="left">$10m-40m</td>
 <td align="right">15,133</td>
-<td align="right">0.99</td>
-<td align="right">0.77</td>
-<td align="right">1.06</td>
-<td align="right">1.31</td>
+<td align="right">116.6</td>
+<td align="right">113.3</td>
+<td align="right">117.5</td>
+<td align="right">122.2</td>
 <td align="right">13.8</td>
 </tr>
 <tr class="even">
 <td align="left">$40m+</td>
 <td align="right">7,814</td>
-<td align="right">1.11</td>
-<td align="right">0.85</td>
-<td align="right">1.31</td>
-<td align="right">1.31</td>
+<td align="right">118.7</td>
+<td align="right">114.7</td>
+<td align="right">122.2</td>
+<td align="right">122.2</td>
 <td align="right">14.2</td>
 </tr>
 </tbody>
 </table>
 <p><img src="overview_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="672"></p>
 <p>In the three largest size bands the 75th percentile is the same,
-1.31: at least a quarter of those organizations report every practice
-except posting the 990 online. The index has little room to separate
-organizations at the top.</p>
+about 122: at least a quarter of those organizations report every
+practice except posting the 990 online. The index has little room to
+separate organizations at the top.</p>
 <p>Practices rise with size, but not equally. Audits show the steepest
 gradient, from 12% of the smallest organizations to 98% of the largest;
 audits are often required above state revenue thresholds and the federal
@@ -249,107 +249,107 @@ organizations of the same size elsewhere.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Public &amp; societal benefit</td>
-<td align="right">26,891</td>
-<td align="right">0.06</td>
-<td align="right">0.10</td>
-<td align="right">9.0</td>
-</tr>
-<tr class="even">
 <td align="left">Health (excl. hospitals)</td>
 <td align="right">23,132</td>
-<td align="right">0.25</td>
-<td align="right">0.09</td>
+<td align="right">104.0</td>
+<td align="right">1.5</td>
 <td align="right">10.0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Hospitals</td>
 <td align="right">3,713</td>
-<td align="right">0.81</td>
-<td align="right">0.08</td>
+<td align="right">113.7</td>
+<td align="right">1.5</td>
 <td align="right">12.8</td>
+</tr>
+<tr class="odd">
+<td align="left">Public &amp; societal benefit</td>
+<td align="right">26,891</td>
+<td align="right">100.6</td>
+<td align="right">1.5</td>
+<td align="right">9.0</td>
 </tr>
 <tr class="even">
 <td align="left">Universities</td>
 <td align="right">2,153</td>
-<td align="right">0.66</td>
-<td align="right">0.06</td>
+<td align="right">111.1</td>
+<td align="right">1.1</td>
 <td align="right">12.3</td>
 </tr>
 <tr class="odd">
-<td align="left">International</td>
-<td align="right">5,992</td>
-<td align="right">0.04</td>
-<td align="right">0.04</td>
-<td align="right">8.8</td>
-</tr>
-<tr class="even">
 <td align="left">Unclassified</td>
 <td align="right">46,367</td>
-<td align="right">0.04</td>
-<td align="right">0.03</td>
+<td align="right">100.7</td>
+<td align="right">0.6</td>
 <td align="right">9.0</td>
+</tr>
+<tr class="even">
+<td align="left">International</td>
+<td align="right">5,992</td>
+<td align="right">100.1</td>
+<td align="right">0.3</td>
+<td align="right">8.8</td>
 </tr>
 <tr class="odd">
 <td align="left">Arts, culture &amp; humanities</td>
 <td align="right">21,450</td>
-<td align="right">-0.09</td>
-<td align="right">0.01</td>
+<td align="right">98.2</td>
+<td align="right">0.1</td>
 <td align="right">8.3</td>
-</tr>
-<tr class="even">
-<td align="left">Mutual &amp; membership benefit</td>
-<td align="right">303</td>
-<td align="right">-0.04</td>
-<td align="right">0.01</td>
-<td align="right">8.4</td>
-</tr>
-<tr class="odd">
-<td align="left">Environment &amp; animals</td>
-<td align="right">13,068</td>
-<td align="right">-0.08</td>
-<td align="right">-0.01</td>
-<td align="right">8.2</td>
 </tr>
 <tr class="even">
 <td align="left">Human services</td>
 <td align="right">81,188</td>
-<td align="right">-0.01</td>
-<td align="right">-0.01</td>
+<td align="right">99.7</td>
+<td align="right">0.0</td>
 <td align="right">8.7</td>
+</tr>
+<tr class="odd">
+<td align="left">Mutual &amp; membership benefit</td>
+<td align="right">303</td>
+<td align="right">98.9</td>
+<td align="right">-0.1</td>
+<td align="right">8.4</td>
+</tr>
+<tr class="even">
+<td align="left">Environment &amp; animals</td>
+<td align="right">13,068</td>
+<td align="right">98.2</td>
+<td align="right">-0.3</td>
+<td align="right">8.2</td>
 </tr>
 <tr class="odd">
 <td align="left">Education (excl. universities)</td>
 <td align="right">33,399</td>
-<td align="right">-0.01</td>
-<td align="right">-0.08</td>
+<td align="right">99.5</td>
+<td align="right">-1.5</td>
 <td align="right">8.7</td>
 </tr>
 <tr class="even">
 <td align="left">Religion-related</td>
 <td align="right">13,460</td>
-<td align="right">-0.44</td>
-<td align="right">-0.25</td>
+<td align="right">92.1</td>
+<td align="right">-4.3</td>
 <td align="right">6.3</td>
 </tr>
 </tbody>
 </table>
 <p><img src="overview_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="672"></p>
 <p>Much of the raw difference between subsectors is size. Hospitals and
-universities have the highest raw means (about 0.8 and 0.7) because they
+universities have the highest raw means (about 114 and 111) because they
 are large; compared with organizations of the same size they are only
-slightly above average. After adjusting for size, public and societal
-benefit and health organizations score highest, and religion-related
-organizations score lowest by a wide margin (a quarter of a point below
-organizations of the same size). Read the “Unclassified” row with care:
-about one in six filers has no usable NTEE code in the Business Master
-File.</p>
+slightly above average. After adjusting for size, health, hospitals, and
+public and societal benefit organizations score highest (about 1.5
+points above organizations of the same size), and religion-related
+organizations score lowest by a wide margin (about 4 points below). Read
+the “Unclassified” row with care: about one in six filers has no usable
+NTEE code in the Business Master File.</p>
 </div>
 <div class="section level2">
 <h2 id="geography">Geography<a class="anchor" aria-label="anchor" href="#geography"></a>
 </h2>
-<p>Size-adjusted state means span about half a point, from New Hampshire
-and the District of Columbia at the top to Utah and North Dakota at the
+<p>Size-adjusted state means span about 7 points, from New Hampshire and
+the District of Columbia at the top to North Dakota and Utah at the
 bottom: much less than the size gradient, and similar to the spread
 across subsectors. The table lists the five highest and lowest states;
 the chart shows every state.</p>
@@ -364,62 +364,62 @@ the chart shows every state.</p>
 <tr class="odd">
 <td align="left">NH</td>
 <td align="right">1,565</td>
-<td align="right">0.27</td>
-<td align="right">0.28</td>
+<td align="right">103.5</td>
+<td align="right">3.8</td>
 </tr>
 <tr class="even">
 <td align="left">DC</td>
 <td align="right">3,785</td>
-<td align="right">0.50</td>
-<td align="right">0.22</td>
+<td align="right">108.0</td>
+<td align="right">3.6</td>
 </tr>
 <tr class="odd">
 <td align="left">NY</td>
 <td align="right">21,120</td>
-<td align="right">0.23</td>
-<td align="right">0.16</td>
+<td align="right">103.7</td>
+<td align="right">2.7</td>
 </tr>
 <tr class="even">
-<td align="left">HI</td>
-<td align="right">1,459</td>
-<td align="right">0.14</td>
-<td align="right">0.13</td>
-</tr>
-<tr class="odd">
 <td align="left">MA</td>
 <td align="right">8,167</td>
-<td align="right">0.18</td>
-<td align="right">0.11</td>
+<td align="right">103.1</td>
+<td align="right">2.1</td>
+</tr>
+<tr class="odd">
+<td align="left">HI</td>
+<td align="right">1,459</td>
+<td align="right">101.7</td>
+<td align="right">1.7</td>
+</tr>
+<tr class="even">
+<td align="left">AR</td>
+<td align="right">2,092</td>
+<td align="right">97.0</td>
+<td align="right">-2.3</td>
+</tr>
+<tr class="odd">
+<td align="left">MS</td>
+<td align="right">1,599</td>
+<td align="right">96.8</td>
+<td align="right">-2.5</td>
 </tr>
 <tr class="even">
 <td align="left">ID</td>
 <td align="right">1,281</td>
-<td align="right">-0.18</td>
-<td align="right">-0.14</td>
+<td align="right">96.6</td>
+<td align="right">-2.6</td>
 </tr>
 <tr class="odd">
-<td align="left">AR</td>
-<td align="right">2,092</td>
-<td align="right">-0.18</td>
-<td align="right">-0.16</td>
-</tr>
-<tr class="even">
-<td align="left">MS</td>
-<td align="right">1,599</td>
-<td align="right">-0.20</td>
-<td align="right">-0.17</td>
-</tr>
-<tr class="odd">
-<td align="left">ND</td>
-<td align="right">1,028</td>
-<td align="right">-0.20</td>
-<td align="right">-0.19</td>
-</tr>
-<tr class="even">
 <td align="left">UT</td>
 <td align="right">1,786</td>
-<td align="right">-0.16</td>
-<td align="right">-0.20</td>
+<td align="right">97.1</td>
+<td align="right">-3.4</td>
+</tr>
+<tr class="even">
+<td align="left">ND</td>
+<td align="right">1,028</td>
+<td align="right">96.1</td>
+<td align="right">-3.5</td>
 </tr>
 </tbody>
 </table>
@@ -434,9 +434,9 @@ those rules from other regional differences.</p>
 </h2>
 <p>Older organizations report more practices, and the gradient remains,
 smaller, after adjusting for size: organizations under five years old
-score about a tenth of a point below others of their size, and those
-over 40 years old about a tenth above. Age is years since the IRS ruling
-date (or, where missing, the year of formation on the 990).</p>
+score about 2 points below others of their size, and those over 40 years
+old about 2 points above. Age is years since the IRS ruling date (or,
+where missing, the year of formation on the 990).</p>
 <table class="table">
 <thead><tr class="header">
 <th align="left">Age</th>
@@ -449,36 +449,36 @@ date (or, where missing, the year of formation on the 990).</p>
 <tr class="odd">
 <td align="left">&lt;5 years</td>
 <td align="right">37,215</td>
-<td align="right">-0.30</td>
-<td align="right">-0.12</td>
+<td align="right">94.4</td>
+<td align="right">-2.1</td>
 <td align="right">7.0</td>
 </tr>
 <tr class="even">
 <td align="left">5-9</td>
 <td align="right">37,818</td>
-<td align="right">-0.21</td>
-<td align="right">-0.11</td>
+<td align="right">96.0</td>
+<td align="right">-2.0</td>
 <td align="right">7.6</td>
 </tr>
 <tr class="odd">
 <td align="left">10-19</td>
 <td align="right">51,280</td>
-<td align="right">-0.08</td>
-<td align="right">-0.02</td>
+<td align="right">98.2</td>
+<td align="right">-0.6</td>
 <td align="right">8.3</td>
 </tr>
 <tr class="even">
 <td align="left">20-39</td>
 <td align="right">87,029</td>
-<td align="right">0.08</td>
-<td align="right">0.05</td>
+<td align="right">101.3</td>
+<td align="right">0.9</td>
 <td align="right">9.2</td>
 </tr>
 <tr class="odd">
 <td align="left">40+</td>
 <td align="right">57,682</td>
-<td align="right">0.35</td>
-<td align="right">0.10</td>
+<td align="right">105.9</td>
+<td align="right">1.8</td>
 <td align="right">10.6</td>
 </tr>
 </tbody>
@@ -487,15 +487,16 @@ date (or, where missing, the year of formation on the 990).</p>
 <div class="section level2">
 <h2 id="specific-factors">Specific factors<a class="anchor" aria-label="anchor" href="#specific-factors"></a>
 </h2>
-<p>The four specific-factor scores show where groups depart from what
-their general score predicts. They average zero by construction, so they
-are most useful for comparing groups. Larger organizations do
-<em>more</em> financial assurance and have more pay-setting processes
-than their general score predicts, which echoes the size effect on
-audits discussed in <code><a href="../articles/making-gov-scores.html">vignette("making-gov-scores")</a></code>. Minutes
-and written policies show no size pattern beyond the general score. The
-written-policies factor has almost no variance of its own and should not
-be used as a subscore. It appears here only for completeness (see
+<p>The four specific-factor scores from the bifactor measurement model
+show where groups depart from what their general level of governance
+predicts. They average zero by construction, so they are most useful for
+comparing groups. Larger organizations do <em>more</em> financial
+assurance and have more pay-setting processes than their general score
+predicts, which echoes the size effect on audits discussed in
+<code><a href="../articles/making-gov-scores.html">vignette("making-gov-scores")</a></code>. Minutes and written policies
+show no size pattern beyond the general score. The written-policies
+factor has almost no variance of its own and should not be used as a
+subscore. It appears here only for completeness (see
 <code><a href="../articles/governance-workflow.html">vignette("governance-workflow")</a></code>).</p>
 <table class="table">
 <colgroup>
@@ -657,29 +658,29 @@ mean number of practices.</p>
 <tr class="odd">
 <td align="left">2021</td>
 <td align="right">251,937</td>
-<td align="right">0.039</td>
-<td align="right">0.90</td>
+<td align="right">100.42</td>
+<td align="right">14.9</td>
 <td align="right">9.00</td>
 </tr>
 <tr class="even">
 <td align="left">2022</td>
 <td align="right">262,487</td>
-<td align="right">0.023</td>
-<td align="right">0.90</td>
+<td align="right">100.14</td>
+<td align="right">15.0</td>
 <td align="right">8.89</td>
 </tr>
 <tr class="odd">
 <td align="left">2023</td>
 <td align="right">271,116</td>
-<td align="right">0.015</td>
-<td align="right">0.91</td>
+<td align="right">100.00</td>
+<td align="right">15.0</td>
 <td align="right">8.82</td>
 </tr>
 <tr class="even">
 <td align="left">2024</td>
 <td align="right">274,931</td>
-<td align="right">0.015</td>
-<td align="right">0.91</td>
+<td align="right">99.98</td>
+<td align="right">15.0</td>
 <td align="right">8.79</td>
 </tr>
 </tbody>
@@ -693,7 +694,7 @@ within organizations, and organizations entering or leaving the full-990
 population. The table below follows the 221,759 organizations that filed
 a full 990 in both 2021 and 2024.</p>
 <p>Among them, 20% reported more practices in 2024 than in 2021, 66% the
-same number and 14% fewer, and the mean score rose by 0.05. Continuing
+same number and 14% fewer, and the mean score rose by 0.76. Continuing
 organizations improved, so the falling population mean points to
 composition: the organizations entering the full-990 population report
 fewer practices than those leaving it. One possible reason: the
@@ -727,9 +728,9 @@ ceiling, barely changed.</p>
 <tr class="odd">
 <td align="left">&lt;$100k</td>
 <td align="right">25,141</td>
-<td align="right">-0.53</td>
-<td align="right">-0.51</td>
-<td align="right">+0.019</td>
+<td align="right">90.8</td>
+<td align="right">91.1</td>
+<td align="right">+0.30</td>
 <td align="right">14%</td>
 <td align="right">74%</td>
 <td align="right">13%</td>
@@ -737,9 +738,9 @@ ceiling, barely changed.</p>
 <tr class="even">
 <td align="left">$100k-500k</td>
 <td align="right">72,573</td>
-<td align="right">-0.33</td>
-<td align="right">-0.28</td>
-<td align="right">+0.048</td>
+<td align="right">94.1</td>
+<td align="right">94.9</td>
+<td align="right">+0.76</td>
 <td align="right">20%</td>
 <td align="right">66%</td>
 <td align="right">15%</td>
@@ -747,9 +748,9 @@ ceiling, barely changed.</p>
 <tr class="odd">
 <td align="left">$500k-2m</td>
 <td align="right">63,260</td>
-<td align="right">0.14</td>
-<td align="right">0.20</td>
-<td align="right">+0.064</td>
+<td align="right">102.1</td>
+<td align="right">103.2</td>
+<td align="right">+1.07</td>
 <td align="right">24%</td>
 <td align="right">60%</td>
 <td align="right">16%</td>
@@ -757,9 +758,9 @@ ceiling, barely changed.</p>
 <tr class="even">
 <td align="left">$2m-10m</td>
 <td align="right">38,502</td>
-<td align="right">0.66</td>
-<td align="right">0.71</td>
-<td align="right">+0.049</td>
+<td align="right">111.1</td>
+<td align="right">111.9</td>
+<td align="right">+0.80</td>
 <td align="right">21%</td>
 <td align="right">65%</td>
 <td align="right">14%</td>
@@ -767,9 +768,9 @@ ceiling, barely changed.</p>
 <tr class="odd">
 <td align="left">$10m-40m</td>
 <td align="right">14,649</td>
-<td align="right">0.98</td>
-<td align="right">1.01</td>
-<td align="right">+0.023</td>
+<td align="right">116.5</td>
+<td align="right">116.8</td>
+<td align="right">+0.38</td>
 <td align="right">15%</td>
 <td align="right">73%</td>
 <td align="right">12%</td>
@@ -777,9 +778,9 @@ ceiling, barely changed.</p>
 <tr class="even">
 <td align="left">$40m+</td>
 <td align="right">7,634</td>
-<td align="right">1.11</td>
-<td align="right">1.11</td>
-<td align="right">+0.003</td>
+<td align="right">118.7</td>
+<td align="right">118.8</td>
+<td align="right">+0.07</td>
 <td align="right">10%</td>
 <td align="right">79%</td>
 <td align="right">11%</td>
