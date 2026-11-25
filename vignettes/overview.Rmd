@@ -292,6 +292,9 @@ useful for comparing groups. Larger organizations do *more* financial assurance
 and have more pay-setting processes than their general score predicts, which
 echoes the size effect on audits discussed in `vignette("making-gov-scores")`.
 Minutes and written policies show no size pattern beyond the general score.
+The written-policies factor has almost no variance of its own and should not be
+used as a subscore. It appears here only for completeness (see
+`vignette("governance-workflow")`).
 
 ```{r}
 sz |>

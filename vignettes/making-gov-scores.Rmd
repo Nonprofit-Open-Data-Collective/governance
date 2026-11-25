@@ -271,6 +271,17 @@ to the board and the 990 posted online load on the general factor only.
 | Written policies | COI policy, disclosure, monitoring, whistleblower, retention | `gov_s_policy` |
 | Compensation | CEO pay process, other-officer pay process | `gov_s_comp` |
 
+The specific factors differ in how much they measure on their own. The share of
+each subscale's variance that belongs to its specific factor
+(omega-hierarchical for the subscale) is .46 for financial assurance, .50 for
+compensation and .76 for minutes, but under .01 for written policies. The
+policy loadings are small and change sign (about +.23 on the three
+conflict-of-interest items and -.24 on whistleblower and retention). The
+written policies are the core of the general factor, so their specific factor
+is only a contrast within the bundle and should not be used as a subscore.
+Financial assurance is the most useful subscore (score reliability .57). The
+other three are less reliable (.29 to .48).
+
 Fit to all 271,116 organizations: M2 RMSEA .038, SRMSR .040, CFI .992. The
 standardized loadings are stored in `gov_model_2023`:
 
@@ -337,7 +348,7 @@ patterns$pattern <- c( "No practices", "Eight: policies", "Eight: process", "All
 scored <- get_scores( patterns )
 
 vars <- c( "pattern", "gov_count", "gov_score", "gov_score_se",
-           "gov_s_finance", "gov_s_policy" )
+           "gov_s_finance", "gov_s_minutes" )
 
 knitr::kable( scored[ , vars ], digits = 2 )
 ```
