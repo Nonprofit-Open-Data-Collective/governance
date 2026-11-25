@@ -30,7 +30,15 @@
 #'     compensation process. These are \emph{residual} dimensions, orthogonal
 #'     to \code{gov_score}: a positive value means the organization does
 #'     more in that area than its general score predicts. They are not
-#'     standalone subscales.}
+#'     standalone subscales, and they are much less reliable than
+#'     \code{gov_score} (empirical reliability among 2023 filers: finance .57,
+#'     compensation .48, minutes .41, policy .29, vs .83 for
+#'     \code{gov_score}). Only \code{gov_s_finance} carries substantial
+#'     variance of its own. \strong{Do not use \code{gov_s_policy}}: the
+#'     written-policy items are the core of \code{gov_score}, and the policy
+#'     factor has almost no variance of its own (omega-hierarchical < .01);
+#'     it only contrasts the conflict-of-interest items with the whistleblower
+#'     and retention policies. It is returned for completeness.}
 #'   \item{gov_count}{Number of the 16 practices present (0--16), a transparent
 #'     alternative that correlates about .96 with \code{gov_score}.}
 #'   \item{gov_n_items}{Number of the 16 items answered. Rows with no answered

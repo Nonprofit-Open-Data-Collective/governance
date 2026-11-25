@@ -115,7 +115,7 @@ scores <- get_scores( features )
 | `gov_score_se` | Standard error of `gov_score`. |
 | `gov_s_finance` | Financial-assurance specific factor (audit, review, audit committee, accrual). |
 | `gov_s_minutes` | Minutes specific factor (board and committee minutes). |
-| `gov_s_policy` | Written-policies specific factor (conflict of interest, whistleblower, retention). |
+| `gov_s_policy` | Written-policies specific factor (conflict of interest, whistleblower, retention). **Not recommended**; see below. |
 | `gov_s_comp` | Compensation specific factor (CEO and other-officer pay process). |
 | `gov_count` | Number of the 16 practices reported (0--16). |
 | `gov_n_items` | Number of the 16 items answered. |
@@ -125,6 +125,25 @@ and a positive value means the organization does more in that area than its
 general score predicts. They are not standalone subscales: an organization with
 a high `gov_s_finance` and a low `gov_score` is one that is audited but has few
 other practices.
+
+The specific factors are also much less reliable than `gov_score`. Among 2023
+filers the empirical reliability of the scores is:
+
+| Score | Reliability | Use |
+|---|---|---|
+| `gov_score` | .83 | Main score. |
+| `gov_s_finance` | .57 | The one subscore with substantial variance of its own; report it alongside `gov_score`. |
+| `gov_s_comp` | .48 | Supplementary (two items). |
+| `gov_s_minutes` | .41 | Supplementary (two items). |
+| `gov_s_policy` | .29 | Do not use. |
+
+**Do not use `gov_s_policy`.** The written-policy items are the core of
+`gov_score`, so the policy factor has almost no variance of its own
+(omega-hierarchical < .01). Its loadings only contrast the conflict-of-interest
+items with the whistleblower and retention policies. The column is returned for
+completeness. For simple domain-level measures, use the share of practices
+adopted in each domain instead. Those shares are not residuals, so they move
+with `gov_score`.
 
 ```{r, fig.width = 6, fig.height = 4}
 ggplot( scores, aes(x = gov_score) ) +
