@@ -6,9 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Governance Workflow • governance</title>
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_3-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Zilla_Slab-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Governance Workflow">
 </head>
@@ -16,7 +19,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
@@ -30,13 +33,29 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../articles/governance.html">Get started</a></li>
-<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-guides">
+<li><a class="dropdown-item" href="../articles/download-data.html">Getting 990 Data with panel990</a></li>
+    <li><a class="dropdown-item" href="../articles/governance-workflow.html">Governance Workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/making-gov-scores.html">Making Governance Scores</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/Nonprofit-Open-Data-Collective/governance/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
@@ -52,9 +71,10 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Governance Workflow</h1>
-                        <h4 data-toc-skip class="author">Olivia Beck</h4>
+                        <h4 data-toc-skip class="author">Olivia
+Beck</h4>
             
-            <h4 data-toc-skip class="date">2026-08-11</h4>
+            <h4 data-toc-skip class="date">2026-11-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Nonprofit-Open-Data-Collective/governance/blob/HEAD/vignettes/governance-workflow.Rmd" class="external-link"><code>vignettes/governance-workflow.Rmd</code></a></small>
       <div class="d-none name"><code>governance-workflow.Rmd</code></div>
@@ -69,11 +89,18 @@
 <div class="section level2">
 <h2 id="governance-workflow">Governance Workflow<a class="anchor" aria-label="anchor" href="#governance-workflow"></a>
 </h2>
-<p>This vignette walks through the full path from raw 990 fields to governance scores and shows a few ways to explore the results.</p>
+<p>This vignette walks through the full path from raw 990 fields to
+governance scores and shows a few ways to explore the results.</p>
 <div class="section level3">
 <h3 id="step-1-get-input-data">Step 1: Get input data<a class="anchor" aria-label="anchor" href="#step-1-get-input-data"></a>
 </h3>
-<p><code><a href="../reference/get_features.html">get_features()</a></code> consumes raw 990 efile fields from Part IV, Part VI, Part XII, and Schedule M. In production these come from the companion <a href="https://github.com/Nonprofit-Open-Data-Collective/panel990" class="external-link">panel990</a> package via <code>get_governance_data(years = 2022)</code>; see <code><a href="../articles/download-data.html">vignette("download-data")</a></code> for the field list, the required tables, and the full-990 filter. Here we use the bundled example, a 5,000-organization sample of raw 2022 fields.</p>
+<p><code><a href="../reference/get_features.html">get_features()</a></code> consumes raw 990 efile fields from Part
+IV, Part VI, Part XII, and Schedule M. In production these come from the
+companion <a href="https://github.com/Nonprofit-Open-Data-Collective/panel990" class="external-link">panel990</a>
+package via <code>get_governance_data(years = 2022)</code>; see
+<code><a href="../articles/download-data.html">vignette("download-data")</a></code> for the field list, the required
+tables, and the full-990 filter. Here we use the bundled example, a
+5,000-organization sample of raw 2022 fields.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dat_example"</span>, package <span class="op">=</span> <span class="st">"governance"</span><span class="op">)</span></span>
 <span></span>
@@ -83,7 +110,11 @@
 <div class="section level3">
 <h3 id="step-2-build-the-feature-matrix">Step 2: Build the feature matrix<a class="anchor" aria-label="anchor" href="#step-2-build-the-feature-matrix"></a>
 </h3>
-<p><code><a href="../reference/get_features.html">get_features()</a></code> cleans the raw fields and appends 12 binary governance features. Blank or missing yes/no responses are treated as <code>0</code> regardless of how the source encoded them (<code>NA</code> or <code>""</code>), so results do not depend on how the tables were read.</p>
+<p><code><a href="../reference/get_features.html">get_features()</a></code> cleans the raw fields and appends 12
+binary governance features. Blank or missing yes/no responses are
+treated as <code>0</code> regardless of how the source encoded them
+(<code>NA</code> or <code>""</code>), so results do not depend on how
+the tables were read.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">features_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat_example</span><span class="op">)</span></span>
 <span></span>
@@ -104,7 +135,8 @@
 <span><span class="co">#&gt; 2478         0         1          1          0</span></span>
 <span><span class="co">#&gt; 531          0         1          1          1</span></span>
 <span><span class="co">#&gt; 3673         1         1          0          0</span></span></code></pre></div>
-<p>Each feature is an indicator of a good-governance practice. We can look at how common each practice is in the sample:</p>
+<p>Each feature is an indicator of a good-governance practice. We can
+look at how common each practice is in the sample:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">feature_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P12_LINE_1"</span>, <span class="st">"P4_LINE_12"</span>, <span class="st">"P4_LINE_28"</span>, <span class="st">"P4_LINE_29_30"</span>,</span>
 <span>                  <span class="st">"P6_LINE_1"</span>, <span class="st">"P6_LINE_11A"</span>, <span class="st">"P6_LINE_15A"</span>, <span class="st">"P6_LINE_18"</span>,</span>
@@ -119,12 +151,13 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Share of organizations passing each governance feature"</span>,</span>
 <span>       x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="st">"Share == 1"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="governance-workflow_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672"></p>
+<p><img src="governance-workflow_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="step-3-calculate-the-scores">Step 3: Calculate the scores<a class="anchor" aria-label="anchor" href="#step-3-calculate-the-scores"></a>
 </h3>
-<p><code><a href="../reference/get_scores.html">get_scores()</a></code> applies the pre-fit factor model and appends six factor scores and a <code>total.score</code>.</p>
+<p><code><a href="../reference/get_scores.html">get_scores()</a></code> applies the pre-fit factor model and
+appends six factor scores and a <code>total.score</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span>
 <span></span>
@@ -145,12 +178,16 @@
 <span>    title <span class="op">=</span> <span class="st">"Distribution of Governance Scores"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Total Score"</span>, y <span class="op">=</span> <span class="st">"Count"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="governance-workflow_files/figure-html/unnamed-chunk-6-1.png" alt="" width="576"></p>
+<p><img src="governance-workflow_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="576"></p>
 </div>
 <div class="section level3">
 <h3 id="joining-external-data-optional">Joining external data (optional)<a class="anchor" aria-label="anchor" href="#joining-external-data-optional"></a>
 </h3>
-<p>Governance scores are most useful alongside other organizational characteristics. You can join the scores to the NCCS <a href="https://nccs.urban.org/nccs/catalogs/catalog-bmf.html" class="external-link">Business Master File (BMF)</a> on <code>ORG_EIN</code> to relate governance to size, sector, or geography. The snippet below is illustrative (not run here, as it downloads a large file):</p>
+<p>Governance scores are most useful alongside other organizational
+characteristics. You can join the scores to the NCCS <a href="https://nccs.urban.org/nccs/catalogs/catalog-bmf.html" class="external-link">Business
+Master File (BMF)</a> on <code>ORG_EIN</code> to relate governance to
+size, sector, or geography. The snippet below is illustrative (not run
+here, as it downloads a large file):</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span>
@@ -183,7 +220,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

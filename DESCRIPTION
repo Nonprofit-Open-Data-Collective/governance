@@ -39,3 +39,4 @@ Config/testthat/edition: 3
 Remotes:
     Nonprofit-Open-Data-Collective/panel990
 VignetteBuilder: knitr
+Config/Needs/website: Nonprofit-Open-Data-Collective/pkgstyle
