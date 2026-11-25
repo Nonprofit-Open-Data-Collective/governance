@@ -1,11 +1,11 @@
 Package: governance
 Title: Governance Scores for Nonprofits
-Version: 0.0.1.0000
+Version: 0.1.0
 Authors@R: c(
     person("Olivia", "Beck", , "obeck@urban.org", role = c("aut", "cre")),
     person("Jesse", "Lecy", , "jlecy@urban.org", role = c("aut")),
     person("Urban Institute National Center for Charitable Statistics", role = c("fnd")))
-Description: Calculates governance scores for nonprofits using factor analysis.
+Description: Calculates a nonprofit governance index from IRS Form 990 efile data using a bifactor item response model anchored to the 2023 filing population.
 License: GPL (>= 3)
 URL: https://github.com/Nonprofit-Open-Data-Collective/governance, https://nonprofit-open-data-collective.github.io/governance/
 BugReports: https://nonprofit-open-data-collective.github.io/governance/issues
@@ -19,6 +19,7 @@ LazyData: true
 Imports:
     dplyr,
     magrittr,
+    mirt,
     psych
 Suggests:
     knitr,
@@ -27,6 +28,7 @@ Suggests:
     testthat (>= 3.0.0),
     data.table,
     ggplot2,
+    scales,
     readr,
     stringr,
     polycor,

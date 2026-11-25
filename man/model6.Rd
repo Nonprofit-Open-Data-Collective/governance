@@ -13,7 +13,7 @@ model6
 \description{
 Factor model object from \code{\link{features2}} data set using polychoric
 correlations from \code{\link{rho2}}. This is the output of the \code{psych::fa} function.
-This model has 12 features and 6 factors. See \code{vignette("making-gov-scores", package = "governance")}
+This model has 12 features and 6 factors. See \code{vignette("legacy-2018-model", package = "governance")}
 for a detailed description of how and why this model was chosen.
 
 Most notable internal objects include

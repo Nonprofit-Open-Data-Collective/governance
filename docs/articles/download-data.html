@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +36,13 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-guides">
-<li><a class="dropdown-item" href="../articles/download-data.html">Getting 990 Data with panel990</a></li>
+<li><a class="dropdown-item" href="../articles/overview.html">Governance Across the Sector</a></li>
     <li><a class="dropdown-item" href="../articles/governance-workflow.html">Governance Workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/download-data.html">Getting 990 Data with panel990</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Methodology</h6></li>
     <li><a class="dropdown-item" href="../articles/making-gov-scores.html">Making Governance Scores</a></li>
+    <li><a class="dropdown-item" href="../articles/legacy-2018-model.html">The Legacy 2018 Model</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
@@ -116,13 +120,13 @@ per filing, build panels.</td>
 path and the underlying <code>panel990</code> workflow for when you want
 more control. Install <code>panel990</code> first:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Nonprofit-Open-Data-Collective/panel990"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span> <span class="st">"Nonprofit-Open-Data-Collective/panel990"</span> <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="required-990-tables">Required 990 tables<a class="anchor" aria-label="anchor" href="#required-990-tables"></a>
 </h2>
-<p>The governance index is built from four efile tables — Form 990 Parts
-IV, VI, and XII and Schedule M. Each is a <code>panel990</code> table
+<p>The governance index is built from four efile tables: Form 990 Parts
+IV, VI and XII and Schedule M. Each is a <code>panel990</code> table
 name you pass to <code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">panelize()</a></code> (Part XII also has the short
 alias <code>"P12"</code>).</p>
 <table class="table">
@@ -139,35 +143,33 @@ alias <code>"P12"</code>).</p>
 <tbody>
 <tr class="odd">
 <td>Part IV</td>
-<td>Required-schedule triggers: audited financials, interested-person
-business transactions, large non-cash and art/historical
-contributions</td>
+<td>Audited financial statements; business transactions and loans with
+insiders; non-cash and art contributions</td>
 <td><code>F9-P04-T00-REQUIRED-SCHEDULES</code></td>
 </tr>
 <tr class="even">
 <td>Part VI</td>
-<td>Governing body composition (voting / independent members) and
-governance &amp; management policies (conflict-of-interest,
-whistleblower, document retention, CEO compensation process, document
-availability)</td>
+<td>Board size and independence; family ties, management companies,
+asset diversions; minutes; conflict-of-interest, whistleblower,
+retention and pay-setting policies; how the 990 is made public</td>
 <td><code>F9-P06-T00-GOVERNANCE</code></td>
 </tr>
 <tr class="odd">
 <td>Part XII</td>
-<td>Financial-reporting method (cash / accrual / other) and audit
-oversight</td>
+<td>Accounting method; compilation, review and audit; audit
+committee</td>
 <td><code>F9-P12-T00-FINANCIAL-REPORTING</code></td>
 </tr>
 <tr class="even">
 <td>Schedule M</td>
-<td>Review process for unusual non-cash gifts</td>
+<td>Review process for unusual non-cash gifts (legacy model only)</td>
 <td><code>SM-P01-T00-NONCASH-CONTRIBUTIONS</code></td>
 </tr>
 </tbody>
 </table>
 <blockquote>
 <p><strong>Full 990 filers only.</strong> The governance index does not
-apply to 990EZ returns — they omit these Parts. Restrict the data to
+apply to 990EZ returns, which omit these Parts. Restrict the data to
 <code>RETURN_TYPE == "990"</code> (shown below).
 <code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> does this for you.</p>
 </blockquote>
@@ -179,24 +181,25 @@ apply to 990EZ returns — they omit these Parts. Restrict the data to
 downloads the four tables, keeps the needed columns, and merges them to
 one row per filing — ready for <code><a href="../reference/get_features.html">get_features()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Nonprofit-Open-Data-Collective/governance" class="external-link">governance</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span> <span class="va"><a href="https://github.com/Nonprofit-Open-Data-Collective/governance" class="external-link">governance</a></span> <span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Assemble the raw fields for a tax year (full 990 filers only)</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_data.html">get_governance_data</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span>
+<span><span class="co"># raw fields for one tax year, full 990 filers only</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_data.html">get_governance_data</a></span><span class="op">(</span> years <span class="op">=</span> <span class="fl">2023</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
-<span><span class="va">scores</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span></span>
+<span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span> <span class="va">dat</span> <span class="op">)</span></span>
+<span><span class="va">scores</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span> <span class="va">features</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="co"># ...or the whole pipeline in one call</span></span>
-<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_scores.html">get_governance_scores</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># or the whole pipeline in one call</span></span>
+<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_scores.html">get_governance_scores</a></span><span class="op">(</span> years <span class="op">=</span> <span class="fl">2023</span> <span class="op">)</span></span></code></pre></div>
 <p>Restrict to specific organizations with <code>eins</code> (formatted
 <code>EIN2</code> values), or read tables you have already downloaded by
 pointing the source at a directory:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_scores.html">get_governance_scores</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span>, eins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"EIN-43-2031361"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_scores.html">get_governance_scores</a></span><span class="op">(</span> years <span class="op">=</span> <span class="fl">2023</span>, eins <span class="op">=</span> <span class="st">"EIN-43-2031361"</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="va">src</span> <span class="op">&lt;-</span> <span class="fu">panel990</span><span class="fu">::</span><span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/data_source.html" class="external-link">data_source</a></span><span class="op">(</span>root <span class="op">=</span> <span class="st">"path/to/efile/csvs"</span><span class="op">)</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_data.html">get_governance_data</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span>, source <span class="op">=</span> <span class="va">src</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># tables already on disk</span></span>
+<span><span class="va">src</span> <span class="op">&lt;-</span> <span class="fu">panel990</span><span class="fu">::</span><span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/data_source.html" class="external-link">data_source</a></span><span class="op">(</span> root <span class="op">=</span> <span class="st">"path/to/efile/csvs"</span> <span class="op">)</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_data.html">get_governance_data</a></span><span class="op">(</span> years <span class="op">=</span> <span class="fl">2023</span>, source <span class="op">=</span> <span class="va">src</span> <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="option-2-the-panel990-workflow">Option 2: the panel990 workflow<a class="anchor" aria-label="anchor" href="#option-2-the-panel990-workflow"></a>
@@ -211,23 +214,21 @@ filers: it is a built-in sample-frame alias mapping to the
 <code>RETURN_TYPE</code> column, so <code>form_type = "990"</code> keeps
 only <code>RETURN_TYPE == "990"</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nonprofit-open-data-collective.github.io/panel990/" class="external-link">panel990</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span> <span class="va"><a href="https://nonprofit-open-data-collective.github.io/panel990/" class="external-link">panel990</a></span> <span class="op">)</span></span>
 <span></span>
-<span><span class="va">gov_tables</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"F9-P04-T00-REQUIRED-SCHEDULES"</span>,</span>
-<span>  <span class="st">"F9-P06-T00-GOVERNANCE"</span>,</span>
-<span>  <span class="st">"F9-P12-T00-FINANCIAL-REPORTING"</span>,</span>
-<span>  <span class="st">"SM-P01-T00-NONCASH-CONTRIBUTIONS"</span></span>
-<span><span class="op">)</span></span>
+<span><span class="va">gov_tables</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">"F9-P04-T00-REQUIRED-SCHEDULES"</span>,</span>
+<span>                 <span class="st">"F9-P06-T00-GOVERNANCE"</span>,</span>
+<span>                 <span class="st">"F9-P12-T00-FINANCIAL-REPORTING"</span>,</span>
+<span>                 <span class="st">"SM-P01-T00-NONCASH-CONTRIBUTIONS"</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Sample frame: keep full 990 filers (RETURN_TYPE == "990") via the SFW filter</span></span>
-<span><span class="va">sfw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/create_sfw.html" class="external-link">create_sfw</a></span><span class="op">(</span><span class="st">"governance panel"</span>, form_type <span class="op">=</span> <span class="st">"990"</span><span class="op">)</span></span>
+<span><span class="co"># sample frame that keeps full 990 filers (RETURN_TYPE == "990")</span></span>
+<span><span class="va">sfw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/create_sfw.html" class="external-link">create_sfw</a></span><span class="op">(</span> <span class="st">"governance panel"</span>, form_type <span class="op">=</span> <span class="st">"990"</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Download, filter, and merge the tables into one row per filing</span></span>
-<span><span class="va">panel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">panelize</a></span><span class="op">(</span>sfw <span class="op">=</span> <span class="va">sfw</span>, tables <span class="op">=</span> <span class="va">gov_tables</span>, years <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span>
+<span><span class="co"># download, filter and merge the tables into one row per filing</span></span>
+<span><span class="va">panel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">panelize</a></span><span class="op">(</span> sfw <span class="op">=</span> <span class="va">sfw</span>, tables <span class="op">=</span> <span class="va">gov_tables</span>, years <span class="op">=</span> <span class="fl">2023</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">panel</span><span class="op">)</span></span>
-<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">dat</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span> <span class="va">panel</span> <span class="op">)</span></span>
+<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span> <span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">)</span></span></code></pre></div>
 <p><code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/create_sfw.html" class="external-link">create_sfw()</a></code> accepts other convenience filters too — for
 example <code>state = "CA"</code> or <code>years = 2018:2022</code> —
 which <code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">panelize()</a></code> pushes down to the download step. See
@@ -261,186 +262,342 @@ the raw fields below. Values may be encoded as
 <code>"1"</code>/<code>"0"</code>, <code>"X"</code> flags, or blanks
 (<code>NA</code> or <code>""</code>); <code><a href="../reference/get_features.html">get_features()</a></code>
 normalizes all of these.</p>
-<table class="table">
+<p>The <strong>2023</strong> column marks the fields read by the 16
+<code>GI_*</code> practice items and the five <code>RISK_*</code>
+indicators. The <strong>2018</strong> column marks the fields required
+by the legacy features. A missing legacy field stops
+<code><a href="../reference/get_features.html">get_features()</a></code> with an error, except
+<code>F9_04_AFS_CONSOL_X</code>, which falls back to line 12a with a
+message. A missing 2023 field is treated as blank, with a message, so
+the items that use it are <code>NA</code>.</p>
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="25%">
-<col width="25%">
-<col width="25%">
-<col width="25%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
 </colgroup>
 <thead><tr class="header">
-<th>Part/Schedule</th>
+<th>Part</th>
 <th>Variable</th>
-<th>990 line</th>
+<th>Line</th>
 <th>Question</th>
+<th align="center">2023</th>
+<th align="center">2018</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>Part IV</td>
+<td>IV</td>
 <td><code>F9_04_AFS_IND_X</code></td>
 <td>12a</td>
-<td>Independent audited financial statements?</td>
+<td>Separate independently audited financial statements?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="even">
-<td>Part IV</td>
-<td><code>F9_04_BIZ_TRANSAC_DTK_X</code></td>
-<td>28a</td>
-<td>Business transaction with a current/former officer, director,
-trustee, or key employee (DTK)?</td>
+<td>IV</td>
+<td><code>F9_04_AFS_CONSOL_X</code></td>
+<td>12b</td>
+<td>Included in consolidated audited financial statements?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="odd">
-<td>Part IV</td>
+<td>IV</td>
+<td><code>F9_04_LOAN_DTK_X</code></td>
+<td>26</td>
+<td>Loan to or from a current or former officer, director, trustee or
+key employee (DTK)?</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>IV</td>
+<td><code>F9_04_BIZ_TRANSAC_DTK_X</code></td>
+<td>28a</td>
+<td>Business transaction with a DTK?</td>
+<td align="center">x</td>
+<td align="center">x</td>
+</tr>
+<tr class="odd">
+<td>IV</td>
 <td><code>F9_04_BIZ_TRANSAC_DTK_FAM_X</code></td>
 <td>28b</td>
 <td>…with a family member of a DTK?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="even">
-<td>Part IV</td>
+<td>IV</td>
 <td><code>F9_04_BIZ_TRANSAC_DTK_ENTITY_X</code></td>
 <td>28c</td>
-<td>…with a 35%-controlled entity of a DTK?</td>
+<td>…with an entity a DTK controls?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="odd">
-<td>Part IV</td>
+<td>IV</td>
 <td><code>F9_04_CONTR_NONCSH_MT_25K_X</code></td>
 <td>29</td>
-<td>Received &gt; $25,000 in non-cash contributions?</td>
+<td>More than $25,000 in non-cash contributions?</td>
+<td align="center"></td>
+<td align="center">x</td>
 </tr>
 <tr class="even">
-<td>Part IV</td>
+<td>IV</td>
 <td><code>F9_04_CONTR_ART_HIST_X</code></td>
 <td>30</td>
-<td>Received contributions of art, historical treasures, etc.?</td>
+<td>Contributions of art or historical treasures?</td>
+<td align="center"></td>
+<td align="center">x</td>
 </tr>
 <tr class="odd">
-<td>Part VI</td>
+<td>VI</td>
 <td><code>F9_06_GVRN_NUM_VOTING_MEMB</code></td>
 <td>1a</td>
-<td>Number of voting governing body members</td>
+<td>Number of voting members of the governing body</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="even">
-<td>Part VI</td>
+<td>VI</td>
 <td><code>F9_06_GVRN_NUM_VOTING_MEMB_IND</code></td>
 <td>1b</td>
 <td>Number of independent voting members</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="odd">
-<td>Part VI</td>
+<td>VI</td>
 <td><code>F9_06_GVRN_DTK_FAMBIZ_RELATION_X</code></td>
 <td>2</td>
-<td>Family/business relationship among officers, directors, trustees,
-key employees?</td>
+<td>Family or business relationship among DTKs?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="even">
-<td>Part VI</td>
+<td>VI</td>
 <td><code>F9_06_GVRN_DELEGATE_MGMT_DUTY_X</code></td>
 <td>3</td>
-<td>Delegation of management duties?</td>
+<td>Management duties delegated to a management company?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="odd">
-<td>Part VI</td>
+<td>VI</td>
+<td><code>F9_06_GVRN_ASSET_DIVERSION_X</code></td>
+<td>5</td>
+<td>Significant diversion of assets?</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>VI</td>
 <td><code>F9_06_GVRN_DOC_GVRN_BODY_X</code></td>
 <td>8a</td>
-<td>Contemporaneous documentation of governing body meetings?</td>
-</tr>
-<tr class="even">
-<td>Part VI</td>
-<td><code>F9_06_POLICY_FORM990_GVRN_BODY_X</code></td>
-<td>11a</td>
-<td>Form 990 provided to governing body?</td>
+<td>Board meetings documented?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="odd">
-<td>Part VI</td>
-<td><code>F9_06_POLICY_COI_X</code></td>
-<td>12a</td>
-<td>Conflict of interest policy?</td>
+<td>VI</td>
+<td><code>F9_06_GVRN_DOC_COMMITTEE_X</code></td>
+<td>8b</td>
+<td>Committee meetings documented?</td>
+<td align="center">x</td>
+<td align="center"></td>
 </tr>
 <tr class="even">
-<td>Part VI</td>
+<td>VI</td>
+<td><code>F9_06_POLICY_FORM990_GVRN_BODY_X</code></td>
+<td>11a</td>
+<td>Form 990 provided to the board before filing?</td>
+<td align="center">x</td>
+<td align="center">x</td>
+</tr>
+<tr class="odd">
+<td>VI</td>
+<td><code>F9_06_POLICY_COI_X</code></td>
+<td>12a</td>
+<td>Written conflict-of-interest policy?</td>
+<td align="center">x</td>
+<td align="center">x</td>
+</tr>
+<tr class="even">
+<td>VI</td>
 <td><code>F9_06_POLICY_COI_DISCLOSURE_X</code></td>
 <td>12b</td>
 <td>Annual disclosure of interests?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="odd">
-<td>Part VI</td>
+<td>VI</td>
 <td><code>F9_06_POLICY_COI_MONITOR_X</code></td>
 <td>12c</td>
-<td>Regular monitoring and enforcement of COI policy?</td>
+<td>Policy regularly monitored and enforced?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="even">
-<td>Part VI</td>
+<td>VI</td>
 <td><code>F9_06_POLICY_WHSTLBLWR_X</code></td>
 <td>13</td>
-<td>Whistleblower policy?</td>
+<td>Written whistleblower policy?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="odd">
-<td>Part VI</td>
+<td>VI</td>
 <td><code>F9_06_POLICY_DOC_RETENTION_X</code></td>
 <td>14</td>
-<td>Document retention and destruction policy?</td>
+<td>Written document retention and destruction policy?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="even">
-<td>Part VI</td>
+<td>VI</td>
 <td><code>F9_06_POLICY_COMP_PROCESS_CEO_X</code></td>
 <td>15a</td>
-<td>Independent compensation process for CEO/top official?</td>
+<td>Independent pay-setting process for the top executive?</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="odd">
-<td>Part VI</td>
-<td><code>F9_06_DISCLOSURE_AVBL_OTH_X</code></td>
-<td>18</td>
-<td>Governing documents available: other</td>
+<td>VI</td>
+<td><code>F9_06_POLICY_COMP_PROCESS_OTH_X</code></td>
+<td>15b</td>
+<td>…for other officers and key employees?</td>
+<td align="center">x</td>
+<td align="center"></td>
 </tr>
 <tr class="even">
-<td>Part VI</td>
+<td>VI</td>
+<td><code>F9_06_DISCLOSURE_AVBL_OWN_WEB_X</code></td>
+<td>18</td>
+<td>Form 990 available on own website</td>
+<td align="center">x</td>
+<td align="center">x</td>
+</tr>
+<tr class="odd">
+<td>VI</td>
 <td><code>F9_06_DISCLOSURE_AVBL_OTH_WEB_X</code></td>
 <td>18</td>
 <td>…on another organization’s website</td>
+<td align="center"></td>
+<td align="center">x</td>
 </tr>
-<tr class="odd">
-<td>Part VI</td>
+<tr class="even">
+<td>VI</td>
 <td><code>F9_06_DISCLOSURE_AVBL_REQUEST_X</code></td>
 <td>18</td>
 <td>…upon request</td>
-</tr>
-<tr class="even">
-<td>Part VI</td>
-<td><code>F9_06_DISCLOSURE_AVBL_OWN_WEB_X</code></td>
-<td>18</td>
-<td>…on the organization’s own website</td>
+<td align="center"></td>
+<td align="center">x</td>
 </tr>
 <tr class="odd">
-<td>Part XII</td>
+<td>VI</td>
+<td><code>F9_06_DISCLOSURE_AVBL_OTH_X</code></td>
+<td>18</td>
+<td>…other</td>
+<td align="center"></td>
+<td align="center">x</td>
+</tr>
+<tr class="even">
+<td>XII</td>
 <td><code>F9_12_FINSTAT_METHOD_ACC_ACCRU_X</code></td>
 <td>1</td>
 <td>Accounting method: accrual</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
-<tr class="even">
-<td>Part XII</td>
+<tr class="odd">
+<td>XII</td>
 <td><code>F9_12_FINSTAT_METHOD_ACC_CASH_X</code></td>
 <td>1</td>
 <td>Accounting method: cash</td>
-</tr>
-<tr class="odd">
-<td>Part XII</td>
-<td><code>F9_12_FINSTAT_METHOD_ACC_OTH</code></td>
-<td>1</td>
-<td>Accounting method: other (free text)</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 <tr class="even">
-<td>Schedule M</td>
+<td>XII</td>
+<td><code>F9_12_FINSTAT_METHOD_ACC_OTH_X</code></td>
+<td>1</td>
+<td>Accounting method: other (checkbox)</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>XII</td>
+<td><code>F9_12_FINSTAT_METHOD_ACC_OTH</code></td>
+<td>1</td>
+<td>Accounting method: other (description)</td>
+<td align="center">x</td>
+<td align="center">x</td>
+</tr>
+<tr class="even">
+<td>XII</td>
+<td><code>F9_12_FINSTAT_COMPILE_X</code></td>
+<td>2a</td>
+<td>Financial statements compiled or reviewed by an independent
+accountant?</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>XII</td>
+<td><code>F9_12_FINSTAT_AUDIT_X</code></td>
+<td>2b</td>
+<td>Financial statements audited by an independent accountant?</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>XII</td>
+<td><code>F9_12_FINSTAT_AUDIT_COMMITTEE_X</code></td>
+<td>2c</td>
+<td>Committee oversees the audit, review or compilation?</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>Sched. M</td>
 <td><code>SM_01_REVIEW_PROCESS_UNUSUAL_X</code></td>
 <td>31</td>
-<td>Review process for unusual noncash gifts?</td>
+<td>Review process for unusual non-cash gifts?</td>
+<td align="center"></td>
+<td align="center">x</td>
 </tr>
 </tbody>
 </table>
-<p>For a full data dictionary see the <a href="https://nonprofit-open-data-collective.github.io/irs990efile/data-dictionary/data-dictionary.html" class="external-link">irs990efile
-data dictionary</a>. The tables themselves live in the NCCS efile v2.1
-archive
-(<code>https://nccs-efile.s3.us-east-1.amazonaws.com/public/efile_v2_1/{TABLE}-{YEAR}.CSV</code>,
-years 2009–2024); browse them in the <a href="https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html" class="external-link">efile
-v2.1 catalog</a>.</p>
+<p><code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> retrieves every field in this
+table. For a full data dictionary see the <a href="https://nonprofit-open-data-collective.github.io/irs990efile/data-dictionary/data-dictionary.html" class="external-link">irs990efile
+data dictionary</a> and the <a href="https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html" class="external-link">efile
+catalog</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="scoring-2023-filers-like-the-anchor-model">Scoring 2023 filers like the anchor model<a class="anchor" aria-label="anchor" href="#scoring-2023-filers-like-the-anchor-model"></a>
+</h2>
+<p>The 2023 model was fit to 501(c)(3) organizations only, with one
+filing per organization (<code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panel_deduplicate.html" class="external-link">panel990::panel_deduplicate()</a></code>). To
+reproduce that population, add the header and Part I tables and filter
+on the 501(c)(3) checkbox:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tables</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">"F9-P00-T00-HEADER"</span>, <span class="st">"F9-P01-T00-SUMMARY"</span>, <span class="va">gov_tables</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">panel</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">panelize</a></span><span class="op">(</span></span>
+<span>    sfw    <span class="op">=</span> <span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/create_sfw.html" class="external-link">create_sfw</a></span><span class="op">(</span> <span class="st">"governance 2023"</span>, form_type <span class="op">=</span> <span class="st">"990"</span> <span class="op">)</span>,</span>
+<span>    tables <span class="op">=</span> <span class="va">tables</span>,</span>
+<span>    years  <span class="op">=</span> <span class="fl">2023</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span> <span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panel_deduplicate.html" class="external-link">panel_deduplicate</a></span><span class="op">(</span><span class="va">panel</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span><span class="op">[</span> <span class="va">dat</span><span class="op">$</span><span class="va">F9_00_EXEMPT_STAT_501C3_X</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"X"</span>, <span class="op">]</span></span></code></pre></div>
+<p>Other 501(c) organizations can be scored on the same scale, but the
+model was not fit to them.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

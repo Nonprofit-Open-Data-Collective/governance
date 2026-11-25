@@ -1,0 +1,432 @@
+---
+title: "Governance Across the Sector"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Governance Across the Sector}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set( collapse = TRUE, comment = "#>", echo = FALSE,
+                       message = FALSE, warning = FALSE,
+                       fig.width = 7, fig.height = 4.5 )
+```
+
+```{r setup}
+# summary tables are reused across sections
+library( governance )
+library( dplyr )
+library( ggplot2 )
+
+ov <- readRDS( "data/gov-overview.rds" )
+
+blue  <- "#1696d2"
+theme_set( theme_minimal(base_size = 11) +
+             theme(panel.grid.minor = element_blank(),
+                   panel.grid.major.y = element_blank()) )
+
+pct  <- function(x) paste0( round(100 * x), "%" )
+num  <- function(x) format( x, big.mark = "," )
+
+item_labels <- c(
+  GI_REVIEW_AUDIT  = "Review or audit",
+  GI_AUDIT         = "Audit",
+  GI_AUDIT_CMTE    = "Audit committee",
+  GI_ACCRUAL       = "Accrual accounting",
+  GI_INDEP_MAJOR   = "Majority-independent board",
+  GI_MINUTES_BOARD = "Board minutes",
+  GI_MINUTES_CMTE  = "Committee minutes",
+  GI_990_BOARD     = "990 given to board",
+  GI_COI           = "Conflict-of-interest policy",
+  GI_COI_DISCLOSE  = "Annual COI disclosure",
+  GI_COI_MONITOR   = "COI policy monitored",
+  GI_WHISTLE       = "Whistleblower policy",
+  GI_RETENTION     = "Document retention policy",
+  GI_COMP_CEO      = "CEO pay process",
+  GI_COMP_OTH      = "Other-officer pay process",
+  GI_990_WEB       = "990 on own website",
+  RISK_INSIDER_BIZ = "Insider business transaction",
+  RISK_LOAN        = "Loan to or from insider",
+  RISK_FAM_TIES    = "Family or business ties",
+  RISK_MGMT_CO     = "Management company",
+  RISK_DIVERSION   = "Asset diversion"
+)
+
+pop23 <- ov$population[ ov$population$year == 2023, ]
+sz    <- ov$scores_by_size
+```
+
+This article describes how governance practices vary across the U.S. nonprofit
+sector. It covers every 501(c)(3) organization that e-filed a full Form 990 for
+tax years 2021 to 2024: **`r num(pop23$n)` organizations in 2023**. Each was
+scored with `get_features()` and `get_scores()`, so the results are on the
+index scale described in `vignette("making-gov-scores")`. The scale is set so
+that 2023 filers have mean 0 and standard deviation 1 on the underlying
+(latent) governance factor; the estimated scores average
+`r round(pop23$gov_mean, 2)` with a standard deviation of
+`r round(pop23$gov_sd, 2)`, slightly less than 1 because each estimate is pulled
+toward the mean in proportion to its uncertainty.
+
+The figures come from summary tables built by
+[`data-raw/make-overview-data.R`](https://github.com/Nonprofit-Open-Data-Collective/governance/blob/main/data-raw/make-overview-data.R)
+and saved with the vignette; nothing is downloaded when the article is built.
+Subsector and state come from the NCCS Business Master File; size is total
+expenses (Form 990 Part I line 18).
+
+## How common is each practice?
+
+Practices range from nearly universal to rare. More than nine in ten filers
+document board meetings, and most have a majority-independent board. About
+two-thirds have a conflict-of-interest policy, about half have whistleblower and
+retention policies or an independent review or audit, and fewer than one in ten
+post their 990 on their own website.
+
+```{r, fig.height = 5}
+overall <- data.frame(
+  item = names( ov$items_overall ),
+  rate = unlist( ov$items_overall )
+)
+overall$kind  <- ifelse( grepl("^GI_", overall$item), "Practice", "Risk disclosure" )
+overall$label <- item_labels[ overall$item ]
+
+overall |>
+  filter( kind == "Practice" ) |>
+  ggplot( aes(x = rate, y = reorder(label, rate)) ) +
+  geom_col( fill = blue, width = 0.7 ) +
+  geom_text( aes(label = pct(rate)), hjust = -0.15, size = 3.2 ) +
+  scale_x_continuous( labels = scales::percent, limits = c(0, 1.08),
+                      expand = c(0, 0) ) +
+  labs( x = "Share of 2023 filers reporting the practice", y = NULL )
+```
+
+The number of practices reported is bimodal. One group of organizations
+reports three or four practices, mostly the near-universal ones such as board
+minutes and an independent board; a larger group reports 13 to 15. Fewer than 3% report
+all 16, because posting the 990 online is rare even among organizations that do
+everything else.
+
+```{r, fig.height = 3.5}
+ggplot( ov$count_dist, aes(x = gov_count, y = N / sum(N)) ) +
+  geom_col( fill = blue, width = 0.8 ) +
+  scale_x_continuous( breaks = 0:16 ) +
+  scale_y_continuous( labels = scales::percent ) +
+  labs( x = "Practices reported (gov_count)", y = "Share of 2023 filers" )
+```
+
+```{r, fig.height = 3.5}
+ggplot( ov$score_hist, aes(x = bin + 0.125, y = N / sum(N)) ) +
+  geom_col( fill = blue, width = 0.23 ) +
+  scale_y_continuous( labels = scales::percent ) +
+  labs( x = "gov_score (bins of 0.25)", y = "Share of 2023 filers" )
+```
+
+The score distribution is lumpy, not bell-shaped, because the index is built
+from 16 yes/no items: many organizations share the same response pattern and so
+the same score. The tallest spike, just above −1.25, is organizations that
+report only the near-universal practices, such as minutes and an independent
+board. The cluster around 1.3 is organizations that report every practice except
+posting the 990 online. Scores at the top and bottom are the least precise
+(mean standard error about 0.6, against 0.2 in the middle).
+
+## Size
+
+Size is the strongest correlate of governance. The Spearman correlation between
+`gov_score` and log expenses is **`r round(ov$cor_size$gov, 2)`**
+(`r round(ov$cor_size$count, 2)` for the count). The average score rises by
+`r round(sz$gov_mean[6] - sz$gov_mean[1], 1)` points from organizations spending
+under \$100,000 to those spending \$40 million or more, and the typical
+organization goes from about 6 practices to about 14.
+
+```{r}
+sz |>
+  transmute( Size = size, Organizations = num(n),
+             `Mean score` = round(gov_mean, 2),
+             `25th pct` = round(gov_p25, 2), Median = round(gov_median, 2),
+             `75th pct` = round(gov_p75, 2),
+             `Mean practices` = round(count_mean, 1) ) |>
+  knitr::kable( align = "lrrrrrr" )
+```
+
+```{r, fig.height = 3.5}
+ggplot( sz, aes(y = size) ) +
+  geom_linerange( aes(xmin = gov_p25, xmax = gov_p75), linewidth = 2,
+                  colour = "#a2d4ec" ) +
+  geom_point( aes(x = gov_median), colour = blue, size = 3 ) +
+  scale_y_discrete( limits = rev ) +
+  labs( x = "gov_score: median and interquartile range", y = "Total expenses" )
+```
+
+In the three largest size bands the 75th percentile is the same, 1.31: at least
+a quarter of those organizations report every practice except posting the 990
+online. The index has little room to separate organizations at the top.
+
+Practices rise with size, but not equally. Audits show the steepest gradient,
+from 12% of the smallest organizations to 98% of the largest; audits are often
+required above state revenue thresholds and the federal single-audit
+threshold. Written whistleblower and retention policies and the CEO pay process
+rise almost as steeply. Board minutes are common at every size, and majority
+independence *falls* slightly in the largest band, where the CEO often sits on
+the board. The chart reads across: each row is a practice, each column a size
+band.
+
+```{r, fig.height = 6}
+ib <- ov$items_by_size
+ib <- ib[ grepl("^GI_", ib$item), ]
+ib$label <- factor( item_labels[ as.character(ib$item) ],
+                    levels = rev(item_labels[ names(ov$items_overall)[1:16] ]) )
+
+ggplot( ib, aes(x = size, y = label, fill = rate) ) +
+  geom_tile( colour = "white", linewidth = 1 ) +
+  geom_text( aes(label = pct(rate), colour = rate > 0.6), size = 3 ) +
+  scale_fill_gradient( low = "#e8f4fa", high = "#0a4c6a", limits = c(0, 1),
+                       labels = scales::percent, name = NULL ) +
+  scale_colour_manual( values = c(`TRUE` = "white", `FALSE` = "#1a1a1a"),
+                       guide = "none" ) +
+  labs( x = "Total expenses", y = NULL ) +
+  theme( panel.grid = element_blank(), legend.position = "none" )
+```
+
+Because size drives adoption so strongly, the comparisons below are shown two
+ways: the raw mean score, and a **size-adjusted** mean that compares each
+organization with others in the same size band (the mean of `gov_score` minus
+its size-band mean). A positive size-adjusted value means the group does better
+than organizations of the same size elsewhere.
+
+## Subsector
+
+```{r}
+sub <- ov$scores_by_subsector |> arrange( desc(gov_adj) )
+
+sub |>
+  transmute( Subsector = subsector, Organizations = num(n),
+             `Mean score` = round(gov_mean, 2),
+             `Size-adjusted` = round(gov_adj, 2),
+             `Mean practices` = round(count_mean, 1) ) |>
+  knitr::kable( align = "lrrrr" )
+```
+
+```{r, fig.height = 4.5}
+sub_long <- bind_rows(
+  data.frame( subsector = sub$subsector, value = sub$gov_mean, kind = "Raw mean" ),
+  data.frame( subsector = sub$subsector, value = sub$gov_adj,  kind = "Size-adjusted" )
+)
+sub_long$subsector <- factor( sub_long$subsector, levels = rev(sub$subsector) )
+
+ggplot( sub_long, aes(x = value, y = subsector, colour = kind, shape = kind) ) +
+  geom_vline( xintercept = 0, colour = "grey70" ) +
+  geom_point( size = 3 ) +
+  scale_colour_manual( values = c(`Raw mean` = "#a2d4ec", `Size-adjusted` = blue),
+                       name = NULL ) +
+  scale_shape_manual( values = c(`Raw mean` = 1, `Size-adjusted` = 16), name = NULL ) +
+  labs( x = "Mean gov_score", y = NULL ) +
+  theme( legend.position = "top" )
+```
+
+Much of the raw difference between subsectors is size. Hospitals and
+universities have the highest raw means (about 0.8 and 0.7) because they are
+large; compared with organizations of the same size they are only slightly
+above average. After adjusting for size, public and societal benefit and
+health organizations score highest, and religion-related organizations score
+lowest by a wide margin (a quarter of a point below organizations of the same
+size). Read the "Unclassified" row with care: about one in six filers has no
+usable NTEE code in the Business Master File.
+
+## Geography
+
+Size-adjusted state means span about half a point, from New Hampshire and the
+District of Columbia at the top to Utah and North Dakota at the bottom: much less
+than the size gradient, and similar to the spread across subsectors. The table
+lists the five highest and lowest states; the chart shows every state.
+
+```{r}
+st <- ov$scores_by_state |> arrange( desc(gov_adj) )
+
+st_tab <- st |>
+  transmute( State = state, Organizations = num(n),
+             `Mean score` = round(gov_mean, 2),
+             `Size-adjusted` = round(gov_adj, 2) )
+
+knitr::kable( rbind(head(st_tab, 5), tail(st_tab, 5)), row.names = FALSE,
+              align = "lrrr" )
+```
+
+```{r, fig.height = 8}
+st$state <- factor( st$state, levels = rev(st$state) )
+
+ggplot( st, aes(x = gov_adj, y = state) ) +
+  geom_vline( xintercept = 0, colour = "grey70" ) +
+  geom_segment( aes(x = 0, xend = gov_adj, yend = state), colour = "#a2d4ec" ) +
+  geom_point( colour = blue, size = 2 ) +
+  labs( x = "Size-adjusted mean gov_score", y = NULL ) +
+  theme( axis.text.y = element_text(size = 7) )
+```
+
+State differences may reflect charity regulation: some states require audits
+or reviews above revenue thresholds, and some require registered charities to
+adopt particular policies. The index does not separate those rules from other
+regional differences.
+
+## Organization age
+
+Older organizations report more practices, and the gradient remains, smaller,
+after adjusting for size: organizations under five years old score about a tenth
+of a point below others of their size, and those over 40 years old about a tenth
+above. Age is years since the IRS ruling date (or, where missing, the year of
+formation on the 990).
+
+```{r}
+ov$scores_by_age |>
+  transmute( Age = age_band, Organizations = num(n),
+             `Mean score` = round(gov_mean, 2),
+             `Size-adjusted` = round(gov_adj, 2),
+             `Mean practices` = round(count_mean, 1) ) |>
+  knitr::kable( align = "lrrrr" )
+```
+
+## Specific factors
+
+The four specific-factor scores show where groups depart from what their
+general score predicts. They average zero by construction, so they are most
+useful for comparing groups. Larger organizations do *more* financial assurance
+and have more pay-setting processes than their general score predicts, which
+echoes the size effect on audits discussed in `vignette("making-gov-scores")`.
+Minutes and written policies show no size pattern beyond the general score.
+
+```{r}
+sz |>
+  transmute( Size = size,
+             `Financial assurance` = round(finance, 2),
+             Minutes = round(minutes, 2),
+             `Written policies` = round(policy, 2),
+             Compensation = round(comp, 2) ) |>
+  knitr::kable( align = "lrrrr" )
+```
+
+## Risk disclosures
+
+Risk events are reported separately from the index. Insider business
+transactions rise steeply with size, from 1% of the smallest organizations to
+23% of the largest, and management companies rise from 3% to 7%. That is the
+opposite of what a "bad governance" reading would predict: larger organizations
+have more transactions to disclose and more processes for finding them. Loans
+to insiders and family or business ties among officers are roughly flat across
+sizes.
+
+```{r}
+rb <- ov$items_by_size
+rb <- rb[ grepl("^RISK_", rb$item), ]
+rb$label <- item_labels[ as.character(rb$item) ]
+
+rb |>
+  mutate( rate = pct(rate) ) |>
+  select( label, size, rate ) |>
+  tidyr::pivot_wider( names_from = size, values_from = rate ) |>
+  rename( Disclosure = label ) |>
+  knitr::kable()
+```
+
+Asset diversions are reported by about 1 in 1,000 filers, too few to analyze
+here.
+
+## Change over time, 2021--2024
+
+Because the item parameters are fixed at 2023 values, scores from different
+years are directly comparable. Across the whole population, the mean score
+*fell* slightly from 2021 to 2024, and so did the mean number of practices.
+
+```{r}
+ov$population |>
+  transmute( `Tax year` = year, Organizations = num(n),
+             `Mean score` = round(gov_mean, 3),
+             SD = round(gov_sd, 2),
+             `Mean practices` = round(count_mean, 2) ) |>
+  knitr::kable( align = "lrrrr" )
+```
+
+```{r, fig.height = 5}
+iy <- ov$items_by_year
+iy <- iy[ grepl("^GI_", iy$item), ]
+
+iy_change <- iy |>
+  group_by( item ) |>
+  summarise( r2021 = rate[ year == 2021 ], r2024 = rate[ year == 2024 ] ) |>
+  mutate( label = item_labels[ as.character(item) ] )
+
+ggplot( iy_change, aes(y = reorder(label, r2024)) ) +
+  geom_segment( aes(x = r2021, xend = r2024, yend = reorder(label, r2024)),
+                colour = "#a2d4ec", linewidth = 1.2 ) +
+  geom_point( aes(x = r2021), colour = "#a2d4ec", size = 2.5 ) +
+  geom_point( aes(x = r2024), colour = blue, size = 2.5 ) +
+  scale_x_continuous( labels = scales::percent ) +
+  labs( x = "Share reporting the practice: 2021 (light) and 2024 (dark)",
+        y = NULL )
+```
+
+Most practices were flat. The exceptions are the financial-assurance items:
+the share of filers reporting an audit, an audit committee, or a review or
+audit each fell by three to four points, and accrual accounting by about two.
+Population means mix two things, though: change within organizations, and
+organizations entering or leaving the full-990 population. The table below follows the
+`r num(ov$change_overall$n)` organizations that filed a full 990 in both 2021
+and 2024.
+
+```{r}
+co <- ov$change_overall
+```
+
+Among them, `r pct(co$share_up)` reported more practices in 2024 than in 2021,
+`r pct(co$share_same)` the same number and `r pct(co$share_down)` fewer, and
+the mean score rose by `r sprintf("%.2f", co$d_gov)`. Continuing organizations
+improved, so the falling population mean points to composition: the
+organizations entering the full-990 population report fewer practices than
+those leaving it. One possible reason: the thresholds for filing the 990-EZ
+instead are fixed in dollars, so inflation moves more small organizations onto
+the full 990 each year, and small organizations are less often audited. Gains were largest in the middle size
+bands; the largest organizations, already near the ceiling, barely changed.
+
+```{r}
+ov$change_by_size |>
+  transmute( `Size (2023)` = size, Organizations = num(n),
+             `Mean 2021` = round(gov_2021, 2), `Mean 2024` = round(gov_2024, 2),
+             Change = sprintf("%+.3f", d_gov),
+             `More practices` = pct(share_up),
+             `Same` = pct(share_same),
+             `Fewer` = pct(share_down) ) |>
+  knitr::kable( align = "lrrrrrrr" )
+```
+
+Year-to-year changes in a single organization's count are common in both
+directions, and many are one practice, so individual changes are noisy.
+Changes in the average are more reliable than changes for any one
+organization.
+
+## Caveats
+
+* **Reported, not observed.** The 990 records whether a policy exists, not
+  whether it is followed.
+* **Full 990 filers only.** Smaller organizations that file the 990-EZ or 990-N
+  are not covered; their governance is likely weaker than the smallest band
+  here.
+* **Size and audits.** Audit, review and accrual items function differently by
+  size (see `vignette("making-gov-scores")`). Size-adjusted comparisons reduce,
+  but do not remove, that effect.
+* **Descriptive only.** None of the differences above are causal.
+
+## Producing your own breakouts
+
+The same tables can be built for any sample: score it, join size, sector or
+place from the Business Master File, and summarise by group. For example, with
+a scored data frame `scores` that has an `expenses` column:
+
+```{r, echo = TRUE, eval = FALSE}
+breaks <- c( -Inf, 1e5, 5e5, 2e6, 1e7, 4e7, Inf )
+labels <- c( "<$100k", "$100k-500k", "$500k-2m", "$2m-10m", "$10m-40m", "$40m+" )
+
+scores$size <- cut( scores$expenses, breaks, labels, right = FALSE )
+
+scores |>
+  group_by( size ) |>
+  summarise( n = n(), mean_score = mean(gov_score, na.rm = TRUE),
+             audited = mean(GI_AUDIT, na.rm = TRUE) )
+```

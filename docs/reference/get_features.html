@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,9 +18,13 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/governance.html">Get started</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-guides"><li><a class="dropdown-item" href="../articles/download-data.html">Getting 990 Data with panel990</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-guides"><li><a class="dropdown-item" href="../articles/overview.html">Governance Across the Sector</a></li>
     <li><a class="dropdown-item" href="../articles/governance-workflow.html">Governance Workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/download-data.html">Getting 990 Data with panel990</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Methodology</h6></li>
     <li><a class="dropdown-item" href="../articles/making-gov-scores.html">Making Governance Scores</a></li>
+    <li><a class="dropdown-item" href="../articles/legacy-2018-model.html">The Legacy 2018 Model</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -77,6 +81,7 @@ with the data dictionary found <a href="https://nonprofit-open-data-collective.g
 <p>These are the variables from each Part/Schedule that are needed as inputs to run this function:</p>
 <p>Variables from Part IV:</p>
 <ul><li><p>F9_04_AFS_IND_X</p></li>
+<li><p>F9_04_AFS_CONSOL_X (recommended; see below)</p></li>
 <li><p>F9_04_BIZ_TRANSAC_DTK_X</p></li>
 <li><p>F9_04_BIZ_TRANSAC_DTK_FAM_X</p></li>
 <li><p>F9_04_BIZ_TRANSAC_DTK_ENTITY_X</p></li>
@@ -114,6 +119,64 @@ when their inputs are genuinely unavailable: <code>P6_LINE_1</code> (share of
 independent voting members, undefined when the voting-member count is 0 or
 missing) and <code>P12_LINE_1</code> (accounting method, when none is reported);
 <code><a href="get_scores.html">get_scores</a></code> imputes these.</p>
+<p><code>P4_LINE_12</code> (audited financial statements) is 1 when the organization
+obtained separate (Part IV line 12a, <code>F9_04_AFS_IND_X</code>) <em>or</em>
+consolidated (line 12b, <code>F9_04_AFS_CONSOL_X</code>) independently audited
+financial statements. This matches how the feature was coded when the factor
+model was trained. Earlier versions used line 12a only, which scored
+organizations audited on a consolidated basis as unaudited. If
+<code>F9_04_AFS_CONSOL_X</code> is not supplied, a message is shown and line 12a alone
+is used.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="-index-items">2023 index items<a class="anchor" aria-label="anchor" href="#-index-items"></a></h2>
+
+
+<p><code>get_features()</code> also appends the 16 practice items used by the 2023
+governance index (<code>model = "2023"</code> in <code><a href="get_scores.html">get_scores</a></code>), coded
+1 when the practice is present, 0 when absent, and <code>NA</code> when the
+question was left blank:</p><dl><dt>GI_REVIEW_AUDIT</dt>
+<dd><p>financial statements compiled, reviewed, or audited (XII-2a/2b, IV-12a/b)</p></dd>
+
+<dt>GI_AUDIT</dt>
+<dd><p>financial statements audited (XII-2b, IV-12a/b)</p></dd>
+
+<dt>GI_AUDIT_CMTE</dt>
+<dd><p>audit committee oversees the audit or review (XII-2c; 0 if no review or audit)</p></dd>
+
+<dt>GI_ACCRUAL</dt>
+<dd><p>accrual accounting (XII-1)</p></dd>
+
+<dt>GI_INDEP_MAJOR</dt>
+<dd><p>at least half of voting members are independent (VI-1a/1b)</p></dd>
+
+<dt>GI_MINUTES_BOARD, GI_MINUTES_CMTE</dt>
+<dd><p>meetings of the board and of committees documented (VI-8a/8b)</p></dd>
+
+<dt>GI_990_BOARD</dt>
+<dd><p>Form 990 provided to the board before filing (VI-11a)</p></dd>
+
+<dt>GI_COI, GI_COI_DISCLOSE, GI_COI_MONITOR</dt>
+<dd><p>written conflict-of-interest policy; annual disclosure; monitoring (VI-12a/b/c; b and c are 0 without a policy)</p></dd>
+
+<dt>GI_WHISTLE, GI_RETENTION</dt>
+<dd><p>whistleblower and document retention policies (VI-13, VI-14)</p></dd>
+
+<dt>GI_COMP_CEO, GI_COMP_OTH</dt>
+<dd><p>independent pay-setting process for the CEO and for other officers (VI-15a/15b)</p></dd>
+
+<dt>GI_990_WEB</dt>
+<dd><p>Form 990 posted on the organization's own website (VI-18)</p></dd>
+
+
+</dl><p>It also appends five risk indicators, coded 1 when the event is reported:
+<code>RISK_INSIDER_BIZ</code> (IV-28a/b/c), <code>RISK_LOAN</code> (IV-26),
+<code>RISK_FAM_TIES</code> (VI-2), <code>RISK_MGMT_CO</code> (VI-3) and
+<code>RISK_DIVERSION</code> (VI-5). They are not part of the index, because they
+record disclosures and exposures rather than practices, but are useful
+alongside it. The extra raw fields these items need are retrieved by
+<code><a href="get_governance_data.html">get_governance_data</a></code>; any that are absent are treated as blank,
+with a message.</p>
     </div>
 
     <div class="section level2">

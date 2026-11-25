@@ -5,7 +5,7 @@ utils::globalVariables(c(
   ".", "ORG_EIN",
   # Part IV
   "F9_12_FINSTAT_METHOD_ACC_OTH", "P12_LINE_1",
-  "P4_LINE_12A", "P4_LINE_28A", "P4_LINE_28B", "P4_LINE_28C",
+  "P4_LINE_12A", "P4_LINE_12B", "P4_LINE_28A", "P4_LINE_28B", "P4_LINE_28C",
   "P4_LINE_29", "P4_LINE_30", "PM_LINE_31",
   # Part VI
   "P6_LINE_1A", "P6_LINE_1B", "divide.by.0",

@@ -1,3 +1,72 @@
+# governance 0.1.0
+
+## Breaking changes
+
+* `get_scores()` now applies the **2023 governance index model** by default. It
+  is a bifactor item response model fit to all 501(c)(3) full Form 990 filers
+  for tax year 2023, and returns:
+  - `gov_score`, with its standard error `gov_score_se`;
+  - four specific-factor scores (`gov_s_finance`, `gov_s_minutes`,
+    `gov_s_policy`, `gov_s_comp`);
+  - `gov_count` (number of the 16 practices reported) and `gov_n_items`.
+
+  Item parameters are fixed at 2023 values (`gov_model_2023`), so scores from
+  other years share the 2023 scale. The previous six-factor model and its
+  `total.score` are still available with `get_scores(x, model = "legacy-2018")`.
+* `mirt` is now a dependency.
+
+## New features
+
+* `get_features()` also returns the 16 `GI_*` practice items used by the 2023
+  model. They add the audit committee (Part XII line 2c), compilation or review,
+  committee minutes, and the pay process for other officers, and keep the
+  conflict-of-interest disclosure and monitoring items separate.
+* `get_features()` also returns five `RISK_*` indicators: insider transactions,
+  loans to insiders, family or business ties, management company, and asset
+  diversion.
+* Missing fields used only by the 2023 items produce a message, not an error.
+* `get_governance_data()` retrieves the additional fields, and `dat_example`
+  includes them.
+* `data-raw/fit-model-2023.R` reproduces the shipped model from the efile
+  archive.
+
+## Documentation
+
+* New article, "Governance Across the Sector" (`vignette("overview")`):
+  practice prevalence and governance scores for every 501(c)(3) full-990 filer,
+  broken out by size, subsector, state and organization age, with risk
+  disclosures and change from 2021 to 2024. Its summary tables are built by
+  `data-raw/make-overview-data.R`.
+* "Making Governance Scores" now documents the 2023 index: population and data
+  preparation, item selection and coding, dimensionality, the model comparison,
+  scoring and validation (invariance and predictive validity).
+* The derivation of the 2018 model and its known issues moved to a new article,
+  "The Legacy 2018 Model", with its tables rebuilt and several descriptions
+  corrected.
+* "Getting Started" and "Governance Workflow" describe the 16 `GI_*` items, the
+  `RISK_*` indicators and every column `get_scores()` adds. "Getting 990 Data"
+  lists every field the 2023 items read.
+
+## Fixes
+
+* `get_features()`: audited financial statements (`P4_LINE_12`) now count
+  consolidated audits (Part IV line 12b, `F9_04_AFS_CONSOL_X`) as well as
+  separate audits (line 12a), matching how the factor model was trained.
+  Previously organizations audited only on a consolidated basis scored 0.
+  `F9_04_AFS_CONSOL_X` is optional: without it, a message is shown and line 12a
+  alone is used. `get_governance_data()` now retrieves the field, and
+  `dat_example` includes it.
+* Documented four known issues with the shipped factor model in the "Making
+  Governance Scores" vignette and in `?get_scores`:
+  - the training sample excluded fully independent boards;
+  - a coding bug zeroed out the audit-committee item (Part XII line 2c);
+  - `total.score` puts negative implied weights on several good-practice
+    features;
+  - six factors over-fit 12 binary items.
+  These motivated the 2023 refit.
+* Retrieval tests now read the local fixture tables as CSV, since `panel990`
+  defaults to parquet sources.
+
 # governance 0.0.1.0000
 
 * Added `get_governance_data()` and `get_governance_scores()` to import IRS 990

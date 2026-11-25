@@ -2,80 +2,103 @@
 title: "Getting Started"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{governance}
+  %\VignetteIndexEntry{Getting Started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set( collapse = TRUE, comment = "#>" )
 ```
 
-```{r setup, message=FALSE, warning=FALSE}
-library(governance)
-library(dplyr)
+```{r setup, message = FALSE, warning = FALSE}
+library( governance )
+library( dplyr )
 ```
 
-The **governance** package turns raw IRS Form 990 governance and management
-fields into a multi-dimensional governance index for benchmarking nonprofits.
-The workflow is two steps: normalize the raw fields into a binary feature matrix
-with `get_features()`, then score them against a pre-fit factor model with
-`get_scores()`.
+The **governance** package scores nonprofit governance from the IRS Form 990.
+Since the 2008 redesign, Part VI of the 990 asks every full filer about its
+board, its written policies and its disclosure practices, and Parts IV and XII
+record audits and financial oversight. The package turns those answers into
+16 indicators of recommended practice and combines them into a single
+governance index, `gov_score`.
+
+The index comes from an item response model fit to every 501(c)(3)
+organization that e-filed a full Form 990 for tax year 2023 (about 271,000
+organizations). Its parameters are fixed, so a score from any year is on the
+same scale: 0 is the average 2023 filer, and one unit is one standard deviation
+of governance among 2023 filers.
+
+The workflow has two steps:
+
+1. `get_features()` codes the raw 990 fields as binary practice items.
+2. `get_scores()` scores the items with the 2023 model.
 
 ## Step 1: Get input data
 
-`get_features()` expects a data frame of raw 990 efile fields — the governance,
-management, and disclosure questions from Part IV, Part VI, Part XII, and
-Schedule M. The companion
+`get_features()` expects one row per filing with the raw efile fields from Form
+990 Parts IV, VI and XII and Schedule M. The companion
 [panel990](https://github.com/Nonprofit-Open-Data-Collective/panel990) package
-retrieves and assembles them; `get_governance_data(years = 2022)` returns a data
-frame ready for the steps below. See `vignette("download-data")` for the fields,
-the required tables, and the full-990 filter.
+retrieves them; `get_governance_data( years = 2023 )` returns a data frame
+ready for the next step. See `vignette("download-data")` for the tables and
+fields.
 
-The package also ships a ready-to-use example — a 5,000-organization sample of
-raw 2022 fields — so you can try the workflow without downloading anything.
+The package also ships `dat_example`, a 5,000-organization sample of raw 2022
+fields, so you can try the workflow without downloading anything.
 
 ```{r}
-data("dat_example", package = "governance")
+data( "dat_example", package = "governance" )
 
-set.seed(57)
-dat_example <- dat_example[sample(seq_len(nrow(dat_example)), 200), ]
+# a 200-organization subset keeps the examples fast
+set.seed( 57 )
+rows        <- sample( nrow(dat_example), 200 )
+dat_example <- dat_example[ rows, ]
 ```
 
-## Step 2: Build the feature matrix
+## Step 2: Code the practice items
 
-`get_features()` normalizes the raw fields (yes/no, `"X"` flags, member counts)
-into 12 binary governance features, appended to the input.
+`get_features()` adds 16 `GI_*` columns, one per practice, coded 1 when the
+organization reports the practice, 0 when it does not and `NA` when the
+question was left blank. It also adds five `RISK_*` disclosure indicators and
+the 12 features used by the older 2018 model.
 
 ```{r}
-features_example <- get_features(dat_example)
+features <- get_features( dat_example )
 
-features_example |>
-  select(ORG_EIN, P6_LINE_1, P6_LINE_12_13_14, P12_LINE_1) |>
-  head()
+# share of organizations reporting each practice
+features |>
+  summarise( across(starts_with("GI_"), \(x) mean(x, na.rm = TRUE)) ) |>
+  tidyr::pivot_longer( everything(), names_to = "item", values_to = "share" ) |>
+  knitr::kable( digits = 2 )
 ```
 
 ## Step 3: Calculate the scores
 
-`get_scores()` applies the pre-fit factor model and appends six factor scores
-plus a `total.score`.
+`get_scores()` appends the governance score and its standard error, four
+specific-factor scores and `gov_count`, the number of the 16 practices the
+organization reports.
 
 ```{r}
-scores_example <- get_scores(features_example)
+scores <- get_scores( features )
 
-scores_example |>
-  select(ORG_EIN, total.score) |>
-  head()
+vars <- c( "ORG_NAME_L1", "gov_score", "gov_score_se", "gov_count" )
+
+scores[ , vars ] |>
+  head() |>
+  knitr::kable( digits = 2 )
 ```
 
-```{r, fig.width=6, fig.height=4}
-hist(scores_example$total.score,
-     main = "Distribution of Governance Scores",
-     xlab = "Total Score")
+```{r, fig.width = 6, fig.height = 4}
+hist( scores$gov_score,
+      main = "Governance scores, 200 example organizations",
+      xlab = "gov_score (0 = average 2023 filer)" )
 ```
 
-See `vignette("governance-workflow")` for a fuller walk-through and
-`vignette("making-gov-scores")` for the methodology behind the index.
+## Where to go next
+
+* `vignette("overview")`: how governance practices vary by size, subsector,
+  state and year across all 501(c)(3) filers.
+* `vignette("governance-workflow")`: a fuller walk-through of the outputs.
+* `vignette("making-gov-scores")`: how the items were chosen and the model
+  fit.
+* `vignette("download-data")`: retrieving 990 data with panel990.

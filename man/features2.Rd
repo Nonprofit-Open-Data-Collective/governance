@@ -12,6 +12,6 @@ features2
 }
 \description{
 Training data used to generate factor model \code{\link{model6}}.
-See Step 5 of \code{vignette("making-gov-scores", package = "governance")} for detailed description of each of these features.
+See Step 5 of \code{vignette("legacy-2018-model", package = "governance")} for detailed description of each of these features.
 }
 \keyword{datasets}

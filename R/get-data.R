@@ -18,7 +18,8 @@
 
 .gov_fields <- c(
   # Part IV
-  "F9_04_AFS_IND_X", "F9_04_BIZ_TRANSAC_DTK_X", "F9_04_BIZ_TRANSAC_DTK_FAM_X",
+  "F9_04_AFS_IND_X", "F9_04_AFS_CONSOL_X", "F9_04_BIZ_TRANSAC_DTK_X",
+  "F9_04_BIZ_TRANSAC_DTK_FAM_X",
   "F9_04_BIZ_TRANSAC_DTK_ENTITY_X", "F9_04_CONTR_NONCSH_MT_25K_X",
   "F9_04_CONTR_ART_HIST_X",
   # Part VI
@@ -36,6 +37,10 @@
   # Schedule M
   "SM_01_REVIEW_PROCESS_UNUSUAL_X"
 )
+
+# Union of the legacy feature inputs and the 2023 index items (.gi_fields,
+# defined in gov-items.R; collation puts that file first).
+.all_gov_fields <- function() unique(c(.gov_fields, .gi_fields))
 
 #' Import raw 990 governance fields via the panel990 package
 #'
@@ -124,7 +129,7 @@ get_governance_data <- function(
 
   panel <- panel990::panelize(
     sfw = sfw, tables = .gov_tables, years = years, source = source,
-    columns = c(.gov_keys, .gov_fields), bmf = FALSE,
+    columns = c(.gov_keys, .all_gov_fields()), bmf = FALSE,
     cache = cache, path = path, verbose = verbose
   )
 

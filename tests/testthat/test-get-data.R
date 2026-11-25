@@ -29,7 +29,7 @@ test_that("get_governance_data imports and assembles the required fields", {
   write_local_source(root, year = 2022)
 
   dat <- get_governance_data(
-    years = 2022, source = panel990::data_source(root = root), verbose = FALSE
+    years = 2022, source = panel990::data_source(root = root, format = "csv"), verbose = FALSE
   )
 
   expect_s3_class(dat, "data.frame")
@@ -45,7 +45,7 @@ test_that("imported data yields the same features as the bundled example", {
   data("dat_example", package = "governance")
 
   dat <- get_governance_data(
-    years = 2022, source = panel990::data_source(root = root), verbose = FALSE
+    years = 2022, source = panel990::data_source(root = root, format = "csv"), verbose = FALSE
   )
 
   feats <- c("P12_LINE_1", "P4_LINE_12", "P4_LINE_28", "P4_LINE_29_30",
@@ -64,7 +64,7 @@ test_that("get_governance_data keeps only full-990 filers", {
   write_local_source(root, year = 2022, ez_rows = 25)
 
   dat <- get_governance_data(
-    years = 2022, source = panel990::data_source(root = root), verbose = FALSE
+    years = 2022, source = panel990::data_source(root = root, format = "csv"), verbose = FALSE
   )
   expect_true(all(dat$RETURN_TYPE == "990"))
   expect_false(any(dat$RETURN_TYPE == "990EZ"))
@@ -76,9 +76,9 @@ test_that("get_governance_scores runs the full pipeline", {
   write_local_source(root, year = 2022)
 
   scores <- get_governance_scores(
-    years = 2022, source = panel990::data_source(root = root), verbose = FALSE
+    years = 2022, source = panel990::data_source(root = root, format = "csv"), verbose = FALSE
   )
-  expect_true("total.score" %in% names(scores))
+  expect_true("gov_score" %in% names(scores))
   expect_gt(nrow(scores), 0)
 })
 
