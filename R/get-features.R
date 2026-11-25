@@ -27,6 +27,7 @@
 #'
 #' \itemize{
 #'  \item{F9_04_AFS_IND_X}
+#'  \item{F9_04_AFS_CONSOL_X} (recommended; see below)
 #'  \item{F9_04_BIZ_TRANSAC_DTK_X}
 #'  \item{F9_04_BIZ_TRANSAC_DTK_FAM_X}
 #'  \item{F9_04_BIZ_TRANSAC_DTK_ENTITY_X}
@@ -79,6 +80,15 @@
 #' independent voting members, undefined when the voting-member count is 0 or
 #' missing) and \code{P12_LINE_1} (accounting method, when none is reported);
 #' \code{\link{get_scores}} imputes these.
+#'
+#' \code{P4_LINE_12} (audited financial statements) is 1 when the organization
+#' obtained separate (Part IV line 12a, \code{F9_04_AFS_IND_X}) \emph{or}
+#' consolidated (line 12b, \code{F9_04_AFS_CONSOL_X}) independently audited
+#' financial statements. This matches how the feature was coded when the factor
+#' model was trained. Earlier versions used line 12a only, which scored
+#' organizations audited on a consolidated basis as unaudited. If
+#' \code{F9_04_AFS_CONSOL_X} is not supplied, a message is shown and line 12a alone
+#' is used.
 #'
 #' @return
 #' A data.frame appended with features needed to run the \code{\link{get_scores}} function.
@@ -205,6 +215,16 @@ get_features <- function(dat){
   #join with datM$PM_LINE_31
   dat_4$PM_LINE_31 <- dat_M$PM_LINE_31
 
+  # Line 12b (consolidated audited statements) counts as audited, as in training.
+  # Optional for backward compatibility: without it, fall back to line 12a only.
+  if ("F9_04_AFS_CONSOL_X" %in% colnames(dat)) {
+    dat_4$P4_LINE_12B <- dat$F9_04_AFS_CONSOL_X
+  } else {
+    message("F9_04_AFS_CONSOL_X not supplied; P4_LINE_12 uses Part IV line 12a only. ",
+            "Organizations audited on a consolidated basis will score 0.")
+    dat_4$P4_LINE_12B <- NA
+  }
+
   #wrangling
   dat_4 <-
     dat_4  %>%
@@ -217,9 +237,9 @@ get_features <- function(dat){
                     . %in% c("false", "0") ~ "no",
                     TRUE ~ "no"
                   )))  %>%
-    #P4 Line 12A
-    dplyr::mutate(P4_LINE_12A = ifelse(P4_LINE_12A == "yes" , 1, 0)) %>%
-    dplyr::rename(P4_LINE_12 = P4_LINE_12A) %>%
+    #P4 Line 12: audited on a separate (12a) or consolidated (12b) basis
+    dplyr::mutate(P4_LINE_12 = ifelse(P4_LINE_12A == "yes" | P4_LINE_12B == "yes", 1, 0)) %>%
+    dplyr::select(-c(P4_LINE_12A, P4_LINE_12B)) %>%
     #P4 line 28
     dplyr::mutate(P4_LINE_28 = ifelse(
       P4_LINE_28A == "yes" |

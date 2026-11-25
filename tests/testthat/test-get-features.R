@@ -51,3 +51,19 @@ test_that("a missing input column errors and names the right column", {
   raw$F9_06_POLICY_COI_X <- NULL
   expect_error(get_features(raw), "F9_06_POLICY_COI_X")
 })
+
+test_that("consolidated audited statements (Part IV 12b) count as audited", {
+  raw <- make_raw(4)
+  raw$F9_04_AFS_IND_X    <- c("true", "false", "false", "1")
+  raw$F9_04_AFS_CONSOL_X <- c("false", "true", "", "0")
+  f <- get_features(raw)
+  expect_equal(f$P4_LINE_12, c(1, 1, 0, 1))
+})
+
+test_that("without F9_04_AFS_CONSOL_X, P4_LINE_12 falls back to line 12a with a message", {
+  raw <- make_raw(2)
+  raw$F9_04_AFS_IND_X <- c("true", "false")
+  raw$F9_04_AFS_CONSOL_X <- NULL
+  expect_message(f <- get_features(raw), "F9_04_AFS_CONSOL_X")
+  expect_equal(f$P4_LINE_12, c(1, 0))
+})

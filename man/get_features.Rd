@@ -28,6 +28,7 @@ Variables from Part IV:
 
 \itemize{
 \item{F9_04_AFS_IND_X}
+\item{F9_04_AFS_CONSOL_X} (recommended; see below)
 \item{F9_04_BIZ_TRANSAC_DTK_X}
 \item{F9_04_BIZ_TRANSAC_DTK_FAM_X}
 \item{F9_04_BIZ_TRANSAC_DTK_ENTITY_X}
@@ -79,6 +80,15 @@ when their inputs are genuinely unavailable: \code{P6_LINE_1} (share of
 independent voting members, undefined when the voting-member count is 0 or
 missing) and \code{P12_LINE_1} (accounting method, when none is reported);
 \code{\link{get_scores}} imputes these.
+
+\code{P4_LINE_12} (audited financial statements) is 1 when the organization
+obtained separate (Part IV line 12a, \code{F9_04_AFS_IND_X}) \emph{or}
+consolidated (line 12b, \code{F9_04_AFS_CONSOL_X}) independently audited
+financial statements. This matches how the feature was coded when the factor
+model was trained. Earlier versions used line 12a only, which scored
+organizations audited on a consolidated basis as unaudited. If
+\code{F9_04_AFS_CONSOL_X} is not supplied, a message is shown and line 12a alone
+is used.
 }
 \examples{
 # get data

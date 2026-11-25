@@ -48,6 +48,15 @@ along with a total score.
 \details{
 This function generates factor scores for observations in the input
 \code{feature.matrix} from pre-loaded factor model ( in \code{data/factor-objects.Rdata})
+
+\strong{Known limitation.} \code{total.score} is the unweighted sum of six orthogonal
+factor scores. Because some factors load negatively on features coded
+1 = good practice, the implied weights on \code{P6_LINE_3}, \code{P6_LINE_2},
+\code{P4_LINE_29_30} and \code{P4_LINE_28} are negative: reporting those practices
+lowers the total score. The model was also trained on a sample that excluded
+fully independent boards. See "Known issues" in
+\code{vignette("making-gov-scores", package = "governance")}. A refit on 2023
+data is planned.
 }
 \examples{
 # get data

@@ -34,6 +34,15 @@
 #' @details This function generates factor scores for observations in the input
 #' `feature.matrix` from pre-loaded factor model ( in `data/factor-objects.Rdata`)
 #'
+#' **Known limitation.** `total.score` is the unweighted sum of six orthogonal
+#' factor scores. Because some factors load negatively on features coded
+#' 1 = good practice, the implied weights on `P6_LINE_3`, `P6_LINE_2`,
+#' `P4_LINE_29_30` and `P4_LINE_28` are negative: reporting those practices
+#' lowers the total score. The model was also trained on a sample that excluded
+#' fully independent boards. See "Known issues" in
+#' \code{vignette("making-gov-scores", package = "governance")}. A refit on 2023
+#' data is planned.
+#'
 #' @references
 #' Factor objects are loaded from "governance/pkg-funcs/factor-objects.Rdata".
 #'

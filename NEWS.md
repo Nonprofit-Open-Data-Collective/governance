@@ -1,3 +1,23 @@
+# governance (development version)
+
+* `get_features()`: audited financial statements (`P4_LINE_12`) now count
+  consolidated audits (Part IV line 12b, `F9_04_AFS_CONSOL_X`) as well as
+  separate audits (line 12a), matching how the factor model was trained.
+  Previously organizations audited only on a consolidated basis scored 0.
+  `F9_04_AFS_CONSOL_X` is optional: without it, a message is shown and line 12a
+  alone is used. `get_governance_data()` now retrieves the field, and
+  `dat_example` includes it.
+* Documented four known issues with the shipped factor model in the "Making
+  Governance Scores" vignette and in `?get_scores`:
+  - the training sample excluded fully independent boards;
+  - a coding bug zeroed out the audit-committee item (Part XII line 2c);
+  - `total.score` puts negative implied weights on several good-practice
+    features;
+  - six factors over-fit 12 binary items.
+  A refit on 2023 data will follow.
+* Retrieval tests now read the local fixture tables as CSV, since `panel990`
+  defaults to parquet sources.
+
 # governance 0.0.1.0000
 
 * Added `get_governance_data()` and `get_governance_scores()` to import IRS 990

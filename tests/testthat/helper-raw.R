@@ -6,6 +6,7 @@ make_raw <- function(n = 1) {
     ORG_EIN                          = sprintf("%09d", seq_len(n)),
     # Part IV
     F9_04_AFS_IND_X                  = "true",
+    F9_04_AFS_CONSOL_X               = "false",
     F9_04_BIZ_TRANSAC_DTK_X          = "false",
     F9_04_BIZ_TRANSAC_DTK_FAM_X      = "false",
     F9_04_BIZ_TRANSAC_DTK_ENTITY_X   = "false",

@@ -32,7 +32,7 @@ get_table <- function(table_name, year, select = NULL) {
 id_cols <- c("OBJECTID", "ORG_EIN")
 
 p04_vars <- c(
-  "F9_04_AFS_IND_X", "F9_04_BIZ_TRANSAC_DTK_X",
+  "F9_04_AFS_IND_X", "F9_04_AFS_CONSOL_X", "F9_04_BIZ_TRANSAC_DTK_X",
   "F9_04_BIZ_TRANSAC_DTK_FAM_X", "F9_04_BIZ_TRANSAC_DTK_ENTITY_X",
   "F9_04_CONTR_NONCSH_MT_25K_X", "F9_04_CONTR_ART_HIST_X"
 )

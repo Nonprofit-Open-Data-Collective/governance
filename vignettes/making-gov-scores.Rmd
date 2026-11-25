@@ -40,6 +40,47 @@ Here we outline the procedure employed to generate governance scores through fac
 
 We use the 2018 990 efile data as our training data for this model.
 
+## Known issues with the current model
+
+This article documents how the shipped factor model (`data/factor-objects.rda`)
+was trained. Auditing it against the 2023 filing population turned up four
+problems. They are being addressed by refitting the model on 2023 data; until
+then, use `total.score` with care. The code below is left as it was run, so it
+remains a record of how the shipped model was produced.
+
+1. **The training sample excludes fully independent boards.** Step 3 keeps
+   only filers with `P6_LINE_1A > P6_LINE_1B`, i.e. at least one voting member
+   who is *not* independent. That drops about 72% of 2018 filers, whose boards
+   are entirely independent, so the model was fit on roughly 64,000 atypical
+   boards. `get_features()` keeps those boards, so the model is applied to
+   filers it never saw.
+2. **The audit-committee item was lost to a coding bug.** In Step 3,
+   `P12_LINE_2A` and `P12_LINE_2B` are recoded to 0/1 *before* `P12_LINE_2C` is
+   built, so the `== "no"` / `== "yes"` tests that define `P12_LINE_2C` never
+   match and the item is 0 for every filer. It was then dropped for "less than
+   2% in either class". Part XII line 2c (an audit committee oversees the audit)
+   is one of the most widely recommended governance practices; about 36% of 2023
+   filers report one.
+3. **The total score can move against good practice.** `total.score` is the
+   unweighted sum of six orthogonal (equamax) factor scores, and several factors
+   load negatively on items coded 1 = good practice. The implied weights on the
+   original features are *negative* for no management company (`P6_LINE_3`, -0.49),
+   no family or business ties (`P6_LINE_2`, -0.18), the gift-acceptance policy
+   (`P4_LINE_29_30`, -0.14) and no insider transactions (`P4_LINE_28`, -0.10). So,
+   holding other features constant, reporting these practices *lowers* the total
+   score. Accrual accounting and documented minutes dominate the score (+0.80 each).
+   On 2023 data, `total.score` correlates only r = .62 with the plain sum of its
+   own 12 features.
+4. **Six factors is too many for 12 binary items.** The solution has two factors
+   with a single item each (management company; minutes), and two items with
+   communality of 1.0 (audited statements; minutes) — so-called Heywood cases, a
+   sign the model is over-fit. RMSEA is .098.
+
+A fifth inconsistency, between training and scoring, is fixed in this
+version: the model was trained with audited financial statements defined as
+Part IV line 12a *or* 12b (separate or consolidated audit), but `get_features()`
+used line 12a only. `get_features()` now uses both.
+
 
 ## Step 0: Identify relevant 990 questions
 
