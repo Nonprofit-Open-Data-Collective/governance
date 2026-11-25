@@ -1,15 +1,24 @@
-url: ~
+url: https://nonprofit-open-data-collective.github.io/governance/
 destination: docs
 template:
-  bootstrap: 5
-  bootswatch: simplex
+  package: pkgstyle
 
 navbar:
   structure:
-    left:  [intro, articles, reference]
+    left: [intro, guides, reference, news]
+  components:
+    guides:
+      text: Guides
+      menu:
+      - text: Getting 990 Data with panel990
+        href: articles/download-data.html
+      - text: Governance Workflow
+        href: articles/governance-workflow.html
+      - text: Making Governance Scores
+        href: articles/making-gov-scores.html
 
 articles:
-  - title: "Getting Started"
+  - title: "Guides"
     desc: >
       These vignettes provide detailed information on governance score calculations.
     contents:

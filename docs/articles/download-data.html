@@ -6,9 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Getting 990 Data with panel990 • governance</title>
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_3-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Zilla_Slab-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting 990 Data with panel990">
 </head>
@@ -16,7 +19,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
@@ -30,13 +33,29 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../articles/governance.html">Get started</a></li>
-<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-guides">
+<li><a class="dropdown-item" href="../articles/download-data.html">Getting 990 Data with panel990</a></li>
+    <li><a class="dropdown-item" href="../articles/governance-workflow.html">Governance Workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/making-gov-scores.html">Making Governance Scores</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/Nonprofit-Open-Data-Collective/governance/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
@@ -63,7 +82,10 @@
 <div class="section level2">
 <h2 id="governance-and-panel990">governance and panel990<a class="anchor" aria-label="anchor" href="#governance-and-panel990"></a>
 </h2>
-<p>The <strong>governance</strong> package <em>scores</em> nonprofit governance; it does not retrieve data. Retrieving, normalizing, and assembling IRS 990 efile tables is the job of the companion <a href="https://github.com/Nonprofit-Open-Data-Collective/panel990" class="external-link">panel990</a> package.</p>
+<p>The <strong>governance</strong> package <em>scores</em> nonprofit
+governance; it does not retrieve data. Retrieving, normalizing, and
+assembling IRS 990 efile tables is the job of the companion <a href="https://github.com/Nonprofit-Open-Data-Collective/panel990" class="external-link">panel990</a>
+package.</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -76,22 +98,33 @@
 <tbody>
 <tr class="odd">
 <td><strong>panel990</strong></td>
-<td>Download efile tables, filter to a sample frame, merge to one row per filing, build panels.</td>
+<td>Download efile tables, filter to a sample frame, merge to one row
+per filing, build panels.</td>
 </tr>
 <tr class="even">
 <td><strong>governance</strong></td>
-<td>Normalize the governance fields into a feature matrix (<code><a href="../reference/get_features.html">get_features()</a></code>) and compute the governance index (<code><a href="../reference/get_scores.html">get_scores()</a></code>).</td>
+<td>Normalize the governance fields into a feature matrix
+(<code><a href="../reference/get_features.html">get_features()</a></code>) and compute the governance index
+(<code><a href="../reference/get_scores.html">get_scores()</a></code>).</td>
 </tr>
 </tbody>
 </table>
-<p><code>governance</code> calls <code>panel990</code> for you through <code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> and <code><a href="../reference/get_governance_scores.html">get_governance_scores()</a></code>, so most users never touch <code>panel990</code> directly. This vignette shows both the one-call path and the underlying <code>panel990</code> workflow for when you want more control. Install <code>panel990</code> first:</p>
+<p><code>governance</code> calls <code>panel990</code> for you through
+<code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> and
+<code><a href="../reference/get_governance_scores.html">get_governance_scores()</a></code>, so most users never touch
+<code>panel990</code> directly. This vignette shows both the one-call
+path and the underlying <code>panel990</code> workflow for when you want
+more control. Install <code>panel990</code> first:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Nonprofit-Open-Data-Collective/panel990"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="required-990-tables">Required 990 tables<a class="anchor" aria-label="anchor" href="#required-990-tables"></a>
 </h2>
-<p>The governance index is built from four efile tables — Form 990 Parts IV, VI, and XII and Schedule M. Each is a <code>panel990</code> table name you pass to <code><a href="https://rdrr.io/pkg/panel990/man/panelize.html" class="external-link">panelize()</a></code> (Part XII also has the short alias <code>"P12"</code>).</p>
+<p>The governance index is built from four efile tables — Form 990 Parts
+IV, VI, and XII and Schedule M. Each is a <code>panel990</code> table
+name you pass to <code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">panelize()</a></code> (Part XII also has the short
+alias <code>"P12"</code>).</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -106,17 +139,23 @@
 <tbody>
 <tr class="odd">
 <td>Part IV</td>
-<td>Required-schedule triggers: audited financials, interested-person business transactions, large non-cash and art/historical contributions</td>
+<td>Required-schedule triggers: audited financials, interested-person
+business transactions, large non-cash and art/historical
+contributions</td>
 <td><code>F9-P04-T00-REQUIRED-SCHEDULES</code></td>
 </tr>
 <tr class="even">
 <td>Part VI</td>
-<td>Governing body composition (voting / independent members) and governance &amp; management policies (conflict-of-interest, whistleblower, document retention, CEO compensation process, document availability)</td>
+<td>Governing body composition (voting / independent members) and
+governance &amp; management policies (conflict-of-interest,
+whistleblower, document retention, CEO compensation process, document
+availability)</td>
 <td><code>F9-P06-T00-GOVERNANCE</code></td>
 </tr>
 <tr class="odd">
 <td>Part XII</td>
-<td>Financial-reporting method (cash / accrual / other) and audit oversight</td>
+<td>Financial-reporting method (cash / accrual / other) and audit
+oversight</td>
 <td><code>F9-P12-T00-FINANCIAL-REPORTING</code></td>
 </tr>
 <tr class="even">
@@ -127,13 +166,18 @@
 </tbody>
 </table>
 <blockquote>
-<p><strong>Full 990 filers only.</strong> The governance index does not apply to 990EZ returns — they omit these Parts. Restrict the data to <code>RETURN_TYPE == "990"</code> (shown below). <code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> does this for you.</p>
+<p><strong>Full 990 filers only.</strong> The governance index does not
+apply to 990EZ returns — they omit these Parts. Restrict the data to
+<code>RETURN_TYPE == "990"</code> (shown below).
+<code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> does this for you.</p>
 </blockquote>
 </div>
 <div class="section level2">
 <h2 id="option-1-one-call-recommended">Option 1: one call (recommended)<a class="anchor" aria-label="anchor" href="#option-1-one-call-recommended"></a>
 </h2>
-<p><code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> builds the full-990 sample frame, downloads the four tables, keeps the needed columns, and merges them to one row per filing — ready for <code><a href="../reference/get_features.html">get_features()</a></code>.</p>
+<p><code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> builds the full-990 sample frame,
+downloads the four tables, keeps the needed columns, and merges them to
+one row per filing — ready for <code><a href="../reference/get_features.html">get_features()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Nonprofit-Open-Data-Collective/governance" class="external-link">governance</a></span><span class="op">)</span></span>
 <span></span>
@@ -145,20 +189,29 @@
 <span></span>
 <span><span class="co"># ...or the whole pipeline in one call</span></span>
 <span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_scores.html">get_governance_scores</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span></code></pre></div>
-<p>Restrict to specific organizations with <code>eins</code> (formatted <code>EIN2</code> values), or read tables you have already downloaded by pointing the source at a directory:</p>
+<p>Restrict to specific organizations with <code>eins</code> (formatted
+<code>EIN2</code> values), or read tables you have already downloaded by
+pointing the source at a directory:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_scores.html">get_governance_scores</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span>, eins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"EIN-43-2031361"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">src</span> <span class="op">&lt;-</span> <span class="fu">panel990</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/panel990/man/data_source.html" class="external-link">data_source</a></span><span class="op">(</span>root <span class="op">=</span> <span class="st">"path/to/efile/csvs"</span><span class="op">)</span></span>
+<span><span class="va">src</span> <span class="op">&lt;-</span> <span class="fu">panel990</span><span class="fu">::</span><span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/data_source.html" class="external-link">data_source</a></span><span class="op">(</span>root <span class="op">=</span> <span class="st">"path/to/efile/csvs"</span><span class="op">)</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_governance_data.html">get_governance_data</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span>, source <span class="op">=</span> <span class="va">src</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="option-2-the-panel990-workflow">Option 2: the panel990 workflow<a class="anchor" aria-label="anchor" href="#option-2-the-panel990-workflow"></a>
 </h2>
-<p>Under the hood, <code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> assembles a <strong>sample frame</strong> and calls <code><a href="https://rdrr.io/pkg/panel990/man/panelize.html" class="external-link">panel990::panelize()</a></code>. Doing it yourself gives full control — additional filters, multiple years, BMF traits, DuckDB backends, and so on.</p>
-<p>The <code>form_type</code> filter is how you keep only full 990 filers: it is a built-in sample-frame alias mapping to the <code>RETURN_TYPE</code> column, so <code>form_type = "990"</code> keeps only <code>RETURN_TYPE == "990"</code>.</p>
+<p>Under the hood, <code><a href="../reference/get_governance_data.html">get_governance_data()</a></code> assembles a
+<strong>sample frame</strong> and calls
+<code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">panel990::panelize()</a></code>. Doing it yourself gives full control
+— additional filters, multiple years, BMF traits, DuckDB backends, and
+so on.</p>
+<p>The <code>form_type</code> filter is how you keep only full 990
+filers: it is a built-in sample-frame alias mapping to the
+<code>RETURN_TYPE</code> column, so <code>form_type = "990"</code> keeps
+only <code>RETURN_TYPE == "990"</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">panel990</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nonprofit-open-data-collective.github.io/panel990/" class="external-link">panel990</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">gov_tables</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="st">"F9-P04-T00-REQUIRED-SCHEDULES"</span>,</span>
@@ -168,25 +221,46 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Sample frame: keep full 990 filers (RETURN_TYPE == "990") via the SFW filter</span></span>
-<span><span class="va">sfw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/panel990/man/create_sfw.html" class="external-link">create_sfw</a></span><span class="op">(</span><span class="st">"governance panel"</span>, form_type <span class="op">=</span> <span class="st">"990"</span><span class="op">)</span></span>
+<span><span class="va">sfw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/create_sfw.html" class="external-link">create_sfw</a></span><span class="op">(</span><span class="st">"governance panel"</span>, form_type <span class="op">=</span> <span class="st">"990"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Download, filter, and merge the tables into one row per filing</span></span>
-<span><span class="va">panel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/panel990/man/panelize.html" class="external-link">panelize</a></span><span class="op">(</span>sfw <span class="op">=</span> <span class="va">sfw</span>, tables <span class="op">=</span> <span class="va">gov_tables</span>, years <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span>
+<span><span class="va">panel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">panelize</a></span><span class="op">(</span>sfw <span class="op">=</span> <span class="va">sfw</span>, tables <span class="op">=</span> <span class="va">gov_tables</span>, years <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">panel</span><span class="op">)</span></span>
 <span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_features.html">get_features</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="https://rdrr.io/pkg/panel990/man/create_sfw.html" class="external-link">create_sfw()</a></code> accepts other convenience filters too — for example <code>state = "CA"</code> or <code>years = 2018:2022</code> — which <code><a href="https://rdrr.io/pkg/panel990/man/panelize.html" class="external-link">panelize()</a></code> pushes down to the download step. See <code><a href="https://rdrr.io/pkg/panel990/man/create_sfw.html" class="external-link">?panel990::create_sfw</a></code> and <code><a href="https://rdrr.io/pkg/panel990/man/panelize.html" class="external-link">?panel990::panelize</a></code>.</p>
+<p><code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/create_sfw.html" class="external-link">create_sfw()</a></code> accepts other convenience filters too — for
+example <code>state = "CA"</code> or <code>years = 2018:2022</code> —
+which <code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">panelize()</a></code> pushes down to the download step. See
+<code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/create_sfw.html" class="external-link">?panel990::create_sfw</a></code> and
+<code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panelize.html" class="external-link">?panel990::panelize</a></code>.</p>
 <div class="section level3">
 <h3 id="a-note-on-normalization">A note on normalization<a class="anchor" aria-label="anchor" href="#a-note-on-normalization"></a>
 </h3>
-<p><code><a href="../reference/get_features.html">get_features()</a></code> performs the governance-specific normalization itself (blank checkboxes and counts become <code>0</code> regardless of how the source encoded them), so the tables are imported <strong>raw</strong>.</p>
-<p><code><a href="https://rdrr.io/pkg/panel990/man/panel_normalize.html" class="external-link">panel990::panel_normalize()</a></code> only rewrites blank <em>financial</em> fields (revenue, expenses, balance sheet) to zero; it leaves the governance checkbox and count fields untouched. It is therefore safe to include in a shared pipeline but is neither required nor sufficient for the governance features — <code><a href="../reference/get_features.html">get_features()</a></code> is what normalizes them. (Do <strong>not</strong> run the general <code><a href="https://rdrr.io/pkg/panel990/man/normalize.html" class="external-link">panel990::normalize()</a></code> on the governance checkboxes before <code><a href="../reference/get_features.html">get_features()</a></code>: it converts them to logicals, which <code><a href="../reference/get_features.html">get_features()</a></code> does not expect.)</p>
+<p><code><a href="../reference/get_features.html">get_features()</a></code> performs the governance-specific
+normalization itself (blank checkboxes and counts become <code>0</code>
+regardless of how the source encoded them), so the tables are imported
+<strong>raw</strong>.</p>
+<p><code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/panel_normalize.html" class="external-link">panel990::panel_normalize()</a></code> only rewrites blank
+<em>financial</em> fields (revenue, expenses, balance sheet) to zero; it
+leaves the governance checkbox and count fields untouched. It is
+therefore safe to include in a shared pipeline but is neither required
+nor sufficient for the governance features — <code><a href="../reference/get_features.html">get_features()</a></code>
+is what normalizes them. (Do <strong>not</strong> run the general
+<code><a href="https://nonprofit-open-data-collective.github.io/panel990/reference/normalize.html" class="external-link">panel990::normalize()</a></code> on the governance checkboxes before
+<code><a href="../reference/get_features.html">get_features()</a></code>: it converts them to logicals, which
+<code><a href="../reference/get_features.html">get_features()</a></code> does not expect.)</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="the-input-contract">The input contract<a class="anchor" aria-label="anchor" href="#the-input-contract"></a>
 </h2>
-<p>However you obtain the data, <code><a href="../reference/get_features.html">get_features()</a></code> expects a data frame with one row per filing containing <code>ORG_EIN</code> plus the raw fields below. Values may be encoded as <code>"true"</code>/<code>"false"</code>, <code>"1"</code>/<code>"0"</code>, <code>"X"</code> flags, or blanks (<code>NA</code> or <code>""</code>); <code><a href="../reference/get_features.html">get_features()</a></code> normalizes all of these.</p>
+<p>However you obtain the data, <code><a href="../reference/get_features.html">get_features()</a></code> expects a
+data frame with one row per filing containing <code>ORG_EIN</code> plus
+the raw fields below. Values may be encoded as
+<code>"true"</code>/<code>"false"</code>,
+<code>"1"</code>/<code>"0"</code>, <code>"X"</code> flags, or blanks
+(<code>NA</code> or <code>""</code>); <code><a href="../reference/get_features.html">get_features()</a></code>
+normalizes all of these.</p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -211,7 +285,8 @@
 <td>Part IV</td>
 <td><code>F9_04_BIZ_TRANSAC_DTK_X</code></td>
 <td>28a</td>
-<td>Business transaction with a current/former officer, director, trustee, or key employee (DTK)?</td>
+<td>Business transaction with a current/former officer, director,
+trustee, or key employee (DTK)?</td>
 </tr>
 <tr class="odd">
 <td>Part IV</td>
@@ -253,7 +328,8 @@
 <td>Part VI</td>
 <td><code>F9_06_GVRN_DTK_FAMBIZ_RELATION_X</code></td>
 <td>2</td>
-<td>Family/business relationship among officers, directors, trustees, key employees?</td>
+<td>Family/business relationship among officers, directors, trustees,
+key employees?</td>
 </tr>
 <tr class="even">
 <td>Part VI</td>
@@ -359,7 +435,12 @@
 </tr>
 </tbody>
 </table>
-<p>For a full data dictionary see the <a href="https://nonprofit-open-data-collective.github.io/irs990efile/data-dictionary/data-dictionary.html" class="external-link">irs990efile data dictionary</a>. The tables themselves live in the NCCS efile v2.1 archive (<code>https://nccs-efile.s3.us-east-1.amazonaws.com/public/efile_v2_1/{TABLE}-{YEAR}.CSV</code>, years 2009–2024); browse them in the <a href="https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html" class="external-link">efile v2.1 catalog</a>.</p>
+<p>For a full data dictionary see the <a href="https://nonprofit-open-data-collective.github.io/irs990efile/data-dictionary/data-dictionary.html" class="external-link">irs990efile
+data dictionary</a>. The tables themselves live in the NCCS efile v2.1
+archive
+(<code>https://nccs-efile.s3.us-east-1.amazonaws.com/public/efile_v2_1/{TABLE}-{YEAR}.CSV</code>,
+years 2009–2024); browse them in the <a href="https://nccs.urban.org/nccs/catalogs/catalog-efile-v2_1.html" class="external-link">efile
+v2.1 catalog</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -372,7 +453,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
