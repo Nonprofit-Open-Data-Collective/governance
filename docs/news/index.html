@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,11 +50,36 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="governance-development-version">governance (development version)<a class="anchor" aria-label="anchor" href="#governance-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.2.0" id="governance-020">governance 0.2.0<a class="anchor" aria-label="anchor" href="#governance-020"></a></h2>
 <div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<h3 id="breaking-changes-0-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-0"></a></h3>
 <ul><li>
-<code><a href="../reference/get_scores.html">get_scores()</a></code> and the vignettes now report how reliable the specific-factor scores are and advise against using <code>gov_s_policy</code>. That factor has almost no variance of its own (omega-hierarchical &lt; .01), because the written-policy items are the core of the general score. <code>gov_s_finance</code> is the one subscore recommended alongside <code>gov_score</code>. No scores change.</li>
+<code>gov_score</code> is now the <strong>governance index</strong>: the score from a unidimensional graded response model (<code>gov_index_2023</code>), reported on a scale with mean 100 and standard deviation 15 among 2023 501(c)(3) full-990 filers. It runs from about 67 (none of the 16 practices) to about 128 (all 16), and <code>gov_score_se</code> is in index points.
+<ul><li>In the 2023 bifactor model, a score could <em>fall</em> when an organization reported another practice. Adding committee minutes, for example, lowered the general score for most organizations that lacked them.</li>
+<li>The index model scores each bundle of nested practices as one ordinal item: financial assurance, conflict-of-interest policy, minutes, and pay-setting process. With one dimension, adding a practice can only raise the score.</li>
+<li>It correlates .99 with the bifactor general score, and its reliability is .82.</li>
+</ul></li>
+<li>The bifactor general score from version 0.1.0 is still returned, as <code>gov_score_bf</code>. The <code>gov_s_*</code> specific-factor scores are unchanged. <code>get_scores(model = "2023")</code> now appends nine columns instead of eight.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
+<ul><li>
+<code>gov_index_2023</code>: parameters, item bundles, scaling constants and fit of the index model, with fitting code in <code>data-raw/fit-index-2023.R</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-2-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-2-0"></a></h3>
+<ul><li>
+<code><a href="../reference/get_scores.html">get_scores()</a></code> and the vignettes describe the index:
+<ul><li>its scale and how to interpret it;</li>
+<li>the points each practice adds;</li>
+<li>its precision and its limitations, including the ceiling at about 128.</li>
+</ul></li>
+<li>Vignettes:
+<ul><li>“Making Governance Scores” explains why the published score is not the bifactor score.</li>
+<li>The overview is rebuilt on the new scale.</li>
+</ul></li>
+<li>
+<code><a href="../reference/get_scores.html">get_scores()</a></code> and the vignettes report how reliable the specific-factor scores are and advise against using <code>gov_s_policy</code>. That factor has almost no variance of its own (omega-hierarchical &lt; .01), because the written-policy items are the core of the general factor. <code>gov_s_finance</code> is the one subscore recommended alongside the index.</li>
 </ul></div>
 </div>
     <div class="section level2">

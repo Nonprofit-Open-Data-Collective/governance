@@ -30,24 +30,30 @@ The input data frame with appended columns.
 
 For \code{model = "2023"}:
 \describe{
-\item{gov_score}{General governance score (EAP estimate of the general
-factor). On the latent scale, 2023 501(c)(3) filers have mean 0 and
-SD 1. Higher means more of the recommended practices.}
-\item{gov_score_se}{Standard error of \code{gov_score}.}
+\item{gov_score}{The governance index: mean 100 and SD 15 among 2023
+501(c)(3) full-990 filers, so 115 is one standard deviation above the
+average 2023 filer. It ranges from about 67 (none of the 16 practices)
+to about 128 (all 16), and adding a practice never lowers it.}
+\item{gov_score_se}{Standard error of \code{gov_score}, in index points
+(about 4 in the middle of the distribution, about 10 at the extremes).}
+\item{gov_score_bf}{General factor of the 2023 bifactor model (latent
+scale, 2023 mean 0). This was \code{gov_score} in version 0.1.0. It
+correlates .99 with the index but can fall when a practice is added, so
+it is not recommended as a published score.}
 \item{gov_s_finance, gov_s_minutes, gov_s_policy, gov_s_comp}{Specific-factor
-scores for financial assurance, meeting minutes, written policies, and
-compensation process. These are \emph{residual} dimensions, orthogonal
-to \code{gov_score}: a positive value means the organization does
-more in that area than its general score predicts. They are not
-standalone subscales, and they are much less reliable than
-\code{gov_score} (empirical reliability among 2023 filers: finance .57,
-compensation .48, minutes .41, policy .29, vs .83 for
-\code{gov_score}). Only \code{gov_s_finance} carries substantial
-variance of its own. \strong{Do not use \code{gov_s_policy}}: the
-written-policy items are the core of \code{gov_score}, and the policy
-factor has almost no variance of its own (omega-hierarchical < .01);
-it only contrasts the conflict-of-interest items with the whistleblower
-and retention policies. It is returned for completeness.}
+scores of the bifactor model for financial assurance, meeting minutes,
+written policies, and compensation process. These are \emph{residual}
+dimensions, orthogonal to \code{gov_score_bf}: a positive value means the
+organization does more in that area than its general level predicts.
+They are not standalone subscales, and they are much less reliable than
+the index (empirical reliability among 2023 filers: finance .57,
+compensation .48, minutes .41, policy .29). Only \code{gov_s_finance}
+carries substantial variance of its own. \strong{Do not use
+\code{gov_s_policy}}: the written-policy items are the core of the
+general factor, and the policy factor has almost no variance of its own
+(omega-hierarchical < .01); it only contrasts the conflict-of-interest
+items with the whistleblower and retention policies. It is returned for
+completeness.}
 \item{gov_count}{Number of the 16 practices present (0--16), a transparent
 alternative that correlates about .96 with \code{gov_score}.}
 \item{gov_n_items}{Number of the 16 items answered. Rows with no answered
@@ -59,29 +65,50 @@ as in earlier versions of the package.
 }
 \description{
 Scores organizations on the nonprofit governance index. By default
-(\code{model = "2023"}) the function applies the 2023 anchor model: a
-bifactor item response model fit to all 501(c)(3) full Form 990 filers in
-tax year 2023. It appends a general governance score, four specific-factor
-scores, and a simple count of practices. The original 2018 six-factor model
-remains available as \code{model = "legacy-2018"}.
+(\code{model = "2023"}) the function returns the 2023 governance index, an
+item response score on a scale with mean 100 and standard deviation 15
+among all 501(c)(3) full Form 990 filers in tax year 2023, together with the
+scores from the 2023 bifactor measurement model and a simple count of
+practices. The original 2018 six-factor model remains available as
+\code{model = "legacy-2018"}.
 }
 \details{
-\strong{2023 model.} The model has a general factor and four specific
-factors (testlets) that absorb the strong dependence among nested items:
+\strong{The index (\code{gov_score}).} The index is the expected a
+posteriori (EAP) estimate from a unidimensional graded response model
+(\code{\link{gov_index_2023}}). Nested practices are scored as ordinal items:
 \itemize{
-\item financial assurance: review/audit, audit, audit committee, accrual;
-\item minutes: board and committee minutes;
-\item written policies: conflict-of-interest policy, disclosure,
-monitoring, whistleblower, retention;
-\item compensation: CEO and other-officer pay process.
+\item financial assurance: compiled or reviewed, audited, audited with an
+audit committee (0--3);
+\item conflict-of-interest policy: policy, annual disclosure, monitoring (0--3);
+\item minutes: board and committee minutes (0--2);
+\item pay-setting process: CEO and other officers (0--2);
 }
-Board independence, Form 990 review by the board, and posting the 990 online
-load on the general factor only. Item parameters are fixed at their 2023
-values (\code{\link{gov_model_2023}}), so scores for other tax years are on
-the 2023 scale and can be compared over time; the items show no meaningful
+and accrual accounting, a majority-independent board, Form 990 review by the
+board, whistleblower and document retention policies, and posting the 990
+online are binary items. Because the model has one dimension and positive
+slopes, an organization's index can only rise when it reports another
+practice. Its value is \code{100 + 15 * (theta - mu) / sd}, where \code{mu}
+and \code{sd} are the mean and standard deviation of the 2023 estimates.
+Item parameters and both constants are fixed at their 2023 values, so the
+index for other tax years is on the 2023 scale; the items show no meaningful
 differential functioning across tax years 2021--2024. Missing items are
-handled by the IRT model (scores use the answered items). Scores are
-expected a posteriori (EAP) estimates computed with \code{mirt::fscores}.
+handled by the model (scores use the answered items).
+
+How much a practice adds depends on which practice it is and where an
+organization starts: in 2023 the written policies added 7 to 12 points on
+average and most other practices 1 to 4. See
+\code{vignette("making-gov-scores", package = "governance")} for the points
+per practice, interpretation, and limitations, including the ceiling at
+about 128.
+
+\strong{Bifactor scores.} \code{gov_score_bf} and the \code{gov_s_*} columns
+come from the 2023 bifactor model (\code{\link{gov_model_2023}}), a general
+factor plus four testlets (financial assurance; minutes; written policies;
+compensation). It describes how the items covary better than the index model
+does and supports a single score, but its EAP estimates are not monotone in
+the items (Hooker, Finkelman and Schwartzman 2009): in 2023 data, adding
+committee minutes lowered \code{gov_score_bf} for most organizations that
+lacked them.
 
 Three financial-assurance items (audit, review or audit, accrual) show
 moderate differential item functioning by organization size: at the same
@@ -108,6 +135,12 @@ summary(scores_example$gov_score)
 legacy <- get_scores(features_example, model = "legacy-2018")
 
 }
+\references{
+Hooker, G., Finkelman, M., and Schwartzman, A. (2009).
+Paradoxical results in multidimensional item response theory.
+\emph{Psychometrika}, 74(3), 419--442.
+}
 \seealso{
-\code{\link{get_features}}, \code{\link{gov_model_2023}}.
+\code{\link{get_features}}, \code{\link{gov_index_2023}},
+\code{\link{gov_model_2023}}.
 }

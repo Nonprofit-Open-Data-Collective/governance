@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,7 +113,7 @@
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scores_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_scores.html">get_scores</a></span><span class="op">(</span><span class="va">features_example</span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="reference/get_scores.html">get_scores()</a></code> appends a general governance score (<code>gov_score</code>) with its standard error, four specific-factor scores, and <code>gov_count</code>, the number of the 16 recommended practices reported. The original 2018 model is available with <code>get_scores(features, model = "legacy-2018")</code>.</p>
+<p><code><a href="reference/get_scores.html">get_scores()</a></code> appends the governance index (<code>gov_score</code>) with its standard error, scores from the bifactor measurement model, and <code>gov_count</code>, the number of the 16 recommended practices reported. The index is on a scale with mean 100 and standard deviation 15 among 2023 501(c)(3) full-990 filers: 115 is one standard deviation above the average 2023 filer, scores run from about 67 (no practices) to about 128 (all 16), and adding a practice never lowers a score. The original 2018 model is available with <code>get_scores(features, model = "legacy-2018")</code>.</p>
 </div>
 </div>
 <div class="section level2">

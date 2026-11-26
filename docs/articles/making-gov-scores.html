@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">governance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -608,14 +608,14 @@ definite</td>
 <td>Ignores the nesting; conflict-of-interest slopes blow up</td>
 </tr>
 <tr class="even">
-<td><strong>Bifactor 2PL IRT</strong></td>
+<td>Bifactor 2PL IRT</td>
 <td>General score plus specific factors that absorb the nesting</td>
-<td>More complex to estimate</td>
+<td>More complex; scores can fall when a practice is added</td>
 </tr>
 </tbody>
 </table>
-<p>Fit of the two IRT models (40,000-organization subsample; M2
-statistics):</p>
+<p>Fit of the two binary-item IRT models (40,000-organization subsample;
+M2 statistics):</p>
 <table class="table">
 <thead><tr class="header">
 <th>Model</th>
@@ -645,16 +645,260 @@ statistics):</p>
 reach 36, 31 and 11, a sign of local dependence: answering yes to
 disclosure is nearly determined by answering yes to the policy. The
 bifactor model gives these nested items a shared specific factor, which
-absorbs the dependence, and fits far better. It is the model used.</p>
+absorbs the dependence, and fits far better. Its general factor carries
+most of the common variance (omega-hierarchical .81), so a single score
+is justified.</p>
+<p><strong>Why the published score is not the bifactor score.</strong>
+In a multidimensional model, a “yes” on one item can <em>lower</em> an
+organization’s estimate on another dimension (Hooker, Finkelman and
+Schwartzman 2009, <em>Psychometrika</em> 74: 419–442). In the bifactor
+model, switching on committee minutes lowered the general score for 58
+percent of the 2023 organizations that lacked them, because the two-item
+minutes factor took the credit for board minutes. Ten of the 16
+practices lowered it for at least some organizations. A score that can
+fall when a board adopts a recommended practice is not usable as a
+published score.</p>
+<p>The index therefore uses a <strong>graded response model</strong>
+with one dimension. Each bundle of nested practices is scored as one
+ordinal item, which absorbs most of the dependence the testlets modeled.
+With one dimension and positive slopes, adding a practice can only raise
+the score.</p>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="14%">
+<col width="14%">
+<col width="14%">
+<col width="14%">
+<col width="14%">
+<col width="14%">
+<col width="14%">
+</colgroup>
+<thead><tr class="header">
+<th>Model (all 2023 filers)</th>
+<th>RMSEA</th>
+<th>SRMSR</th>
+<th>CFI</th>
+<th>r with bifactor general</th>
+<th>Reliability</th>
+<th>Can a practice lower the score?</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Bifactor 2PL</td>
+<td>.038</td>
+<td>.040</td>
+<td>.992</td>
+<td>1</td>
+<td>.83</td>
+<td>Yes (10 of 16 practices)</td>
+</tr>
+<tr class="even">
+<td>Graded, bundled items (the index)</td>
+<td>.081</td>
+<td>.060</td>
+<td>.953</td>
+<td>.99</td>
+<td>.82</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>The graded model fits less closely; the remaining misfit comes mostly
+from the written policies, which are adopted together more often than
+one factor implies. Scores from the two models are nearly identical in
+rank order, so the choice matters for how a score moves when a practice
+is added, not for where organizations stand.</p>
 </div>
 <div class="section level2">
-<h2 id="the-2023-model">7. The 2023 model<a class="anchor" aria-label="anchor" href="#the-2023-model"></a>
+<h2 id="the-2023-models">7. The 2023 models<a class="anchor" aria-label="anchor" href="#the-2023-models"></a>
 </h2>
-<p>The model is a bifactor two-parameter logistic item response model
-(<code><a href="https://philchalmers.github.io/mirt/reference/bfactor.html" class="external-link">mirt::bfactor()</a></code>). Every item loads on the general factor.
-Thirteen items also load on one of four specific factors; board
-independence, the 990 given to the board and the 990 posted online load
-on the general factor only.</p>
+<div class="section level3">
+<h3 id="the-index-model">The index model<a class="anchor" aria-label="anchor" href="#the-index-model"></a>
+</h3>
+<p><code>gov_index_2023</code> holds the graded response model behind
+<code>gov_score</code>. Its ten items are:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Item</th>
+<th>Practices</th>
+<th>Categories</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Financial assurance</td>
+<td>review or audit, audit, audit committee</td>
+<td>0–3</td>
+</tr>
+<tr class="even">
+<td>Accrual accounting</td>
+<td>accrual</td>
+<td>0/1</td>
+</tr>
+<tr class="odd">
+<td>Independent board</td>
+<td>majority independent</td>
+<td>0/1</td>
+</tr>
+<tr class="even">
+<td>Minutes</td>
+<td>board minutes, committee minutes</td>
+<td>0–2</td>
+</tr>
+<tr class="odd">
+<td>990 to board</td>
+<td>990 provided to board</td>
+<td>0/1</td>
+</tr>
+<tr class="even">
+<td>Conflict of interest</td>
+<td>policy, annual disclosure, monitoring</td>
+<td>0–3</td>
+</tr>
+<tr class="odd">
+<td>Whistleblower</td>
+<td>whistleblower policy</td>
+<td>0/1</td>
+</tr>
+<tr class="even">
+<td>Document retention</td>
+<td>retention policy</td>
+<td>0/1</td>
+</tr>
+<tr class="odd">
+<td>Pay-setting process</td>
+<td>CEO, other officers</td>
+<td>0–2</td>
+</tr>
+<tr class="even">
+<td>990 online</td>
+<td>posted on own website</td>
+<td>0/1</td>
+</tr>
+</tbody>
+</table>
+<p>A bundled item’s category is the number of its practices an
+organization reports. Item parameters, in IRT form (slope <code>a</code>
+and category thresholds on the latent scale):</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> <span class="va">gov_index_2023</span><span class="op">$</span><span class="va">coef</span><span class="op">[</span> , <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span><span class="op">)</span> <span class="op">]</span>, digits <span class="op">=</span> <span class="fl">2</span> <span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left"></th>
+<th align="right">a</th>
+<th align="right">b</th>
+<th align="right">b1</th>
+<th align="right">b2</th>
+<th align="right">b3</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">assurance</td>
+<td align="right">1.72</td>
+<td align="right"></td>
+<td align="right">0.03</td>
+<td align="right">0.18</td>
+<td align="right">0.56</td>
+</tr>
+<tr class="even">
+<td align="left">accrual</td>
+<td align="right">1.50</td>
+<td align="right">-0.44</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+<tr class="odd">
+<td align="left">indep</td>
+<td align="right">0.92</td>
+<td align="right">-2.53</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td align="left">minutes</td>
+<td align="right">0.80</td>
+<td align="right"></td>
+<td align="right">-3.63</td>
+<td align="right">-2.31</td>
+<td align="right"></td>
+</tr>
+<tr class="odd">
+<td align="left">f990</td>
+<td align="right">0.96</td>
+<td align="right">-1.11</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td align="left">coi</td>
+<td align="right">3.44</td>
+<td align="right"></td>
+<td align="right">-0.43</td>
+<td align="right">-0.31</td>
+<td align="right">-0.12</td>
+</tr>
+<tr class="odd">
+<td align="left">whistle</td>
+<td align="right">8.02</td>
+<td align="right">0.08</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td align="left">retention</td>
+<td align="right">5.49</td>
+<td align="right">0.01</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+<tr class="odd">
+<td align="left">pay</td>
+<td align="right">1.61</td>
+<td align="right"></td>
+<td align="right">0.28</td>
+<td align="right">0.91</td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td align="left">web990</td>
+<td align="right">0.95</td>
+<td align="right">2.84</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+</tbody>
+</table>
+<p>The whistleblower and retention policies have by far the steepest
+slopes, and with the conflict-of-interest item they decide where most
+organizations fall in the middle of the scale. Board independence,
+minutes and the 990 review are reported by most filers, so their
+thresholds sit near the bottom. Posting the 990 online is rare even
+among the best-governed organizations.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span> <span class="va">gov_index_2023</span><span class="op">[</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"n"</span>, <span class="st">"mu"</span>, <span class="st">"sd"</span>, <span class="st">"fit"</span>, <span class="st">"mirt_version"</span>, <span class="st">"fitted"</span><span class="op">)</span> <span class="op">]</span> <span class="op">)</span></span>
+<span><span class="co">#&gt; List of 7</span></span>
+<span><span class="co">#&gt;  $ year        : int 2023</span></span>
+<span><span class="co">#&gt;  $ n           : int 271116</span></span>
+<span><span class="co">#&gt;  $ mu          : num -0.000548</span></span>
+<span><span class="co">#&gt;  $ sd          : num 0.905</span></span>
+<span><span class="co">#&gt;  $ fit         : Named num [1:5] 0.0807 0.0597 0.9528 0.9393 0.8186</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:5] "RMSEA" "SRMSR" "CFI" "TLI" ...</span></span>
+<span><span class="co">#&gt;  $ mirt_version: chr "1.48"</span></span>
+<span><span class="co">#&gt;  $ fitted      : Date[1:1], format: "2026-11-25"</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="the-bifactor-model">The bifactor model<a class="anchor" aria-label="anchor" href="#the-bifactor-model"></a>
+</h3>
+<p><code>gov_model_2023</code> holds the bifactor model behind
+<code>gov_score_bf</code> and the <code>gov_s_*</code> columns. Every
+item loads on the general factor. Thirteen items also load on one of
+four specific factors; board independence, the 990 given to the board
+and the 990 posted online load on the general factor only.</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -701,9 +945,8 @@ not be used as a subscore. Financial assurance is the most useful
 subscore (score reliability .57). The other three are less reliable (.29
 to .48).</p>
 <p>Fit to all 271,116 organizations: M2 RMSEA .038, SRMSR .040, CFI
-.992. The standardized loadings are stored in
-<code>gov_model_2023</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+.992. The standardized loadings:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span> <span class="va">gov_model_2023</span><span class="op">$</span><span class="va">loadings</span> <span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span> <span class="va">L</span> <span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">"General"</span>, <span class="st">"Finance"</span>, <span class="st">"Minutes"</span>, <span class="st">"Policy"</span>, <span class="st">"Comp"</span> <span class="op">)</span></span>
 <span><span class="va">L</span><span class="op">[</span> <span class="va">L</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
@@ -849,54 +1092,40 @@ to .48).</p>
 </tr>
 </tbody>
 </table>
-<p>The written-policy items carry the most information about the general
-factor (loadings .93 to .97), followed by the pay-setting and
-financial-assurance items (.63 to .73). Committee minutes, board
-independence and the two 990 items load .35 to .50; they are common or
-rare practices that say less about an organization’s overall governance.
-The policy items have small specific loadings of opposite sign: having
-the conflict-of-interest items but not the whistleblower and retention
-policies is a recognizable pattern.</p>
-<p><code>gov_model_2023</code> also stores the item parameters
-(<code>values</code>), the factor assignment (<code>spec</code>), fit
-statistics and the date fitted.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span> <span class="va">gov_model_2023</span><span class="op">[</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"n"</span>, <span class="st">"logLik"</span>, <span class="st">"BIC"</span>, <span class="st">"mirt_version"</span>, <span class="st">"fitted"</span><span class="op">)</span> <span class="op">]</span> <span class="op">)</span></span>
-<span><span class="co">#&gt; List of 6</span></span>
-<span><span class="co">#&gt;  $ year        : int 2023</span></span>
-<span><span class="co">#&gt;  $ n           : int 271116</span></span>
-<span><span class="co">#&gt;  $ logLik      : num -1563799</span></span>
-<span><span class="co">#&gt;  $ BIC         : num 3128161</span></span>
-<span><span class="co">#&gt;  $ mirt_version: chr "1.48"</span></span>
-<span><span class="co">#&gt;  $ fitted      : Date[1:1], format: "2026-11-24"</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="scoring">8. Scoring<a class="anchor" aria-label="anchor" href="#scoring"></a>
 </h2>
-<p><code><a href="../reference/get_scores.html">get_scores()</a></code> rebuilds the model with every parameter
+<p><code><a href="../reference/get_scores.html">get_scores()</a></code> rebuilds both models with every parameter
 fixed at its 2023 value and computes expected a posteriori (EAP) scores
-with <code><a href="https://philchalmers.github.io/mirt/reference/fscores.html" class="external-link">mirt::fscores()</a></code>. Fixed parameters have three
+with <code><a href="https://philchalmers.github.io/mirt/reference/fscores.html" class="external-link">mirt::fscores()</a></code>. The index is placed on a scale with
+mean 100 and standard deviation 15 among 2023 filers:</p>
+<p><code>gov_score = 100 + 15 * (theta - mu) / sd</code>,</p>
+<p>where <code>mu</code> and <code>sd</code> (stored in
+<code>gov_index_2023</code>) are the mean and standard deviation of the
+2023 EAP estimates. Fixed parameters and constants have three
 consequences:</p>
 <ul>
 <li>
-<strong>A common scale.</strong> The 2023 population has mean 0 and
-standard deviation 1 on the latent general factor, and a score from 2021
-or 2024 is on the same scale. If practices spread, scores rise; the
-scale does not re-center each year. (The EAP estimates themselves have a
-standard deviation of about 0.9 in 2023, because each estimate is pulled
-toward the mean in proportion to its uncertainty.)</li>
+<strong>A common scale.</strong> 100 is the average 2023 filer and
+115 is one standard deviation above it, and a score from 2021 or 2024 is
+on the same scale. If practices spread, scores rise; the scale does not
+re-center each year.</li>
 <li>
 <strong>Weighting.</strong> Practices that carry more information
 count for more, so two organizations with the same count can have
 different scores.</li>
 <li>
 <strong>Standard errors and missing items.</strong> Every score has
-a standard error. Missing items are skipped, which widens the standard
-error.</li>
+a standard error, in index points. Missing items are skipped, which
+widens the standard error.</li>
 </ul>
-<p>The weighting is easy to see with made-up response patterns. Each
-organization below reports exactly eight practices.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>The scale runs from about 67 (none of the 16 practices) to about 128
+(all 16). The weighting is easy to see with made-up response patterns.
+Each organization in the middle two rows reports exactly eight
+practices.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">none</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">16</span><span class="op">)</span><span class="op">)</span>, <span class="va">items</span> <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># eight practices from the policy and pay-setting items</span></span>
@@ -915,71 +1144,64 @@ organization below reports exactly eight practices.</p>
 <span></span>
 <span><span class="va">scored</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scores.html">get_scores</a></span><span class="op">(</span> <span class="va">patterns</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">"pattern"</span>, <span class="st">"gov_count"</span>, <span class="st">"gov_score"</span>, <span class="st">"gov_score_se"</span>,</span>
-<span>           <span class="st">"gov_s_finance"</span>, <span class="st">"gov_s_minutes"</span> <span class="op">)</span></span>
+<span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">"pattern"</span>, <span class="st">"gov_count"</span>, <span class="st">"gov_score"</span>, <span class="st">"gov_score_se"</span>, <span class="st">"gov_score_bf"</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> <span class="va">scored</span><span class="op">[</span> , <span class="va">vars</span> <span class="op">]</span>, digits <span class="op">=</span> <span class="fl">2</span> <span class="op">)</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> <span class="va">scored</span><span class="op">[</span> , <span class="va">vars</span> <span class="op">]</span>, digits <span class="op">=</span> <span class="fl">1</span> <span class="op">)</span></span></code></pre></div>
 <table class="table">
-<colgroup>
-<col width="20%">
-<col width="12%">
-<col width="12%">
-<col width="16%">
-<col width="18%">
-<col width="18%">
-</colgroup>
 <thead><tr class="header">
 <th align="left">pattern</th>
 <th align="right">gov_count</th>
 <th align="right">gov_score</th>
 <th align="right">gov_score_se</th>
-<th align="right">gov_s_finance</th>
-<th align="right">gov_s_minutes</th>
+<th align="right">gov_score_bf</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">No practices</td>
 <td align="right">0</td>
-<td align="right">-1.94</td>
-<td align="right">0.65</td>
-<td align="right">-0.17</td>
-<td align="right">-1.16</td>
+<td align="right">67.3</td>
+<td align="right">11.3</td>
+<td align="right">-1.9</td>
 </tr>
 <tr class="even">
 <td align="left">Eight: policies</td>
 <td align="right">8</td>
-<td align="right">0.29</td>
-<td align="right">0.26</td>
-<td align="right">-1.21</td>
-<td align="right">-2.14</td>
+<td align="right">106.6</td>
+<td align="right">4.8</td>
+<td align="right">0.3</td>
 </tr>
 <tr class="odd">
 <td align="left">Eight: process</td>
 <td align="right">8</td>
-<td align="right">-0.65</td>
-<td align="right">0.27</td>
-<td align="right">1.18</td>
-<td align="right">0.35</td>
+<td align="right">92.9</td>
+<td align="right">5.1</td>
+<td align="right">-0.6</td>
 </tr>
 <tr class="even">
 <td align="left">All 16</td>
 <td align="right">16</td>
-<td align="right">1.69</td>
-<td align="right">0.66</td>
-<td align="right">0.31</td>
-<td align="right">0.10</td>
+<td align="right">128.3</td>
+<td align="right">10.9</td>
+<td align="right">1.7</td>
 </tr>
 </tbody>
 </table>
 <p>The organization with the eight written-policy items scores well
 above the one with eight board-process items, because the policy items
-are more discriminating. The specific-factor scores show <em>where</em>
-each pattern departs from what its general score predicts.</p>
-<p>Scores are most precise in the middle of the scale. In 2023 the mean
-standard error is about .20 in the middle deciles and about .6 in the
-top and bottom deciles, where few items discriminate: almost every
-organization documents its meetings, and almost none posts its 990
-online.</p>
+are more discriminating.</p>
+<p><strong>What a practice is worth.</strong> Switching on each practice
+an organization lacked (for a random sample of 20,000 2023 filers) and
+rescoring gives the points it adds. The written policies add the most: a
+whistleblower policy about 12 points on average, a retention policy
+about 10, and each conflict-of-interest item about 7. Most other
+practices add 2 to 4 points, and the two minutes items less than 2.
+Gains are largest for organizations that start low, and no practice
+lowered any organization’s score.</p>
+<p><strong>Precision.</strong> Scores are most precise in the middle of
+the scale. In 2023 the standard error is about 4 points in the middle
+deciles and about 10 points in the top and bottom deciles, where few
+items discriminate: almost every organization documents its meetings,
+and almost none posts its 990 online.</p>
 </div>
 <div class="section level2">
 <h2 id="validity">9. Validity<a class="anchor" aria-label="anchor" href="#validity"></a>
@@ -987,17 +1209,19 @@ online.</p>
 <p><strong>Agreement with simpler scores.</strong></p>
 <ul>
 <li>
-<code>gov_score</code> correlates .955 with <code>gov_count</code>
-(Spearman .959).</li>
-<li>It correlates .68 with the legacy <code>total.score</code>. A
+<code>gov_score</code> correlates .96 with <code>gov_count</code>
+and .99 with the bifactor general factor <code>gov_score_bf</code>.</li>
+<li>It correlates .70 with the legacy <code>total.score</code>. About a
 quarter of filers sit two or more quintiles apart on the two
 scores.</li>
 </ul>
 <p><strong>Size gradient.</strong> Governance practices rise with
-organization size. The Spearman correlation with log expenses is .57 for
+organization size. The Spearman correlation with log expenses is .58 for
 <code>gov_score</code>, .62 for the count and .41 for the legacy score,
 which under-states the gradient because of its negative weights on the
-risk items.</p>
+risk items. Mean <code>gov_score</code> rises from about 90 among
+organizations with expenses under $100,000 to about 119 among those
+above $40 million.</p>
 <p><strong>Invariance.</strong> Before comparing groups, each item was
 tested for differential item functioning (DIF): whether organizations at
 the same overall level answer the item differently depending on group
@@ -1033,15 +1257,16 @@ moderate DIF.</p>
 values and scoring other years with them. The size DIF is uniform: at
 the same overall level of governance, larger organizations are more
 likely to be audited and to use accrual accounting, which fits state
-audit thresholds and the federal single-audit requirement. Dropping the
-three flagged items shrinks the gap between the largest and smallest
-organizations from 1.93 to 1.78 standard deviations and leaves the order
-of the size bands unchanged. Keep this in mind when comparing
-organizations of very different size.</p>
-<p><strong>Predictive validity.</strong> 2023 scores (standardized) were
-used to predict 2024 outcomes for the same organization, controlling for
-log expenses, government revenue share, age, subsector and state
-(253,416 organizations matched in 2024).</p>
+audit thresholds and the federal single-audit requirement. Scoring
+without the financial-assurance items shrinks the gap between the
+largest and smallest organizations from about 28 to about 26 points and
+leaves the order of the size bands unchanged. Keep this in mind when
+comparing organizations of very different size.</p>
+<p><strong>Predictive validity.</strong> 2023 scores (standardized, so
+coefficients are per 15 index points) were used to predict 2024 outcomes
+for the same organization, controlling for log expenses, government
+revenue share, age, subsector and state (253,416 organizations matched
+in 2024).</p>
 <table class="table">
 <colgroup>
 <col width="20%">
@@ -1061,28 +1286,28 @@ log expenses, government revenue share, age, subsector and state
 <tr class="odd">
 <td>No full 990 filed (logit)</td>
 <td>6.5%</td>
-<td>−0.27***</td>
+<td>−0.29***</td>
 <td>−0.35***</td>
 <td>−0.21***</td>
 </tr>
 <tr class="even">
 <td>Contribution growth (log points)</td>
 <td>–</td>
-<td>+0.018***</td>
+<td>+0.019***</td>
 <td>+0.022***</td>
 <td>+0.006***</td>
 </tr>
 <tr class="odd">
 <td>New insider transaction or loan (logit)</td>
 <td>1.25%</td>
-<td>+0.12***</td>
+<td>+0.11***</td>
 <td>+0.11***</td>
 <td>+0.19***</td>
 </tr>
 <tr class="even">
 <td>New asset diversion (logit)</td>
 <td>0.06%</td>
-<td>+0.15</td>
+<td>+0.14</td>
 <td>+0.09</td>
 <td>−0.01</td>
 </tr>
@@ -1098,9 +1323,29 @@ risk items as disclosures rather than as evidence of poor governance.
 Asset diversions are too rare to say anything.</p>
 </div>
 <div class="section level2">
-<h2 id="limitations">10. Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
+<h2 id="interpretation-and-limitations">10. Interpretation and limitations<a class="anchor" aria-label="anchor" href="#interpretation-and-limitations"></a>
 </h2>
 <ul>
+<li>
+<strong>100 is the average 2023 filer, not a standard.</strong> The
+scale is norm-referenced to 501(c)(3) organizations that file the full
+Form 990, which are larger and more formalized than charities as a
+whole.</li>
+<li>
+<strong>Ceiling and floor.</strong> The index cannot exceed about
+128, the score for all 16 practices, which 2.4 percent of 2023 filers
+reach. Unlike scales on which a mean of 100 and SD of 15 suggest room in
+both tails, no organization can score two standard deviations above the
+mean. About 2 percent report no practices and score 67.</li>
+<li>
+<strong>A lumpy distribution.</strong> Common response patterns
+produce spikes; the largest, at about 122, is the 7.7 percent of filers
+that report every practice except posting the 990 online.</li>
+<li>
+<strong>Policy weight.</strong> Because the written policies
+discriminate most sharply, the index weights them heavily; in the middle
+of the scale it is largely a measure of whether an organization has the
+policy bundle.</li>
 <li>
 <strong>The 990 sees only some of governance.</strong> It records
 whether policies exist, not whether they are followed, and nothing about
@@ -1113,22 +1358,19 @@ reported practice.</li>
 <strong>Size.</strong> Capacity drives adoption. Compare
 organizations of similar size, or adjust for size, and note the size DIF
 in the audit items.</li>
-<li>
-<strong>Ceiling and floor.</strong> The items cluster in the middle
-of the difficulty range, so the index separates well-governed
-organizations from one another less precisely than it separates them
-from poorly governed ones.</li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="reproducing-the-model">Reproducing the model<a class="anchor" aria-label="anchor" href="#reproducing-the-model"></a>
+<h2 id="reproducing-the-models">Reproducing the models<a class="anchor" aria-label="anchor" href="#reproducing-the-models"></a>
 </h2>
-<p><code>data-raw/fit-model-2023.R</code> downloads the 2023 tables with
-panel990, applies the population rules above, builds the items with
-<code><a href="../reference/get_features.html">get_features()</a></code> and fits the model. Its log-likelihood
-matches the published anchor model (−1,563,799.07), and
-<code><a href="../reference/get_scores.html">get_scores()</a></code> reproduces the anchor model’s scores to within
-1e-14. The script takes about 15 minutes, most of it model fitting.</p>
+<p><code>data-raw/fit-model-2023.R</code> and
+<code>data-raw/fit-index-2023.R</code> download the 2023 tables with
+panel990, apply the population rules above, build the items with
+<code><a href="../reference/get_features.html">get_features()</a></code> and fit the bifactor and index models. The
+bifactor log-likelihood matches the published anchor model
+(−1,563,799.07). The index model reproduces the scores used in the
+accompanying paper exactly. Each script takes about 15 minutes, most of
+it reading the tables (the index model fits in under two minutes).</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

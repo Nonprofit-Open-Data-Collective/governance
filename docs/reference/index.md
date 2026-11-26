@@ -24,8 +24,10 @@ Bundled example data and the fitted models.
 
 - [`dat_example`](https://nonprofit-open-data-collective.github.io/governance/reference/dat_example.md)
   : Example Data
-- [`gov_model_2023`](https://nonprofit-open-data-collective.github.io/governance/reference/gov_model_2023.md)
+- [`gov_index_2023`](https://nonprofit-open-data-collective.github.io/governance/reference/gov_index_2023.md)
   : 2023 Governance Index Model
+- [`gov_model_2023`](https://nonprofit-open-data-collective.github.io/governance/reference/gov_model_2023.md)
+  : 2023 Bifactor Measurement Model
 
 ## Legacy 2018 model
 

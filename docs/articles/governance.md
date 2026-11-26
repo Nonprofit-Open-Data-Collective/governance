@@ -14,9 +14,12 @@ combines them into a single governance index, `gov_score`.
 
 The index comes from an item response model fit to every 501(c)(3)
 organization that e-filed a full Form 990 for tax year 2023 (about
-271,000 organizations). Its parameters are fixed, so a score from any
-year is on the same scale: 0 is the average 2023 filer, and one unit is
-one standard deviation of governance among 2023 filers.
+271,000 organizations). It is reported on a scale like a standardized
+test score: 100 is the average 2023 filer and 15 points is one standard
+deviation, so 115 is one standard deviation above average. The scale
+runs from about 67 (none of the 16 practices) to about 128 (all 16), and
+adding a practice never lowers a score. The parameters are fixed, so a
+score from any year is on the same scale.
 
 The workflow has two steps:
 
@@ -88,9 +91,9 @@ features |>
 ## Step 3: Calculate the scores
 
 [`get_scores()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_scores.md)
-appends the governance score and its standard error, four
-specific-factor scores and `gov_count`, the number of the 16 practices
-the organization reports.
+appends the governance index and its standard error, scores from the
+bifactor measurement model, and `gov_count`, the number of the 16
+practices the organization reports.
 
 ``` r
 scores <- get_scores( features )
@@ -104,17 +107,17 @@ scores[ , vars ] |>
 
 |  | ORG_NAME_L1 | gov_score | gov_score_se | gov_count |
 |:---|:---|---:|---:|---:|
-| 849 | BLUE RIDGE WOMENS CENTER INC | 0.85 | 0.44 | 12 |
-| 2532 | SPECTRUM THEATRE ENSEMBLE | -0.72 | 0.30 | 7 |
-| 2699 | WESTERN INSTITUTE FOR VETERANS RESEARCH | 1.03 | 0.51 | 14 |
-| 2478 | Spida Inc | 0.13 | 0.20 | 10 |
-| 531 | Oak School of Delray Beach Inc | -1.00 | 0.43 | 4 |
-| 3673 | GROW WELLNESS FOUNDATION | -1.94 | 0.65 | 0 |
+| 849 | BLUE RIDGE WOMENS CENTER INC | 113.69 | 7.40 | 12 |
+| 2532 | SPECTRUM THEATRE ENSEMBLE | 91.29 | 5.52 | 7 |
+| 2699 | WESTERN INSTITUTE FOR VETERANS RESEARCH | 117.71 | 8.48 | 14 |
+| 2478 | Spida Inc | 100.23 | 3.52 | 10 |
+| 531 | Oak School of Delray Beach Inc | 84.97 | 7.39 | 4 |
+| 3673 | GROW WELLNESS FOUNDATION | 67.33 | 11.30 | 0 |
 
 ``` r
 hist( scores$gov_score,
       main = "Governance scores, 200 example organizations",
-      xlab = "gov_score (0 = average 2023 filer)" )
+      xlab = "gov_score (100 = average 2023 filer)" )
 ```
 
 ![](governance_files/figure-html/unnamed-chunk-5-1.png)

@@ -69,10 +69,14 @@ scores_example <- get_scores(features_example)
 ```
 
 [`get_scores()`](https://nonprofit-open-data-collective.github.io/governance/reference/get_scores.md)
-appends a general governance score (`gov_score`) with its standard
-error, four specific-factor scores, and `gov_count`, the number of the
-16 recommended practices reported. The original 2018 model is available
-with `get_scores(features, model = "legacy-2018")`.
+appends the governance index (`gov_score`) with its standard error,
+scores from the bifactor measurement model, and `gov_count`, the number
+of the 16 recommended practices reported. The index is on a scale with
+mean 100 and standard deviation 15 among 2023 501(c)(3) full-990 filers:
+115 is one standard deviation above the average 2023 filer, scores run
+from about 67 (no practices) to about 128 (all 16), and adding a
+practice never lowers a score. The original 2018 model is available with
+`get_scores(features, model = "legacy-2018")`.
 
 ## Learn more
 
